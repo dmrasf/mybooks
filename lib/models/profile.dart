@@ -9,7 +9,7 @@ class Profile {
   User user;
   bool login;
   bool theme;
-  String locale;
+  String? locale;
 
   factory Profile.fromJson(Map<String, dynamic> json) =>
       _$ProfileFromJson(json);

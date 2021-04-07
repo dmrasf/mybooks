@@ -21,7 +21,7 @@ class Init {
       User('', '', '', '', '', 0, 0, '', ''),
       false,
       true,
-      'zh',
+      null,
     );
   }
 
