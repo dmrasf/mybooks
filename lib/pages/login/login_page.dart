@@ -65,7 +65,9 @@ class _LoginPageState extends State<LoginPage> {
                   LoginButton(() {
                     _unfocus();
                     Navigator.of(context).pushReplacementNamed('/home');
+                    return;
                     if (_formKey.currentState!.validate()) {
+                      _formKey.currentState!.reset();
                       Navigator.of(context).pushReplacementNamed('/home');
                     }
                   }, '注册'),
@@ -74,8 +76,8 @@ class _LoginPageState extends State<LoginPage> {
                     children: [
                       Text('已有账户 ？'),
                       LoginInButton(() {
+                        _unfocus();
                         _formKey.currentState!.reset();
-                        _clearInput();
                         ChangePage.fadeChangePage(context, LoginInPage());
                       }, '登录')
                     ],
