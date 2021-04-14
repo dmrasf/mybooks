@@ -9,6 +9,12 @@ class HomePage extends StatelessWidget {
         title: Text(MBLocalizations.of(context).title),
       ),
       body: Container(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushReplacementNamed('/login');
+        },
+        child: Icon(Icons.face),
+      ),
     );
   }
 }

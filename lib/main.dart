@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:mybooks/pages/home/home_page.dart';
 import 'package:mybooks/utils/init.dart';
 import 'package:provider/provider.dart';
 import 'package:mybooks/models/theme_provider.dart';
 import 'package:mybooks/models/locale_provider.dart';
+import 'package:mybooks/models/user_provider.dart';
 import 'package:mybooks/utils/theme.dart';
 import 'package:mybooks/utils/location.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:mybooks/pages/login/login_page.dart';
+import 'package:mybooks/pages/home/home_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,9 +22,10 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(value: MyThemeModel()),
         ChangeNotifierProvider.value(value: MyLocaleModel()),
+        ChangeNotifierProvider.value(value: MyUserModel()),
       ],
-      child: Consumer2<MyThemeModel, MyLocaleModel>(
-        builder: (context, myTheme, myLocale, child) => MaterialApp(
+      child: Consumer3<MyThemeModel, MyLocaleModel, MyUserModel>(
+        builder: (context, myTheme, myLocale, myUser, child) => MaterialApp(
           title: 'mybooks',
           debugShowCheckedModeBanner: false,
           theme: myTheme.isLightTheme ? MyTheme.lightTheme : MyTheme.darkTheme,
@@ -51,7 +54,11 @@ class MyApp extends StatelessWidget {
               return _locale;
             }
           },
-          home: HomePage(),
+          routes: <String, WidgetBuilder>{
+            "/login": (context) => LoginPage(),
+            "/home": (context) => HomePage(),
+          },
+          home: myUser.isLogin ? HomePage() : LoginPage(),
         ),
       ),
     );
