@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
                     focusNode: _focusNodePassword2,
                     labelStr: '确认密码',
                     hintStr: '重新输入确认密码',
-                    reg: RegExp('^' + _controllerPassword.text + '\$'),
+                    controller2: _controllerPassword,
                     errorStr: '不一致',
                     obscure: true,
                   ),
@@ -65,7 +65,6 @@ class _LoginPageState extends State<LoginPage> {
                   LoginButton(() {
                     _unfocus();
                     Navigator.of(context).pushReplacementNamed('/home');
-                    return;
                     if (_formKey.currentState!.validate()) {
                       Navigator.of(context).pushReplacementNamed('/home');
                     }

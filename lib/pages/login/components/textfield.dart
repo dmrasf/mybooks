@@ -3,19 +3,21 @@ import 'package:google_fonts/google_fonts.dart';
 
 class LoginTextField extends StatelessWidget {
   final TextEditingController controller;
+  final TextEditingController? controller2;
   final FocusNode focusNode;
   final String labelStr;
   final String? hintStr;
-  final RegExp reg;
+  RegExp? reg;
   final String? errorStr;
   final bool? obscure;
   LoginTextField({
     Key? key,
     required this.controller,
+    this.controller2,
     required this.focusNode,
     required this.labelStr,
     this.hintStr,
-    required this.reg,
+    this.reg,
     this.errorStr,
     this.obscure,
   }) : super(key: key);
@@ -33,7 +35,9 @@ class LoginTextField extends StatelessWidget {
         style: GoogleFonts.exo(textStyle: TextStyle()),
         validator: (value) {
           if (value == null || value.isEmpty) return '请输入内容';
-          if (!reg.hasMatch(controller.text))
+          if (reg == null && controller2 != null)
+            reg = RegExp('\^' + controller2!.text + '\$');
+          if (!reg!.hasMatch(controller.text))
             return errorStr == null ? '格式错误' : errorStr;
           return null;
         },

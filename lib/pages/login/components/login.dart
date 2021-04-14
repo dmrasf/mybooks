@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mybooks/utils/location.dart';
 import 'package:mybooks/pages/login/components/button.dart';
 import 'package:mybooks/pages/login/components/textfield.dart';
+import 'package:mybooks/pages/components/icon_button.dart';
 
 class LoginInPage extends StatelessWidget {
   final TextEditingController _controllerEmail = TextEditingController();
@@ -14,6 +15,14 @@ class LoginInPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        shadowColor: Colors.transparent,
+        leading: MyIconButton(
+          onPressed: () => Navigator.of(context).pop(),
+          icon: Icon(Icons.arrow_back),
+        ),
+      ),
       body: Container(
         alignment: Alignment.center,
         child: Form(
