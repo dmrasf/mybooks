@@ -8,7 +8,7 @@ class Profile {
 
   User user;
   bool login;
-  bool theme;
+  bool? theme;
   String? locale;
 
   factory Profile.fromJson(Map<String, dynamic> json) =>

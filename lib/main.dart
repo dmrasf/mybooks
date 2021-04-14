@@ -28,7 +28,12 @@ class MyApp extends StatelessWidget {
         builder: (context, myTheme, myLocale, myUser, child) => MaterialApp(
           title: 'mybooks',
           debugShowCheckedModeBanner: false,
-          theme: myTheme.isLightTheme ? MyTheme.lightTheme : MyTheme.darkTheme,
+          themeMode: myTheme.isLightTheme == null
+              ? ThemeMode.system
+              : myTheme.isLightTheme!
+                  ? ThemeMode.light
+                  : ThemeMode.dark,
+          theme: MyTheme.lightTheme,
           darkTheme: MyTheme.darkTheme,
           locale: myLocale.getLocale(),
           supportedLocales: [

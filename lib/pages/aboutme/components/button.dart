@@ -12,13 +12,14 @@ class LogoutButton extends StatelessWidget {
       child: Text(_buttonStr),
       style: ButtonStyle(
         textStyle: MaterialStateProperty.all(
-          TextStyle(fontSize: 13, fontWeight: FontWeight.w800),
+          TextStyle(fontSize: 12, fontWeight: FontWeight.w800),
         ),
         padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 10)),
-        minimumSize: MaterialStateProperty.all(Size(150, 35)),
-        backgroundColor:
-            MaterialStateProperty.all(Colors.black.withOpacity(0.3)),
-        foregroundColor: MaterialStateProperty.all(Colors.red),
+        minimumSize: MaterialStateProperty.all(Size(150, 45)),
+        backgroundColor: MaterialStateProperty.all(
+          Colors.black.withOpacity(0.2),
+        ),
+        foregroundColor: MaterialStateProperty.all(Colors.white),
         overlayColor: MaterialStateProperty.all(Colors.black.withOpacity(0.1)),
         shape: MaterialStateProperty.all(StadiumBorder()),
       ),

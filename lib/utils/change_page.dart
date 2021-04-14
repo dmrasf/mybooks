@@ -31,7 +31,7 @@ class ChangePage {
         transitionsBuilder: (context, animation, secondaryAnimation, child) =>
             SlideTransition(
           position: animation.drive(
-            Tween(begin: Offset(0, 1), end: Offset(0, 0)).chain(
+            Tween(begin: Offset(1, 0), end: Offset(0, 0)).chain(
               CurveTween(curve: Curves.ease),
             ),
           ),
