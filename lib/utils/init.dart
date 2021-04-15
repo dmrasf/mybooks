@@ -25,7 +25,8 @@ class Init {
       );
   }
 
-  static saveProfile() {
-    _preferences.setString('profile', profile.toJson().toString());
-  }
+  static saveProfile() => _preferences.setString(
+        'profile',
+        jsonEncode(profile.toJson()),
+      );
 }

@@ -14,10 +14,12 @@ class MBLocalizations {
     'en': {
       'title': 'My books',
       'login': 'SIGN IN',
+      'profile': 'Profile',
     },
     'zh': {
       'title': '我的书籍',
       'login': '登录',
+      'profile': '资料',
     },
   };
 
@@ -27,6 +29,10 @@ class MBLocalizations {
 
   String get login {
     return _localizedValues[_locale.languageCode]!['login']!;
+  }
+
+  String get profile {
+    return _localizedValues[_locale.languageCode]!['profile']!;
   }
 }
 

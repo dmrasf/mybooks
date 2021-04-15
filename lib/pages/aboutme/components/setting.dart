@@ -35,7 +35,7 @@ class _AboutmeSettingState extends State<AboutmeSetting> {
         children: [
           AboutmeSettingItem(
             icon: Icons.settings,
-            title: '资料',
+            title: MBLocalizations.of(context).profile,
             onPressed: () {},
           ),
           AboutmeSettingItem(
