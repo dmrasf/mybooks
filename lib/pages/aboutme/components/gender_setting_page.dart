@@ -1,36 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:mybooks/pages/aboutme/components/appBar_setting.dart';
 import 'package:mybooks/pages/aboutme/components/optional_item.dart';
-import 'package:mybooks/models/locale_provider.dart';
+import 'package:provider/provider.dart';
+import 'package:mybooks/models/user_provider.dart';
 
-const LanguageType = {0: '跟随系统', 1: '汉语', 2: 'English'};
+const GenderType = {0: '未知', 1: '男', 2: '女'};
 
-class LanguageSettingPage extends StatefulWidget {
-  final MyLocaleModel localeProvider;
-  LanguageSettingPage({Key? key, required this.localeProvider})
-      : super(key: key);
-
+class GenderSettingPage extends StatefulWidget {
   @override
-  _LanguageSettingPageState createState() => _LanguageSettingPageState();
+  _GenderSettingPageState createState() => _GenderSettingPageState();
 }
 
-class _LanguageSettingPageState extends State<LanguageSettingPage> {
-  late int _index;
-
-  @override
-  void initState() {
-    _index = widget.localeProvider.locale == null
-        ? 0
-        : widget.localeProvider.locale == 'en_US'
-            ? 2
-            : 1;
-    super.initState();
-  }
+class _GenderSettingPageState extends State<GenderSettingPage> {
+  int _index = 0;
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<MyUserModel>(context);
+    _index = userProvider.gender == null
+        ? 0
+        : userProvider.gender!
+            ? 1
+            : 2;
     return Scaffold(
-      appBar: appBarForSettingPage(context, title: '语言设置'),
+      appBar: appBarForSettingPage(context, title: '性别设置'),
       backgroundColor: Theme.of(context).backgroundColor,
       body: CustomScrollView(
         physics: BouncingScrollPhysics(
@@ -45,20 +38,20 @@ class _LanguageSettingPageState extends State<LanguageSettingPage> {
                   setState(() => _index = index);
                   switch (_index) {
                     case 0:
-                      widget.localeProvider.locale = null;
+                      userProvider.gender = null;
                       break;
                     case 1:
-                      widget.localeProvider.locale = 'zh_CN';
+                      userProvider.gender = true;
                       break;
                     default:
-                      widget.localeProvider.locale = 'en_US';
+                      userProvider.gender = false;
                       break;
                   }
                   Navigator.of(context).pop();
                 },
-                hintStr: LanguageType[index]!,
+                hintStr: GenderType[index]!,
               ),
-              childCount: LanguageType.length,
+              childCount: GenderType.length,
             ),
             itemExtent: MediaQuery.of(context).size.height * 0.08,
           ),

@@ -53,6 +53,7 @@ class _ThemeSettingPageState extends State<ThemeSettingPage> {
                       widget.themeProvider.isLightTheme = true;
                       break;
                   }
+                  Navigator.of(context).pop();
                 },
                 hintStr: ThemeType[index]!,
               ),

@@ -36,8 +36,7 @@ class _ConfirmDialogState extends State<ConfirmDialog>
             right: 20,
             bottom: 10,
             child: Container(
-              padding: EdgeInsets.only(top: 20),
-              height: 130,
+              padding: EdgeInsets.only(top: 25, bottom: 10),
               alignment: Alignment.center,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -53,6 +52,7 @@ class _ConfirmDialogState extends State<ConfirmDialog>
                       ),
                     ),
                   ),
+                  SizedBox(height: 25),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [

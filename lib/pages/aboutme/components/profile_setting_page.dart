@@ -7,6 +7,9 @@ import 'package:mybooks/pages/components/confirm_dialog.dart';
 import 'package:mybooks/utils/change_page.dart';
 import 'package:mybooks/pages/aboutme/components/name_setting_page.dart';
 import 'package:mybooks/pages/aboutme/components/description_setting_page.dart';
+import 'package:location/location.dart';
+import 'package:mybooks/pages/aboutme/components/gender_setting_page.dart';
+import 'package:mybooks/pages/aboutme/components/secrets_setting_page.dart';
 
 class ProfileSettingPage extends StatefulWidget {
   @override
@@ -57,7 +60,30 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                 title: '地区',
                 icon: Icons.location_on,
                 hint:
-                    userProvider.location == '' ? null : userProvider.location,
+                    userProvider.location == null ? '' : userProvider.location,
+                onPressed: () async {
+                  return;
+                  Location location = Location();
+                  print('=================');
+                  bool _serviceEnabled = await location.serviceEnabled();
+                  if (!_serviceEnabled) {
+                    _serviceEnabled = await location.requestService();
+                    if (!_serviceEnabled) {
+                      return;
+                    }
+                  }
+                  PermissionStatus _permissionGranted =
+                      await location.hasPermission();
+                  if (_permissionGranted == PermissionStatus.denied) {
+                    _permissionGranted = await location.requestPermission();
+                    if (_permissionGranted != PermissionStatus.granted) {
+                      return;
+                    }
+                  }
+                  print('=================3');
+                  LocationData locationData = await location.getLocation();
+                  print(locationData);
+                },
               ),
               AboutmeSettingItem(
                 title: '生日',
@@ -69,14 +95,35 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                 title: '性别',
                 icon: Icons.category_outlined,
                 hint: userProvider.gender == null
-                    ? null
+                    ? '未知'
                     : userProvider.gender!
                         ? '男'
                         : '女',
+                onPressed: () => ChangePage.slideChangePage(
+                  context,
+                  GenderSettingPage(),
+                ).then((_) => setState(() {})),
               ),
               SizedBox(height: 15),
-              AboutmeSettingItem(title: '隐私', icon: Icons.security),
-              AboutmeSettingItem(title: '开源协议', icon: Icons.source),
+              AboutmeSettingItem(
+                title: '隐私',
+                icon: Icons.security,
+                onPressed: () => ChangePage.slideChangePage(
+                  context,
+                  SecretsSettingPage(),
+                ),
+              ),
+              AboutmeSettingItem(
+                title: '开源协议',
+                icon: Icons.source,
+                onPressed: () {
+                  showLicensePage(
+                    context: context,
+                    applicationVersion: '1.0.0',
+                    applicationName: '我的书籍',
+                  );
+                },
+              ),
               SizedBox(height: 15),
               AboutmeSettingItem(
                 title: '注销帐号',

@@ -13,7 +13,7 @@ class AboutmeInfo extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          AboutmeInfItem(title: '书籍数', hint: '9999999999'),
+          AboutmeInfItem(title: '书籍数', hint: '999'),
           AboutmeInfItem(title: '关注', hint: userProvider.following.toString()),
           AboutmeInfItem(title: '被关注', hint: userProvider.followers.toString()),
         ],
