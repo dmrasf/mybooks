@@ -8,9 +8,9 @@ part of 'book.dart';
 
 Book _$BookFromJson(Map<String, dynamic> json) {
   return Book(
-    json['isbn'] as String,
-    json['name'] as String,
-    (json['price'] as num).toDouble(),
+    isbn: json['isbn'] as String,
+    name: json['name'] as String,
+    price: (json['price'] as num).toDouble(),
   );
 }
 

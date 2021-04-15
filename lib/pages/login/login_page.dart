@@ -3,6 +3,11 @@ import 'package:mybooks/pages/login/components/button.dart';
 import 'package:mybooks/pages/login/components/textfield.dart';
 import 'package:mybooks/pages/login/components/login.dart';
 import 'package:mybooks/utils/change_page.dart';
+import 'package:provider/provider.dart';
+import 'package:mybooks/models/user_provider.dart';
+import 'package:mybooks/models/user.dart';
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -21,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<MyUserModel>(context);
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: Container(
@@ -70,9 +76,19 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   LoginButton(() {
                     _unfocus();
-                    Navigator.of(context).pushReplacementNamed('/home');
-                    return;
                     if (_formKey.currentState!.validate()) {
+                      //
+                      // 服务器 .then
+                      //
+                      userProvider.user = User(
+                        email: _controllerEmail.text,
+                        token: md5
+                            .convert(Utf8Encoder().convert(
+                              _controllerPassword.text,
+                            ))
+                            .toString(),
+                      );
+                      userProvider.isLogin = true;
                       _formKey.currentState!.reset();
                       Navigator.of(context).pushReplacementNamed('/home');
                     }
@@ -101,11 +117,5 @@ class _LoginPageState extends State<LoginPage> {
     _focusNodeEmail.unfocus();
     _focusNodePassword.unfocus();
     _focusNodePassword2.unfocus();
-  }
-
-  void _clearInput() {
-    _controllerPassword.clear();
-    _controllerPassword2.clear();
-    _controllerEmail.clear();
   }
 }

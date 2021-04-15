@@ -12,7 +12,8 @@ class ConfirmDialog extends StatelessWidget {
       content: Text(content),
       contentTextStyle: GoogleFonts.acme(
         textStyle: TextStyle(
-          fontSize: 18,
+          fontSize: 14,
+          fontWeight: FontWeight.w700,
           color: Theme.of(context).buttonColor,
         ),
       ),

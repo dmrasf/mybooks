@@ -4,12 +4,23 @@ import 'package:google_fonts/google_fonts.dart';
 import 'dart:math';
 
 class AboutmeImgName extends StatelessWidget {
+  final String? avatarUrl;
+  final String? name;
+  final String? description;
+  AboutmeImgName({
+    Key? key,
+    this.avatarUrl,
+    this.name,
+    this.description,
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           AnimatedContainer(
             duration: Duration(milliseconds: 1000),
@@ -27,23 +38,37 @@ class AboutmeImgName extends StatelessWidget {
                 end: Alignment.bottomRight,
               ),
               shape: BoxShape.circle,
-              image: DecorationImage(
-                image: NetworkImage(
-                  'https://avatars.githubusercontent.com/u/51014758?v=4',
-                ),
-              ),
+              //'https://avatars.githubusercontent.com/u/51014758?v=4',
+              image: avatarUrl == null
+                  ? null
+                  : DecorationImage(image: NetworkImage(avatarUrl!)),
             ),
           ),
           SizedBox(width: 30),
-          Text(
-            'dmrasf',
-            style: GoogleFonts.ntr(
-              textStyle: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                color: Theme.of(context).buttonColor,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                name == null ? "What's your name?" : name!,
+                style: GoogleFonts.ntr(
+                  textStyle: TextStyle(
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).buttonColor,
+                  ),
+                ),
               ),
-            ),
+              Text(
+                description == null ? 'Hi ~  o(*￣▽￣*)ブ' : description!,
+                style: GoogleFonts.ntr(
+                  textStyle: TextStyle(
+                    fontSize: 15,
+                    color: Theme.of(context).buttonColor,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),

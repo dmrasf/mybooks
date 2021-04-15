@@ -3,11 +3,14 @@ part 'book.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Book {
-  Book(this.isbn, this.name, this.price);
-
   String isbn;
   String name;
   double price;
+  Book({
+    required this.isbn,
+    required this.name,
+    required this.price,
+  });
 
   factory Book.fromJson(Map<String, dynamic> json) => _$BookFromJson(json);
 

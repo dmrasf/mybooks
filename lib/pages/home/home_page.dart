@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
             msg: '再按一次返回键退出',
             toastLength: Toast.LENGTH_SHORT,
             gravity: ToastGravity.BOTTOM,
-            backgroundColor: Colors.orange,
+            backgroundColor: Colors.orange.shade50,
             textColor: Colors.black,
             fontSize: 13,
           );

@@ -68,12 +68,14 @@ class _AboutmeSettingState extends State<AboutmeSetting> {
 
 class AboutmeSettingItem extends StatelessWidget {
   final String title;
+  final Color? titleColor;
   final String? hint;
   final IconData icon;
   final GestureTapCallback? onPressed;
   AboutmeSettingItem({
     Key? key,
     required this.title,
+    this.titleColor,
     required this.icon,
     this.hint,
     this.onPressed,
@@ -94,7 +96,13 @@ class AboutmeSettingItem extends StatelessWidget {
             SizedBox(width: 5),
             Icon(icon, size: 15),
             SizedBox(width: 15),
-            Text(title, style: TextStyle(fontWeight: FontWeight.w800)),
+            Text(
+              title,
+              style: TextStyle(
+                fontWeight: FontWeight.w800,
+                color: titleColor,
+              ),
+            ),
             Spacer(),
             hint == null
                 ? Icon(
@@ -102,11 +110,13 @@ class AboutmeSettingItem extends StatelessWidget {
                     size: 10,
                     color: Theme.of(context).buttonColor.withOpacity(0.6),
                   )
-                : Text(hint!,
+                : Text(
+                    hint!,
                     style: TextStyle(
                       fontSize: 12,
                       color: Theme.of(context).buttonColor.withOpacity(0.6),
-                    )),
+                    ),
+                  ),
             SizedBox(width: 15),
           ],
         ),

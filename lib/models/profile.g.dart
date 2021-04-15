@@ -8,10 +8,10 @@ part of 'profile.dart';
 
 Profile _$ProfileFromJson(Map<String, dynamic> json) {
   return Profile(
-    User.fromJson(json['user'] as Map<String, dynamic>),
-    json['login'] as bool,
-    json['theme'] as bool?,
-    json['locale'] as String?,
+    user: User.fromJson(json['user'] as Map<String, dynamic>),
+    login: json['login'] as bool,
+    theme: json['theme'] as bool?,
+    locale: json['locale'] as String?,
   );
 }
 

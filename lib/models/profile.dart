@@ -4,12 +4,16 @@ part 'profile.g.dart';
 
 @JsonSerializable()
 class Profile {
-  Profile(this.user, this.login, this.theme, this.locale);
-
   User user;
   bool login;
   bool? theme;
   String? locale;
+  Profile({
+    required this.user,
+    required this.login,
+    this.theme,
+    this.locale,
+  });
 
   factory Profile.fromJson(Map<String, dynamic> json) =>
       _$ProfileFromJson(json);

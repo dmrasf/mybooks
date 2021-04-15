@@ -17,12 +17,7 @@ class Init {
         print(e);
       }
     else
-      profile = Profile(
-        User('', '', '', '', '', 0, 0, '', ''),
-        false,
-        null,
-        null,
-      );
+      profile = Profile(user: User(), login: false);
   }
 
   static saveProfile() => _preferences.setString(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:mybooks/models/user_provider.dart';
 
 class AboutmeInfo extends StatefulWidget {
   @override
@@ -9,15 +11,16 @@ class AboutmeInfo extends StatefulWidget {
 class _AboutmeInfoState extends State<AboutmeInfo> {
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<MyUserModel>(context);
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10),
       color: Theme.of(context).primaryColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          AboutmeInfItem(title: '书籍数', hint: '233'),
-          AboutmeInfItem(title: '关注', hint: '100'),
-          AboutmeInfItem(title: '被关注', hint: '142'),
+          AboutmeInfItem(title: '书籍数', hint: '9999999999'),
+          AboutmeInfItem(title: '关注', hint: userProvider.following.toString()),
+          AboutmeInfItem(title: '被关注', hint: userProvider.followers.toString()),
         ],
       ),
     );
