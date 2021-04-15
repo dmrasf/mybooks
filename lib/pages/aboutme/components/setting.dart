@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:mybooks/models/locale_provider.dart';
 import 'package:mybooks/utils/change_page.dart';
 import 'package:mybooks/pages/aboutme/components/theme_setting_page.dart';
+import 'package:mybooks/pages/aboutme/components/language_setting_page.dart';
+import 'package:mybooks/utils/location.dart';
+import 'package:provider/provider.dart';
+import 'package:mybooks/models/theme_provider.dart';
 
 class AboutmeSetting extends StatefulWidget {
   @override
@@ -8,10 +13,23 @@ class AboutmeSetting extends StatefulWidget {
 }
 
 class _AboutmeSettingState extends State<AboutmeSetting> {
-  String? _hintTheme;
+  int? _hintTheme;
+  int? _hintLocale;
 
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<MyThemeModel>(context);
+    final localeProvider = Provider.of<MyLocaleModel>(context);
+    _hintTheme = themeProvider.isLightTheme == null
+        ? 0
+        : themeProvider.isLightTheme!
+            ? 2
+            : 1;
+    _hintLocale = localeProvider.locale == null
+        ? 0
+        : localeProvider.locale == 'en_US'
+            ? 2
+            : 1;
     return Container(
       child: Column(
         children: [
@@ -23,14 +41,21 @@ class _AboutmeSettingState extends State<AboutmeSetting> {
           AboutmeSettingItem(
             icon: Icons.tonality,
             title: '主题',
-            hint: _hintTheme,
-            onPressed: () {
-              ChangePage.slideChangePage(context, ThemeSettingPage()).then(
-                (value) => setState(() => _hintTheme = value),
-              );
-            },
+            hint: ThemeType[_hintTheme],
+            onPressed: () => ChangePage.slideChangePage(
+              context,
+              ThemeSettingPage(themeProvider: themeProvider),
+            ),
           ),
-          AboutmeSettingItem(icon: Icons.language, title: '语言', hint: '中文'),
+          AboutmeSettingItem(
+            icon: Icons.language,
+            title: '语言',
+            hint: LanguageType[_hintLocale],
+            onPressed: () => ChangePage.slideChangePage(
+              context,
+              LanguageSettingPage(localeProvider: localeProvider),
+            ),
+          ),
         ],
       ),
     );
@@ -57,7 +82,7 @@ class AboutmeSettingItem extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         margin: EdgeInsets.symmetric(vertical: 0.2),
-        color: Colors.black.withOpacity(0.3),
+        color: Theme.of(context).primaryColor.withOpacity(0.3),
         alignment: Alignment.center,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

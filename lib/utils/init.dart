@@ -10,23 +10,22 @@ class Init {
   static Future<void> init() async {
     _preferences = await SharedPreferences.getInstance();
     String? _profile = _preferences.getString('profile');
-    if (_profile != null) {
+    if (_profile != null)
       try {
         profile = Profile.fromJson(jsonDecode(_profile));
       } catch (e) {
         print(e);
       }
-    }
-    profile = Profile(
-      User('', '', '', '', '', 0, 0, '', ''),
-      false,
-      true,
-      null,
-    );
+    else
+      profile = Profile(
+        User('', '', '', '', '', 0, 0, '', ''),
+        false,
+        null,
+        null,
+      );
   }
 
-  static saveProfile() => _preferences.setString(
-        'profile',
-        profile.toJson().toString(),
-      );
+  static saveProfile() {
+    _preferences.setString('profile', profile.toJson().toString());
+  }
 }

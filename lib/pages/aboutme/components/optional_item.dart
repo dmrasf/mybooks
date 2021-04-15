@@ -22,10 +22,13 @@ class OptionalItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Icon(
-              isToggle ? Icons.toggle_on : Icons.toggle_off,
-              color: isToggle ? Colors.black : Colors.white,
+              isToggle
+                  ? Icons.radio_button_on_sharp
+                  : Icons.radio_button_off_sharp,
+              color: Colors.white,
+              size: 15,
             ),
-            SizedBox(width: 30),
+            SizedBox(width: 15),
             Text(
               hintStr,
               style: TextStyle(

@@ -1,35 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:mybooks/pages/aboutme/components/appBar_setting.dart';
 import 'package:mybooks/pages/aboutme/components/optional_item.dart';
-import 'package:mybooks/models/theme_provider.dart';
+import 'package:mybooks/models/locale_provider.dart';
 
-const ThemeType = {0: '跟随系统', 1: '夜间', 2: '白天'};
+const LanguageType = {0: '跟随系统', 1: '汉语', 2: 'English'};
 
-class ThemeSettingPage extends StatefulWidget {
-  final MyThemeModel themeProvider;
-  ThemeSettingPage({Key? key, required this.themeProvider}) : super(key: key);
+class LanguageSettingPage extends StatefulWidget {
+  final MyLocaleModel localeProvider;
+  LanguageSettingPage({Key? key, required this.localeProvider})
+      : super(key: key);
 
   @override
-  _ThemeSettingPageState createState() => _ThemeSettingPageState();
+  _LanguageSettingPageState createState() => _LanguageSettingPageState();
 }
 
-class _ThemeSettingPageState extends State<ThemeSettingPage> {
+class _LanguageSettingPageState extends State<LanguageSettingPage> {
   late int _index;
 
   @override
   void initState() {
-    _index = widget.themeProvider.isLightTheme == null
+    _index = widget.localeProvider.locale == null
         ? 0
-        : widget.themeProvider.isLightTheme == false
-            ? 1
-            : 2;
+        : widget.localeProvider.locale == 'en_US'
+            ? 2
+            : 1;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarForSettingPage(context, title: '主题设置'),
+      appBar: appBarForSettingPage(context, title: '语言设置'),
       body: CustomScrollView(
         physics: BouncingScrollPhysics(
           parent: AlwaysScrollableScrollPhysics(),
@@ -43,19 +44,19 @@ class _ThemeSettingPageState extends State<ThemeSettingPage> {
                   setState(() => _index = index);
                   switch (_index) {
                     case 0:
-                      widget.themeProvider.isLightTheme = null;
+                      widget.localeProvider.locale = null;
                       break;
                     case 1:
-                      widget.themeProvider.isLightTheme = false;
+                      widget.localeProvider.locale = 'zh_CN';
                       break;
                     default:
-                      widget.themeProvider.isLightTheme = true;
+                      widget.localeProvider.locale = 'en_US';
                       break;
                   }
                 },
-                hintStr: ThemeType[index]!,
+                hintStr: LanguageType[index]!,
               ),
-              childCount: ThemeType.length,
+              childCount: LanguageType.length,
             ),
             itemExtent: MediaQuery.of(context).size.height * 0.08,
           ),
