@@ -7,7 +7,12 @@ import 'package:mybooks/pages/components/confirm_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:mybooks/models/user_provider.dart';
 
-class AboutmePage extends StatelessWidget {
+class AboutmePage extends StatefulWidget {
+  @override
+  _AboutmePageState createState() => _AboutmePageState();
+}
+
+class _AboutmePageState extends State<AboutmePage> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<MyUserModel>(context);
@@ -22,11 +27,12 @@ class AboutmePage extends StatelessWidget {
               AboutmeImgName(
                 avatarUrl: userProvider.avatarUrl,
                 name: userProvider.name,
+                description: userProvider.description,
               ),
               SizedBox(height: 10),
               AboutmeInfo(),
               SizedBox(height: 10),
-              AboutmeSetting(),
+              AboutmeSetting(updateState: () => setState(() {})),
             ],
           ),
           Spacer(),
@@ -34,6 +40,7 @@ class AboutmePage extends StatelessWidget {
             showDialog<bool>(
               context: context,
               builder: (context) => ConfirmDialog(content: '确认退出？'),
+              barrierColor: Colors.transparent,
             ).then((isConfirm) {
               if (isConfirm != null) if (isConfirm) {
                 userProvider.isLogin = false;

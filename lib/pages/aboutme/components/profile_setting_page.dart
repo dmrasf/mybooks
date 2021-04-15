@@ -3,6 +3,10 @@ import 'package:mybooks/pages/aboutme/components/appBar_setting.dart';
 import 'package:mybooks/pages/aboutme/components/setting.dart';
 import 'package:provider/provider.dart';
 import 'package:mybooks/models/user_provider.dart';
+import 'package:mybooks/pages/components/confirm_dialog.dart';
+import 'package:mybooks/utils/change_page.dart';
+import 'package:mybooks/pages/aboutme/components/name_setting_page.dart';
+import 'package:mybooks/pages/aboutme/components/description_setting_page.dart';
 
 class ProfileSettingPage extends StatefulWidget {
   @override
@@ -24,12 +28,17 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
           SliverList(
             delegate: SliverChildListDelegate([
               AboutmeSettingItem(title: '头像', icon: Icons.image),
-              SizedBox(height: 20),
+              SizedBox(height: 15),
               AboutmeSettingItem(
                 title: '昵称',
                 icon: Icons.face,
                 hint: userProvider.name == '' ? null : userProvider.name,
-                onPressed: () {},
+                onPressed: () => ChangePage.slideChangePage(
+                  context,
+                  NameSettingPage(),
+                ).then((value) {
+                  if (value) setState(() {});
+                }),
               ),
               AboutmeSettingItem(
                 title: '个性签名',
@@ -37,6 +46,12 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                 hint: userProvider.description == ''
                     ? null
                     : userProvider.description,
+                onPressed: () => ChangePage.slideChangePage(
+                  context,
+                  DescriptionSettingPage(),
+                ).then((value) {
+                  if (value) setState(() {});
+                }),
               ),
               AboutmeSettingItem(
                 title: '地区',
@@ -59,14 +74,30 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                         ? '男'
                         : '女',
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 15),
               AboutmeSettingItem(title: '隐私', icon: Icons.security),
-              SizedBox(height: 20),
+              AboutmeSettingItem(title: '开源协议', icon: Icons.source),
+              SizedBox(height: 15),
               AboutmeSettingItem(
                 title: '注销帐号',
                 titleColor: Colors.red,
                 hint: '',
                 icon: Icons.power_settings_new_sharp,
+                onPressed: () {
+                  showDialog<bool>(
+                    context: context,
+                    builder: (context) => ConfirmDialog(
+                      content: '确认注销？将丢失所有信息',
+                    ),
+                    barrierColor: Colors.transparent,
+                  ).then((isConfirm) {
+                    if (isConfirm != null) if (isConfirm) {
+                      // 服务器 .then
+                      //userProvider.isLogin = false;
+                      //Navigator.of(context).pushReplacementNamed('/login');
+                    }
+                  });
+                },
               ),
             ]),
           ),

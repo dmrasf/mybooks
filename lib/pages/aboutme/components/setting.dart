@@ -8,25 +8,20 @@ import 'package:mybooks/utils/location.dart';
 import 'package:provider/provider.dart';
 import 'package:mybooks/models/theme_provider.dart';
 
-class AboutmeSetting extends StatefulWidget {
-  @override
-  _AboutmeSettingState createState() => _AboutmeSettingState();
-}
-
-class _AboutmeSettingState extends State<AboutmeSetting> {
-  int? _hintTheme;
-  int? _hintLocale;
+class AboutmeSetting extends StatelessWidget {
+  final VoidCallback? updateState;
+  AboutmeSetting({Key? key, this.updateState}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<MyThemeModel>(context);
     final localeProvider = Provider.of<MyLocaleModel>(context);
-    _hintTheme = themeProvider.isLightTheme == null
+    int hintTheme = themeProvider.isLightTheme == null
         ? 0
         : themeProvider.isLightTheme!
             ? 2
             : 1;
-    _hintLocale = localeProvider.locale == null
+    int hintLocale = localeProvider.locale == null
         ? 0
         : localeProvider.locale == 'en_US'
             ? 2
@@ -40,12 +35,14 @@ class _AboutmeSettingState extends State<AboutmeSetting> {
             onPressed: () => ChangePage.slideChangePage(
               context,
               ProfileSettingPage(),
-            ),
+            ).then((value) {
+              if (updateState != null) updateState!();
+            }),
           ),
           AboutmeSettingItem(
             icon: Icons.tonality,
             title: '主题',
-            hint: ThemeType[_hintTheme],
+            hint: ThemeType[hintTheme],
             onPressed: () => ChangePage.slideChangePage(
               context,
               ThemeSettingPage(themeProvider: themeProvider),
@@ -54,7 +51,7 @@ class _AboutmeSettingState extends State<AboutmeSetting> {
           AboutmeSettingItem(
             icon: Icons.language,
             title: '语言',
-            hint: LanguageType[_hintLocale],
+            hint: LanguageType[hintLocale],
             onPressed: () => ChangePage.slideChangePage(
               context,
               LanguageSettingPage(localeProvider: localeProvider),
@@ -110,11 +107,18 @@ class AboutmeSettingItem extends StatelessWidget {
                     size: 10,
                     color: Theme.of(context).buttonColor.withOpacity(0.6),
                   )
-                : Text(
-                    hint!,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Theme.of(context).buttonColor.withOpacity(0.6),
+                : Container(
+                    constraints: BoxConstraints(
+                      maxWidth: MediaQuery.of(context).size.width * 0.4,
+                    ),
+                    child: Text(
+                      hint!,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Theme.of(context).buttonColor.withOpacity(0.4),
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
             SizedBox(width: 15),

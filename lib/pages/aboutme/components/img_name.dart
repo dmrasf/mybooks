@@ -59,13 +59,20 @@ class AboutmeImgName extends StatelessWidget {
                   ),
                 ),
               ),
-              Text(
-                description == null ? 'Hi ~  o(*￣▽￣*)ブ' : description!,
-                style: GoogleFonts.ntr(
-                  textStyle: TextStyle(
-                    fontSize: 15,
-                    color: Theme.of(context).buttonColor,
+              Container(
+                constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.4,
+                ),
+                child: Text(
+                  description == null ? 'Hi ~  o(*￣▽￣*)ブ' : description!,
+                  style: GoogleFonts.ntr(
+                    textStyle: TextStyle(
+                      fontSize: 13,
+                      color: Theme.of(context).buttonColor,
+                    ),
                   ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],

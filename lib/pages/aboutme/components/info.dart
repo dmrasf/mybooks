@@ -3,12 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:mybooks/models/user_provider.dart';
 
-class AboutmeInfo extends StatefulWidget {
-  @override
-  _AboutmeInfoState createState() => _AboutmeInfoState();
-}
-
-class _AboutmeInfoState extends State<AboutmeInfo> {
+class AboutmeInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<MyUserModel>(context);
