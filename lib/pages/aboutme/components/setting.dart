@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mybooks/models/locale_provider.dart';
 import 'package:mybooks/utils/change_page.dart';
+import 'package:mybooks/pages/aboutme/components/profile_setting_page.dart';
 import 'package:mybooks/pages/aboutme/components/theme_setting_page.dart';
 import 'package:mybooks/pages/aboutme/components/language_setting_page.dart';
 import 'package:mybooks/utils/location.dart';
@@ -36,7 +37,10 @@ class _AboutmeSettingState extends State<AboutmeSetting> {
           AboutmeSettingItem(
             icon: Icons.settings,
             title: MBLocalizations.of(context).profile,
-            onPressed: () {},
+            onPressed: () => ChangePage.slideChangePage(
+              context,
+              ProfileSettingPage(),
+            ),
           ),
           AboutmeSettingItem(
             icon: Icons.tonality,
