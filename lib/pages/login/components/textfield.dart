@@ -5,9 +5,10 @@ class LoginTextField extends StatelessWidget {
   final TextEditingController controller;
   final TextEditingController? controller2;
   final FocusNode focusNode;
+  final IconData prefixIcon;
   final String labelStr;
   final String? hintStr;
-  RegExp? reg;
+  final RegExp? reg;
   final String? errorStr;
   final bool? obscure;
   LoginTextField({
@@ -15,6 +16,7 @@ class LoginTextField extends StatelessWidget {
     required this.controller,
     this.controller2,
     required this.focusNode,
+    required this.prefixIcon,
     required this.labelStr,
     this.hintStr,
     this.reg,
@@ -32,27 +34,45 @@ class LoginTextField extends StatelessWidget {
         focusNode: focusNode,
         maxLines: 1,
         textAlign: TextAlign.left,
-        style: GoogleFonts.exo(textStyle: TextStyle()),
+        style: GoogleFonts.geo(
+          textStyle: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w100,
+          ),
+        ),
         validator: (value) {
           if (value == null || value.isEmpty) return '请输入内容';
-          if (reg == null && controller2 != null)
-            reg = RegExp('\^' + controller2!.text + '\$');
-          if (!reg!.hasMatch(controller.text))
+          RegExp? r = reg;
+          if (r == null && controller2 != null)
+            r = RegExp('\^' + controller2!.text + '\$');
+          if (!r!.hasMatch(controller.text))
             return errorStr == null ? '格式错误' : errorStr;
           return null;
         },
         obscureText: obscure == null ? false : obscure!,
+        cursorWidth: 1,
+        cursorHeight: 17,
+        cursorColor: Theme.of(context).buttonColor.withOpacity(0.7),
         decoration: InputDecoration(
           labelText: labelStr,
-          hintText: hintStr == null ? '' : hintStr,
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10))),
-          suffixIcon: IconButton(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onPressed: () => controller.clear(),
-            icon: Icon(Icons.clear),
+          labelStyle: TextStyle(
+            fontSize: 13,
+            color: Theme.of(context).buttonColor.withOpacity(0.6),
+            fontWeight: FontWeight.bold,
           ),
+          hintText: hintStr == null ? '' : hintStr,
+          hintStyle: TextStyle(
+            fontSize: 10,
+            color: Theme.of(context).buttonColor.withOpacity(0.3),
+          ),
+          prefixIcon: Icon(
+            prefixIcon,
+            size: 16,
+            color: Theme.of(context).buttonColor.withOpacity(0.6),
+          ),
+          border: InputBorder.none,
+          fillColor: Theme.of(context).primaryColor,
+          filled: true,
         ),
       ),
     );

@@ -22,6 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       body: Container(
         alignment: Alignment.center,
         child: Form(
@@ -29,12 +30,16 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Text('创建新用户'),
+              Text(
+                '创建新用户',
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
               Column(
                 children: [
                   LoginTextField(
                     controller: _controllerEmail,
                     focusNode: _focusNodeEmail,
+                    prefixIcon: Icons.email,
                     labelStr: '邮箱',
                     reg: RegExp(
                         r"^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"),
@@ -43,6 +48,7 @@ class _LoginPageState extends State<LoginPage> {
                   LoginTextField(
                     controller: _controllerPassword,
                     focusNode: _focusNodePassword,
+                    prefixIcon: Icons.visibility,
                     labelStr: '密码',
                     hintStr: '6~16位数字和字母',
                     reg: RegExp(r"(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$"),
@@ -51,6 +57,7 @@ class _LoginPageState extends State<LoginPage> {
                   LoginTextField(
                     controller: _controllerPassword2,
                     focusNode: _focusNodePassword2,
+                    prefixIcon: Icons.visibility,
                     labelStr: '确认密码',
                     hintStr: '重新输入确认密码',
                     controller2: _controllerPassword,

@@ -31,6 +31,7 @@ class _LanguageSettingPageState extends State<LanguageSettingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarForSettingPage(context, title: '语言设置'),
+      backgroundColor: Theme.of(context).backgroundColor,
       body: CustomScrollView(
         physics: BouncingScrollPhysics(
           parent: AlwaysScrollableScrollPhysics(),

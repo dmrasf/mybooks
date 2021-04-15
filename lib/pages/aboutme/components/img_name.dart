@@ -11,12 +11,12 @@ class AboutmeImgName extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Container(
+          AnimatedContainer(
+            duration: Duration(milliseconds: 1000),
             width: 100,
             height: 100,
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                //colors: [Color(0xFFfbab66), Color(0xFFf7418c)],
                 colors: [
                   Color((Random(Timeline.now).nextDouble() * 0xFFFFFF).toInt())
                       .withOpacity(1.0),
@@ -29,7 +29,8 @@ class AboutmeImgName extends StatelessWidget {
               shape: BoxShape.circle,
               image: DecorationImage(
                 image: NetworkImage(
-                    'https://avatars.githubusercontent.com/u/51014758?v=4'),
+                  'https://avatars.githubusercontent.com/u/51014758?v=4',
+                ),
               ),
             ),
           ),
@@ -40,6 +41,7 @@ class AboutmeImgName extends StatelessWidget {
               textStyle: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
+                color: Theme.of(context).buttonColor,
               ),
             ),
           ),

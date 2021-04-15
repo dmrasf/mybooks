@@ -17,10 +17,14 @@ class LogoutButton extends StatelessWidget {
         padding: MaterialStateProperty.all(EdgeInsets.symmetric(vertical: 10)),
         minimumSize: MaterialStateProperty.all(Size(150, 45)),
         backgroundColor: MaterialStateProperty.all(
-          Colors.black.withOpacity(0.2),
+          Theme.of(context).primaryColor,
         ),
-        foregroundColor: MaterialStateProperty.all(Colors.white),
-        overlayColor: MaterialStateProperty.all(Colors.black.withOpacity(0.1)),
+        foregroundColor: MaterialStateProperty.all(
+          Theme.of(context).buttonColor,
+        ),
+        overlayColor: MaterialStateProperty.all(
+          Theme.of(context).backgroundColor,
+        ),
         shape: MaterialStateProperty.all(StadiumBorder()),
       ),
     );

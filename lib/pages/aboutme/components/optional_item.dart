@@ -16,7 +16,7 @@ class OptionalItem extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        color: Colors.black.withOpacity(isToggle ? 0.3 : 0.2),
+        color: Theme.of(context).primaryColor.withOpacity(isToggle ? 1 : 0),
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 1),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -25,7 +25,7 @@ class OptionalItem extends StatelessWidget {
               isToggle
                   ? Icons.radio_button_on_sharp
                   : Icons.radio_button_off_sharp,
-              color: Colors.white,
+              color: Theme.of(context).buttonColor,
               size: 15,
             ),
             SizedBox(width: 15),

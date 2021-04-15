@@ -35,6 +35,7 @@ class LoginInPage extends StatelessWidget {
                   LoginTextField(
                     controller: _controllerEmail,
                     focusNode: _focusNodeEmail,
+                    prefixIcon: Icons.email,
                     labelStr: '邮箱',
                     reg: RegExp(
                         r"^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"),
@@ -43,6 +44,7 @@ class LoginInPage extends StatelessWidget {
                   LoginTextField(
                     controller: _controllerPassword,
                     focusNode: _focusNodePassword,
+                    prefixIcon: Icons.visibility,
                     labelStr: '密码',
                     hintStr: '6~16位数字和字母',
                     reg: RegExp(r"(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$"),

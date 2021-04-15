@@ -30,6 +30,7 @@ class _ThemeSettingPageState extends State<ThemeSettingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarForSettingPage(context, title: '主题设置'),
+      backgroundColor: Theme.of(context).backgroundColor,
       body: CustomScrollView(
         physics: BouncingScrollPhysics(
           parent: AlwaysScrollableScrollPhysics(),

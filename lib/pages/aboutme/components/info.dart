@@ -11,13 +11,13 @@ class _AboutmeInfoState extends State<AboutmeInfo> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10),
-      color: Colors.black.withOpacity(0.3),
+      color: Theme.of(context).primaryColor,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          AboutmeInfItem(title: '书籍数', hint: '0'),
-          AboutmeInfItem(title: '关注', hint: '0'),
-          AboutmeInfItem(title: '被关注', hint: '0'),
+          AboutmeInfItem(title: '书籍数', hint: '233'),
+          AboutmeInfItem(title: '关注', hint: '100'),
+          AboutmeInfItem(title: '被关注', hint: '142'),
         ],
       ),
     );

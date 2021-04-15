@@ -17,7 +17,9 @@ class MyIconButton extends StatelessWidget {
       style: ButtonStyle(
         minimumSize: MaterialStateProperty.all(Size.zero),
         backgroundColor: MaterialStateProperty.all(Colors.transparent),
-        foregroundColor: MaterialStateProperty.all(Colors.white),
+        foregroundColor: MaterialStateProperty.all(
+          Theme.of(context).buttonColor,
+        ),
         overlayColor: MaterialStateProperty.all(Colors.transparent),
       ),
     );

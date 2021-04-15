@@ -11,6 +11,7 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarForSettingPage(context, title: '个人资料'),
+      backgroundColor: Theme.of(context).backgroundColor,
       body: Container(),
     );
   }

@@ -86,7 +86,7 @@ class AboutmeSettingItem extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         margin: EdgeInsets.symmetric(vertical: 0.2),
-        color: Theme.of(context).primaryColor.withOpacity(0.3),
+        color: Theme.of(context).primaryColor,
         alignment: Alignment.center,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -97,10 +97,16 @@ class AboutmeSettingItem extends StatelessWidget {
             Text(title, style: TextStyle(fontWeight: FontWeight.w800)),
             Spacer(),
             hint == null
-                ? Icon(Icons.arrow_forward_ios,
-                    size: 10, color: Colors.white.withOpacity(0.6))
+                ? Icon(
+                    Icons.arrow_forward_ios,
+                    size: 10,
+                    color: Theme.of(context).buttonColor.withOpacity(0.6),
+                  )
                 : Text(hint!,
-                    style: TextStyle(color: Colors.white.withOpacity(0.6))),
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Theme.of(context).buttonColor.withOpacity(0.6),
+                    )),
             SizedBox(width: 15),
           ],
         ),
