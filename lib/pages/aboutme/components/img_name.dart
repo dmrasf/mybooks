@@ -1,9 +1,10 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'dart:math';
 
-class AboutmeImgName extends StatelessWidget {
+class AboutmeImgName extends StatefulWidget {
   final String? avatarUrl;
   final String? name;
   final String? description;
@@ -13,7 +14,11 @@ class AboutmeImgName extends StatelessWidget {
     this.name,
     this.description,
   }) : super(key: key);
+  @override
+  _AboutmeImgNameState createState() => _AboutmeImgNameState();
+}
 
+class _AboutmeImgNameState extends State<AboutmeImgName> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,27 +27,23 @@ class AboutmeImgName extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          AnimatedContainer(
-            duration: Duration(milliseconds: 1000),
-            width: 100,
-            height: 100,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Color((Random(Timeline.now).nextDouble() * 0xFFFFFF).toInt())
-                      .withOpacity(1.0),
-                  Color((Random(Timeline.now).nextDouble() * 0xFFFFFF).toInt())
-                      .withOpacity(1.0),
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomRight,
+          CachedNetworkImage(
+            imageUrl: widget.avatarUrl == null
+                ? 'https://avatars.githubusercontent.com/u/51014758?v=4'
+                : widget.avatarUrl!,
+            imageBuilder: (context, imageProvider) => Container(
+              width: 100,
+              height: 100,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                ),
               ),
-              shape: BoxShape.circle,
-              //'https://avatars.githubusercontent.com/u/51014758?v=4',
-              image: avatarUrl == null
-                  ? null
-                  : DecorationImage(image: NetworkImage(avatarUrl!)),
             ),
+            placeholder: (context, url) => _getAvatar(),
+            errorWidget: (context, url, error) => _getAvatar(),
           ),
           SizedBox(width: 30),
           Column(
@@ -50,7 +51,7 @@ class AboutmeImgName extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                name == null ? "What's your name?" : name!,
+                widget.name == null ? "What's your name?" : widget.name!,
                 style: GoogleFonts.ntr(
                   textStyle: TextStyle(
                     fontSize: 25,
@@ -64,7 +65,9 @@ class AboutmeImgName extends StatelessWidget {
                   maxWidth: MediaQuery.of(context).size.width * 0.4,
                 ),
                 child: Text(
-                  description == null ? 'Hi ~  o(*￣▽￣*)ブ' : description!,
+                  widget.description == null
+                      ? 'Hi ~  o(*￣▽￣*)ブ'
+                      : widget.description!,
                   style: GoogleFonts.ntr(
                     textStyle: TextStyle(
                       fontSize: 13,
@@ -78,6 +81,27 @@ class AboutmeImgName extends StatelessWidget {
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _getAvatar() {
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 1000),
+      width: 100,
+      height: 100,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Color((Random(Timeline.now).nextDouble() * 0xFFFFFF).toInt())
+                .withOpacity(1.0),
+            Color((Random(Timeline.now).nextDouble() * 0xFFFFFF).toInt())
+                .withOpacity(1.0),
+          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomRight,
+        ),
+        shape: BoxShape.circle,
       ),
     );
   }
