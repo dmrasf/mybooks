@@ -75,7 +75,7 @@ class _DateSelectDialogState extends State<DateSelectDialog>
                           listener: (value) => setState(() {
                             _year = value;
                             days = DateTime(_year, _month + 1, 0).day;
-                            if (value > days) _day = days;
+                            if (_day > days) _day = days;
                           }),
                           title: '年',
                         ),
@@ -84,7 +84,7 @@ class _DateSelectDialogState extends State<DateSelectDialog>
                           listener: (value) => setState(() {
                             _month = value;
                             days = DateTime(_year, _month + 1, 0).day;
-                            if (value > days) _day = days;
+                            if (_day > days) _day = days;
                           }),
                           title: '月',
                         ),

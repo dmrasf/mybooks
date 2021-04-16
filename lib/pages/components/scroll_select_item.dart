@@ -73,7 +73,7 @@ class _ScrollSelectItemsState extends State<ScrollSelectItems> {
                   Duration(milliseconds: 0),
                   () => _controller.animateTo(
                     _currentIndex * _itemHeigth,
-                    duration: Duration(milliseconds: 100),
+                    duration: Duration(milliseconds: 300),
                     curve: Curves.easeInOut,
                   ),
                 );
