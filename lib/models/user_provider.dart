@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mybooks/models/secret.dart';
 import 'package:mybooks/utils/init.dart';
 import 'package:mybooks/models/user.dart';
 
@@ -7,10 +8,61 @@ class MyUserModel extends ChangeNotifier {
   set isLogin(bool isLogin) {
     if (isLogin != Init.profile.login) {
       Init.profile.login = isLogin;
-      if (isLogin == false) Init.profile.user = User();
+      if (isLogin == false) {
+        Init.profile.user = User();
+        Init.profile.secret = Secret();
+      }
       Init.saveProfile();
       notifyListeners();
     }
+  }
+
+  Secret get secret => Init.profile.secret;
+  set secret(Secret secret) {
+    Init.profile.secret = secret;
+    Init.saveProfile();
+  }
+
+  int get booksSecret => Init.profile.secret.books;
+  set booksSecret(int secret) {
+    Init.profile.secret.books = secret;
+    Init.saveProfile();
+  }
+
+  int get emailSecret => Init.profile.secret.email;
+  set emailSecret(int secret) {
+    Init.profile.secret.email = secret;
+    Init.saveProfile();
+  }
+
+  int get locationSecret => Init.profile.secret.location;
+  set locationSecret(int secret) {
+    Init.profile.secret.location = secret;
+    Init.saveProfile();
+  }
+
+  int get followingSecret => Init.profile.secret.following;
+  set followingSecret(int secret) {
+    Init.profile.secret.following = secret;
+    Init.saveProfile();
+  }
+
+  int get followersSecret => Init.profile.secret.followers;
+  set followersSecret(int secret) {
+    Init.profile.secret.followers = secret;
+    Init.saveProfile();
+  }
+
+  int get birthdaySecret => Init.profile.secret.birthday;
+  set birthdaySecret(int secret) {
+    Init.profile.secret.birthday = secret;
+    Init.saveProfile();
+  }
+
+  int get genderSecret => Init.profile.secret.gender;
+  set genderSecret(int secret) {
+    Init.profile.secret.gender = secret;
+    Init.saveProfile();
   }
 
   User get user => Init.profile.user;

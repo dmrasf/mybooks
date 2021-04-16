@@ -129,8 +129,13 @@ class _CitySelectDialogState extends State<CitySelectDialog>
                   ),
                   SizedBox(height: 10),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      TextButton(
+                        child: Text("取消"),
+                        onPressed: () => Navigator.of(context).pop(),
+                        style: _getButtonStyle(),
+                      ),
                       TextButton(
                         child: Text("清除"),
                         onPressed: () => Navigator.of(context).pop('clear'),

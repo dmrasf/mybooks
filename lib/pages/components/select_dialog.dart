@@ -4,10 +4,12 @@ import 'package:google_fonts/google_fonts.dart';
 class SelectDialog extends StatefulWidget {
   final String content;
   final Map<dynamic, dynamic> selected;
+  final int defaultIndex;
   SelectDialog({
     Key? key,
     required this.content,
     required this.selected,
+    this.defaultIndex = 0,
   }) : super(key: key);
   @override
   _SelectDialogState createState() => _SelectDialogState();
@@ -17,11 +19,12 @@ class _SelectDialogState extends State<SelectDialog>
     with SingleTickerProviderStateMixin {
   AnimationController? _controller;
 
-  int _index = 0;
+  late int _index;
 
   @override
   void initState() {
     super.initState();
+    _index = widget.defaultIndex;
     _controller = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 300),

@@ -1,4 +1,5 @@
 import 'package:mybooks/models/profile.dart';
+import 'package:mybooks/models/secret.dart';
 import 'package:mybooks/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -17,7 +18,7 @@ class Init {
         print(e);
       }
     else
-      profile = Profile(user: User(), login: false);
+      profile = Profile(user: User(), secret: Secret(), login: false);
   }
 
   static saveProfile() => _preferences.setString(
