@@ -34,12 +34,9 @@ class _AboutmeImgNameState extends State<AboutmeImgName> {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           CachedNetworkImage(
-            imageUrl: widget.avatarUrl == null
-                ? 'https://avatars.githubusercontent.com/u/51014758?v=4'
-                : widget.avatarUrl!,
+            imageUrl: widget.avatarUrl == null ? '' : widget.avatarUrl!,
             imageBuilder: (context, imageProvider) => Container(
               width: 100,
               height: 100,

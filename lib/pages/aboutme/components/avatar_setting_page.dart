@@ -98,8 +98,8 @@ class _AvatarSettingPageState extends State<AvatarSettingPage> {
                       Spacer(),
                       MyIconButton(
                         icon: Icon(
-                          Icons.save,
-                          size: 15,
+                          Icons.check,
+                          size: 20,
                           color: Theme.of(context).buttonColor,
                         ),
                         onPressed: () async {
