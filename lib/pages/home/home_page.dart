@@ -39,7 +39,8 @@ class _HomePageState extends State<HomePage> {
       ),
       onWillPop: () async {
         if (_popTime == null ||
-            DateTime.now().difference(_popTime!) > Duration(seconds: 1)) {
+            DateTime.now().difference(_popTime!) >
+                Duration(milliseconds: 500)) {
           _popTime = DateTime.now();
           Fluttertoast.showToast(
             msg: '再按一次返回键退出',

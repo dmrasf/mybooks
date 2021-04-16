@@ -71,6 +71,12 @@ class MyUserModel extends ChangeNotifier {
     Init.saveProfile();
   }
 
+  int get books => Init.profile.user.books;
+  set books(int books) {
+    Init.profile.user.books = books;
+    Init.saveProfile();
+  }
+
   String? get email => Init.profile.user.email;
   set email(String? email) {
     Init.profile.user.email = email;

@@ -3,6 +3,7 @@ part 'user.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class User {
+  int books;
   String? email;
   String? token;
   String? location;
@@ -14,6 +15,7 @@ class User {
   String? birthday;
   bool? gender;
   User({
+    this.books = 0,
     this.email,
     this.token,
     this.following = 0,
