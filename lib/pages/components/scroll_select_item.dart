@@ -104,7 +104,7 @@ class _ScrollSelectItemsState extends State<ScrollSelectItems> {
                                         ? Colors.orange.shade700
                                         : Theme.of(context)
                                             .buttonColor
-                                            .withOpacity(0.7),
+                                            .withOpacity(0.6),
                                   ),
                                 ),
                               ),

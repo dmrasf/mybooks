@@ -11,6 +11,7 @@ import 'package:mybooks/pages/aboutme/components/name_setting_page.dart';
 import 'package:mybooks/pages/aboutme/components/description_setting_page.dart';
 import 'package:mybooks/pages/aboutme/components/gender_setting_page.dart';
 import 'package:mybooks/pages/aboutme/components/secrets_setting_page.dart';
+import 'package:mybooks/pages/aboutme/components/avatar_setting_page.dart';
 
 class ProfileSettingPage extends StatefulWidget {
   @override
@@ -31,7 +32,14 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
         slivers: [
           SliverList(
             delegate: SliverChildListDelegate([
-              AboutmeSettingItem(title: '头像', icon: Icons.image),
+              AboutmeSettingItem(
+                title: '头像',
+                icon: Icons.image,
+                onPressed: () => ChangePage.slideChangePage(
+                  context,
+                  AvatarSettingPage(),
+                ),
+              ),
               SizedBox(height: 15),
               AboutmeSettingItem(
                 title: '昵称',
@@ -133,7 +141,7 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
               SizedBox(height: 15),
               AboutmeSettingItem(
                 title: '注销帐号',
-                titleColor: Colors.red,
+                titleColor: Colors.red.shade700,
                 hint: '',
                 icon: Icons.power_settings_new_sharp,
                 onPressed: () {

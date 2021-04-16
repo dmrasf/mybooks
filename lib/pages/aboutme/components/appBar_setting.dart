@@ -6,7 +6,7 @@ AppBar appBarForSettingPage(BuildContext context, {String? title}) {
     backgroundColor: Colors.transparent,
     shadowColor: Colors.transparent,
     leading: MyIconButton(
-      onPressed: () => Navigator.of(context).pop(),
+      onPressed: () => Navigator.of(context).maybePop(),
       icon: Icon(Icons.arrow_back),
     ),
     title: Text(

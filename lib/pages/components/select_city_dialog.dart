@@ -132,11 +132,6 @@ class _CitySelectDialogState extends State<CitySelectDialog>
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       TextButton(
-                        child: Text("取消"),
-                        onPressed: () => Navigator.of(context).pop(),
-                        style: _getButtonStyle(),
-                      ),
-                      TextButton(
                         child: Text("清除"),
                         onPressed: () => Navigator.of(context).pop('clear'),
                         style: _getButtonStyle(),

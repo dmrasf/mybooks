@@ -22,7 +22,16 @@ class _AboutmeImgNameState extends State<AboutmeImgName> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(20),
+      margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+      padding: EdgeInsets.all(30),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xff3080e7), Color(0xff00eaff)],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.end,
