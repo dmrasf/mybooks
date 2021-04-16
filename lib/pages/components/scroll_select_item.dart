@@ -37,11 +37,8 @@ class _ScrollSelectItemsState extends State<ScrollSelectItems> {
     setState(() {
       _currentIndex =
           (_controller.offset / _itemHeigth).round() % widget.items.length;
-      _currentIndex = _currentIndex > widget.items.length - 1
-          ? widget.items.length
-          : _currentIndex;
     });
-    if (widget.listener != null) widget.listener!(widget.items[_currentIndex]);
+    if (widget.listener != null) widget.listener!(_currentIndex);
   }
 
   @override
@@ -63,7 +60,7 @@ class _ScrollSelectItemsState extends State<ScrollSelectItems> {
                 ),
               ),
         Container(
-          width: 40,
+          width: 50,
           height: _itemHeigth * 3,
           child: NotificationListener<ScrollNotification>(
             onNotification: (scrollNotification) {
@@ -93,18 +90,22 @@ class _ScrollSelectItemsState extends State<ScrollSelectItems> {
                             alignment: Alignment.center,
                             height: _itemHeigth,
                             padding: EdgeInsets.symmetric(vertical: 6),
-                            child: Text(
-                              widget.items[index].toString(),
-                              style: GoogleFonts.jua(
-                                textStyle: TextStyle(
-                                  fontSize: _currentIndex == index ? 17 : 13,
-                                  fontWeight: FontWeight.w700,
-                                  decoration: TextDecoration.none,
-                                  color: _currentIndex == index
-                                      ? Colors.orange.shade700
-                                      : Theme.of(context)
-                                          .buttonColor
-                                          .withOpacity(0.7),
+                            child: FittedBox(
+                              fit: BoxFit.fitWidth,
+                              child: Text(
+                                widget.items[index].toString(),
+                                maxLines: 1,
+                                style: GoogleFonts.jua(
+                                  textStyle: TextStyle(
+                                    fontSize: _currentIndex == index ? 17 : 13,
+                                    fontWeight: FontWeight.w700,
+                                    decoration: TextDecoration.none,
+                                    color: _currentIndex == index
+                                        ? Colors.orange.shade700
+                                        : Theme.of(context)
+                                            .buttonColor
+                                            .withOpacity(0.7),
+                                  ),
                                 ),
                               ),
                             ),

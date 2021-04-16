@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:mybooks/models/user_provider.dart';
 import 'package:mybooks/pages/components/confirm_dialog.dart';
 import 'package:mybooks/pages/components/select_date_dialog.dart';
+import 'package:mybooks/pages/components/select_city_dialog.dart';
 import 'package:mybooks/utils/change_page.dart';
-import 'package:mybooks/utils/city.dart';
 import 'package:mybooks/pages/aboutme/components/name_setting_page.dart';
 import 'package:mybooks/pages/aboutme/components/description_setting_page.dart';
 import 'package:mybooks/pages/aboutme/components/gender_setting_page.dart';
@@ -62,7 +62,20 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                 icon: Icons.location_on,
                 hint:
                     userProvider.location == null ? '' : userProvider.location,
-                onPressed: () {},
+                onPressed: () {
+                  showDialog<String>(
+                    context: context,
+                    builder: (context) => CitySelectDialog(content: '你住哪里'),
+                    barrierColor: Colors.transparent,
+                  ).then((location) {
+                    if (location == null) return;
+                    if (location == 'clear')
+                      userProvider.location = null;
+                    else
+                      userProvider.location = location;
+                    setState(() {});
+                  });
+                },
               ),
               AboutmeSettingItem(
                 title: '生日',
@@ -75,10 +88,12 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                     builder: (context) => DateSelectDialog(content: '你几岁了'),
                     barrierColor: Colors.transparent,
                   ).then((date) {
-                    if (date != null) {
+                    if (date == null) return;
+                    if (date == 'clear')
+                      userProvider.birthday = null;
+                    else
                       userProvider.birthday = date;
-                      setState(() {});
-                    }
+                    setState(() {});
                   });
                 },
               ),

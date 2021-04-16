@@ -1,30 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mybooks/pages/components/scroll_select_item.dart';
+import 'package:mybooks/utils/city.dart';
 
-class DateSelectDialog extends StatefulWidget {
+class CitySelectDialog extends StatefulWidget {
   final String content;
-  DateSelectDialog({
+  CitySelectDialog({
     Key? key,
     required this.content,
   }) : super(key: key);
   @override
-  _DateSelectDialogState createState() => _DateSelectDialogState();
+  _CitySelectDialogState createState() => _CitySelectDialogState();
 }
 
-class _DateSelectDialogState extends State<DateSelectDialog>
+class _CitySelectDialogState extends State<CitySelectDialog>
     with SingleTickerProviderStateMixin {
   AnimationController? _controller;
-  final int _allYear = 30;
-  late int _year;
-  int _month = 1;
-  int _day = 1;
-  int days = 31;
+
+  Map<String, String> provinces = provincesData;
+  Map<String, dynamic> cities = citiesData['110000'];
+  Map<String, dynamic> areaes = citiesData['110100'];
+
+  String _currentProvince = '北京市';
+  String _currentCity = '北京城区';
+  String _currentArea = '东城区';
 
   @override
   void initState() {
     super.initState();
-    _year = DateTime.now().year - this._allYear - 1;
     _controller = AnimationController(
       vsync: this,
       duration: Duration(milliseconds: 300),
@@ -69,33 +72,57 @@ class _DateSelectDialogState extends State<DateSelectDialog>
                       children: [
                         ScrollSelectItems(
                           items: List.generate(
-                            _allYear,
+                            provinces.length,
                             (index) =>
-                                DateTime.now().year - _allYear - 1 + index,
+                                provinces[provinces.keys.toList()[index]],
                           ),
-                          listener: (value) => setState(() {
-                            _year = DateTime.now().year -
-                                _allYear -
-                                1 +
-                                (value as int);
-                            days = DateTime(_year, _month + 1, 0).day;
-                            if (_day > days) _day = days;
-                          }),
-                          title: '年',
+                          listener: (index) {
+                            setState(() {
+                              cities =
+                                  citiesData[provinces.keys.toList()[index]];
+                              areaes = citiesData[cities.keys.toList()[0]];
+                            });
+                            _currentProvince =
+                                provinces[provinces.keys.toList()[index]]!;
+                            _currentCity =
+                                cities[cities.keys.toList()[0]]['name']!;
+                            _currentArea =
+                                areaes[areaes.keys.toList()[0]]['name']!;
+                          },
                         ),
                         ScrollSelectItems(
-                          items: List.generate(12, (index) => index + 1),
-                          listener: (value) => setState(() {
-                            _month = value + 1;
-                            days = DateTime(_year, _month + 1, 0).day;
-                            if (_day > days) _day = days;
-                          }),
-                          title: '月',
+                          items: List.generate(
+                            cities.length,
+                            (index) =>
+                                cities[cities.keys.toList()[index]]['name'],
+                          ),
+                          listener: (index) {
+                            setState(() {
+                              areaes = citiesData[cities.keys.toList()[
+                                  index > cities.length - 1
+                                      ? cities.length - 1
+                                      : index]];
+                            });
+                            _currentCity = cities[cities.keys.toList()[
+                                index > cities.length - 1
+                                    ? cities.length - 1
+                                    : index]]['name']!;
+                            _currentArea =
+                                areaes[areaes.keys.toList()[0]]['name']!;
+                          },
                         ),
                         ScrollSelectItems(
-                          items: List.generate(days, (index) => index + 1),
-                          listener: (value) => _day = value + 1,
-                          title: '日',
+                          items: List.generate(
+                            areaes.length,
+                            (index) =>
+                                areaes[areaes.keys.toList()[index]]['name'],
+                          ),
+                          listener: (index) {
+                            _currentArea = areaes[areaes.keys.toList()[
+                                index > areaes.length - 1
+                                    ? areaes.length - 1
+                                    : index]]['name']!;
+                          },
                         ),
                       ],
                     ),
@@ -112,10 +139,8 @@ class _DateSelectDialogState extends State<DateSelectDialog>
                       TextButton(
                         child: Text("确认"),
                         onPressed: () {
-                          String result = '$_year-';
-                          result += _month >= 10 ? '$_month-' : '0$_month-';
-                          result += _day >= 10 ? '$_day' : '0$_day';
-                          Navigator.of(context).pop(result);
+                          Navigator.of(context).pop(
+                              '$_currentProvince $_currentCity $_currentArea');
                         },
                         style: _getButtonStyle(),
                       ),
