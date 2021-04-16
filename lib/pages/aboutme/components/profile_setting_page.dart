@@ -4,10 +4,10 @@ import 'package:mybooks/pages/aboutme/components/setting.dart';
 import 'package:provider/provider.dart';
 import 'package:mybooks/models/user_provider.dart';
 import 'package:mybooks/pages/components/confirm_dialog.dart';
+import 'package:mybooks/pages/components/select_date_dialog.dart';
 import 'package:mybooks/utils/change_page.dart';
 import 'package:mybooks/pages/aboutme/components/name_setting_page.dart';
 import 'package:mybooks/pages/aboutme/components/description_setting_page.dart';
-import 'package:location/location.dart';
 import 'package:mybooks/pages/aboutme/components/gender_setting_page.dart';
 import 'package:mybooks/pages/aboutme/components/secrets_setting_page.dart';
 
@@ -61,35 +61,25 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                 icon: Icons.location_on,
                 hint:
                     userProvider.location == null ? '' : userProvider.location,
-                onPressed: () async {
-                  return;
-                  Location location = Location();
-                  print('=================');
-                  bool _serviceEnabled = await location.serviceEnabled();
-                  if (!_serviceEnabled) {
-                    _serviceEnabled = await location.requestService();
-                    if (!_serviceEnabled) {
-                      return;
-                    }
-                  }
-                  PermissionStatus _permissionGranted =
-                      await location.hasPermission();
-                  if (_permissionGranted == PermissionStatus.denied) {
-                    _permissionGranted = await location.requestPermission();
-                    if (_permissionGranted != PermissionStatus.granted) {
-                      return;
-                    }
-                  }
-                  print('=================3');
-                  LocationData locationData = await location.getLocation();
-                  print(locationData);
-                },
+                onPressed: () {},
               ),
               AboutmeSettingItem(
                 title: '生日',
                 icon: Icons.cake,
                 hint:
-                    userProvider.birthday == '' ? null : userProvider.birthday,
+                    userProvider.birthday == null ? '' : userProvider.birthday,
+                onPressed: () {
+                  showDialog<String>(
+                    context: context,
+                    builder: (context) => DateSelectDialog(content: '你几岁了'),
+                    barrierColor: Colors.transparent,
+                  ).then((date) {
+                    if (date != null) {
+                      userProvider.birthday = date;
+                      setState(() {});
+                    }
+                  });
+                },
               ),
               AboutmeSettingItem(
                 title: '性别',

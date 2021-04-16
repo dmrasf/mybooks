@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mybooks/models/locale_provider.dart';
 import 'package:mybooks/utils/change_page.dart';
 import 'package:mybooks/pages/aboutme/components/profile_setting_page.dart';
@@ -113,9 +114,11 @@ class AboutmeSettingItem extends StatelessWidget {
                     ),
                     child: Text(
                       hint!,
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Theme.of(context).buttonColor.withOpacity(0.4),
+                      style: GoogleFonts.jua(
+                        textStyle: TextStyle(
+                          fontSize: 12,
+                          color: Theme.of(context).buttonColor.withOpacity(0.4),
+                        ),
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
