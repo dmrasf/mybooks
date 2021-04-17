@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mybooks/pages/components/slide_show_dialog.dart';
 
 class ConfirmDialog extends StatefulWidget {
   final String content;
@@ -8,26 +9,10 @@ class ConfirmDialog extends StatefulWidget {
   _ConfirmDialogState createState() => _ConfirmDialogState();
 }
 
-class _ConfirmDialogState extends State<ConfirmDialog>
-    with SingleTickerProviderStateMixin {
-  AnimationController? _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 300),
-    )..forward();
-  }
-
+class _ConfirmDialogState extends State<ConfirmDialog> {
   @override
   Widget build(BuildContext context) {
-    return SlideTransition(
-      position: Tween(
-        begin: Offset(0, 1),
-        end: Offset(0, 0),
-      ).chain(CurveTween(curve: Curves.easeOut)).animate(_controller!),
+    return SlideShowDialog(
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [

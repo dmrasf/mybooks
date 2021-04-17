@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mybooks/pages/components/scroll_select_item.dart';
+import 'package:mybooks/pages/components/slide_show_dialog.dart';
 import 'package:mybooks/utils/city.dart';
 
 class CitySelectDialog extends StatefulWidget {
@@ -13,10 +14,7 @@ class CitySelectDialog extends StatefulWidget {
   _CitySelectDialogState createState() => _CitySelectDialogState();
 }
 
-class _CitySelectDialogState extends State<CitySelectDialog>
-    with SingleTickerProviderStateMixin {
-  AnimationController? _controller;
-
+class _CitySelectDialogState extends State<CitySelectDialog> {
   Map<String, String> provinces = provincesData;
   Map<String, dynamic> cities = citiesData['110000'];
   Map<String, dynamic> areaes = citiesData['110100'];
@@ -26,21 +24,8 @@ class _CitySelectDialogState extends State<CitySelectDialog>
   String _currentArea = '东城区';
 
   @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 300),
-    )..forward();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return SlideTransition(
-      position: Tween(
-        begin: Offset(0, 1),
-        end: Offset(0, 0),
-      ).chain(CurveTween(curve: Curves.easeOut)).animate(_controller!),
+    return SlideShowDialog(
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [

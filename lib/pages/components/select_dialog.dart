@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mybooks/pages/components/slide_show_dialog.dart';
 
 class SelectDialog extends StatefulWidget {
   final String content;
@@ -15,29 +16,18 @@ class SelectDialog extends StatefulWidget {
   _SelectDialogState createState() => _SelectDialogState();
 }
 
-class _SelectDialogState extends State<SelectDialog>
-    with SingleTickerProviderStateMixin {
-  AnimationController? _controller;
-
+class _SelectDialogState extends State<SelectDialog> {
   late int _index;
 
   @override
   void initState() {
     super.initState();
     _index = widget.defaultIndex;
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 300),
-    )..forward();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SlideTransition(
-      position: Tween(
-        begin: Offset(0, 1),
-        end: Offset(0, 0),
-      ).chain(CurveTween(curve: Curves.easeOut)).animate(_controller!),
+    return SlideShowDialog(
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mybooks/pages/components/scroll_select_item.dart';
+import 'package:mybooks/pages/components/slide_show_dialog.dart';
 
 class DateSelectDialog extends StatefulWidget {
   final String content;
@@ -12,9 +13,7 @@ class DateSelectDialog extends StatefulWidget {
   _DateSelectDialogState createState() => _DateSelectDialogState();
 }
 
-class _DateSelectDialogState extends State<DateSelectDialog>
-    with SingleTickerProviderStateMixin {
-  AnimationController? _controller;
+class _DateSelectDialogState extends State<DateSelectDialog> {
   final int _allYear = 30;
   late int _year;
   int _month = 1;
@@ -22,22 +21,8 @@ class _DateSelectDialogState extends State<DateSelectDialog>
   int days = 31;
 
   @override
-  void initState() {
-    super.initState();
-    _year = DateTime.now().year - this._allYear - 1;
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 300),
-    )..forward();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return SlideTransition(
-      position: Tween(
-        begin: Offset(0, 1),
-        end: Offset(0, 0),
-      ).chain(CurveTween(curve: Curves.easeOut)).animate(_controller!),
+    return SlideShowDialog(
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: [
