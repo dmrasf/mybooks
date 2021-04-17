@@ -140,26 +140,40 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
               ),
               SizedBox(height: 15),
               AboutmeSettingItem(
+                title: '清除缓存',
+                icon: Icons.pie_chart_outline_outlined,
+                titleColor: Theme.of(context).hintColor,
+                hint: '',
+                onPressed: () => showDialog<bool>(
+                  context: context,
+                  builder: (context) => ConfirmDialog(
+                    content: '确认清空？需要重新缓存',
+                  ),
+                  barrierColor: Colors.transparent,
+                ).then((isConfirm) {
+                  if (isConfirm != null) if (isConfirm) {}
+                }),
+              ),
+              AboutmeSettingItem(
                 title: '注销帐号',
                 titleColor: Theme.of(context).errorColor,
                 hint: '',
                 icon: Icons.power_settings_new_sharp,
-                onPressed: () {
-                  showDialog<bool>(
-                    context: context,
-                    builder: (context) => ConfirmDialog(
-                      content: '确认注销？将丢失所有信息',
-                    ),
-                    barrierColor: Colors.transparent,
-                  ).then((isConfirm) {
-                    if (isConfirm != null) if (isConfirm) {
-                      // 服务器 .then
-                      //userProvider.isLogin = false;
-                      //Navigator.of(context).pushReplacementNamed('/login');
-                    }
-                  });
-                },
+                onPressed: () => showDialog<bool>(
+                  context: context,
+                  builder: (context) => ConfirmDialog(
+                    content: '确认注销？将丢失所有信息',
+                  ),
+                  barrierColor: Colors.transparent,
+                ).then((isConfirm) {
+                  if (isConfirm != null) if (isConfirm) {
+                    // 服务器 .then
+                    //userProvider.isLogin = false;
+                    //Navigator.of(context).pushReplacementNamed('/login');
+                  }
+                }),
               ),
+              SizedBox(height: 15),
             ]),
           ),
         ],

@@ -38,6 +38,9 @@ dependencies:
   cached_network_image: ^3.0.0
   image_picker: ^0.7.4
   flutter_image_compress: ^1.0.0
+  sqflite: ^2.0.0+3
+  path: ^1.8.0
+  connectivity: ^3.0.3
 
 dev_dependencies:
   flutter_test:
