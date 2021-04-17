@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mybooks/pages/aboutme/aboutme_page.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+import 'package:mybooks/pages/components/toast.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -64,14 +64,7 @@ class _HomePageState extends State<HomePage> {
             DateTime.now().difference(_popTime!) >
                 Duration(milliseconds: 500)) {
           _popTime = DateTime.now();
-          Fluttertoast.showToast(
-            msg: '再按一次返回键退出',
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.BOTTOM,
-            backgroundColor: Theme.of(context).hintColor,
-            textColor: Colors.black87,
-            fontSize: 13,
-          );
+          showToast(context, '再按一次退出');
           return false;
         }
         _popTime = DateTime.now();

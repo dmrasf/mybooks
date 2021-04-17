@@ -9,6 +9,8 @@ import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'dart:typed_data';
+import 'package:mybooks/pages/components/toast.dart';
+import 'package:mybooks/pages/components/wait_action_icon_button.dart';
 
 class AvatarSettingPage extends StatefulWidget {
   @override
@@ -17,7 +19,7 @@ class AvatarSettingPage extends StatefulWidget {
 
 class _AvatarSettingPageState extends State<AvatarSettingPage> {
   final picker = ImagePicker();
-  File? _localImg;
+  Uint8List? _localImgByte;
   bool? _isSave;
 
   @override
@@ -35,8 +37,7 @@ class _AvatarSettingPageState extends State<AvatarSettingPage> {
             SliverList(
               delegate: SliverChildListDelegate([
                 Container(
-                  padding:
-                      EdgeInsets.only(left: 30, right: 10, top: 15, bottom: 15),
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 25),
                   color: Theme.of(context).primaryColor,
                   alignment: Alignment.center,
                   child: Row(
@@ -46,7 +47,7 @@ class _AvatarSettingPageState extends State<AvatarSettingPage> {
                         clipBehavior: Clip.none,
                         children: [
                           CachedNetworkImage(
-                            imageUrl: _localImg == null
+                            imageUrl: _localImgByte == null
                                 ? userProvider.avatarUrl == null
                                     ? ''
                                     : userProvider.avatarUrl!
@@ -76,35 +77,43 @@ class _AvatarSettingPageState extends State<AvatarSettingPage> {
                               onPressed: () async {
                                 final pickedFile = await picker.getImage(
                                     source: ImageSource.gallery);
-                                setState(() {
-                                  if (pickedFile != null) {
-                                    _localImg = File(pickedFile.path);
+                                if (pickedFile != null) {
+                                  _localImgByte = await _compressImgFile(
+                                      File(pickedFile.path));
+                                  if (_localImgByte != null) {
+                                    print(_localImgByte!.length);
                                     _isSave = false;
-                                  } else
-                                    _localImg = null;
-                                });
+                                    setState(() {});
+                                  }
+                                } else
+                                  _localImgByte = null;
                               },
                             ),
                           ),
                         ],
                       ),
                       Spacer(),
-                      MyIconButton(
-                        icon: Icon(
-                          Icons.check,
-                          size: 20,
-                          color: Theme.of(context).buttonColor,
-                        ),
-                        onPressed: () async {
-                          if (_localImg == null) return;
-                          Uint8List? newAvatat =
-                              await _compressImgFile(_localImg!);
+                      WaitActionIconButton(
+                        iconSize: 18,
+                        startIcon: Icons.cloud_circle,
+                        action: () async {
+                          if (_isSave == true) {
+                            showToast(context, '已经成功，请重新选择图片');
+                            return true;
+                          }
+                          if (_localImgByte == null) {
+                            showToast(context, '未选择图片');
+                            return true;
+                          }
+
                           //
                           // 服务器
                           //
-                          if (newAvatat == null) return;
+                          await Future.delayed(Duration(seconds: 2));
                           _isSave = true;
-                          print(newAvatat.length);
+                          showToast(context, '上传成功');
+                          //showToast(context, '上传失败', type: ToastType.ERROR);
+                          return true;
                         },
                       ),
                     ],
@@ -143,9 +152,12 @@ class _AvatarSettingPageState extends State<AvatarSettingPage> {
           begin: Alignment.topCenter,
           end: Alignment.bottomRight,
         ),
-        image: _localImg == null
+        image: _localImgByte == null
             ? null
-            : DecorationImage(image: FileImage(_localImg!), fit: BoxFit.cover),
+            : DecorationImage(
+                image: MemoryImage(_localImgByte!),
+                fit: BoxFit.cover,
+              ),
         shape: BoxShape.circle,
       ),
     );
