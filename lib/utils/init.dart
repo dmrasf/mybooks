@@ -3,6 +3,7 @@ import 'package:mybooks/models/secret.dart';
 import 'package:mybooks/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
+import 'package:mybooks/utils/database.dart';
 
 class Init {
   static late Profile profile;
@@ -14,6 +15,7 @@ class Init {
     if (_profile != null)
       try {
         profile = Profile.fromJson(jsonDecode(_profile));
+        await DataBaseUtil.initDataBase(profile.user.email);
       } catch (e) {
         print(e);
       }

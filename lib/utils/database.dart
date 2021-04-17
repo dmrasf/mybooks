@@ -72,10 +72,8 @@ class DataBaseUtil {
   static late final String _userTableName;
 
   /// 进入app初始化数据库和表
-  static Future<bool> createTable(String email) async {
+  static Future<bool> initDataBase(String? email) async {
     try {
-      _userTableName =
-          'user_' + md5.convert(Utf8Encoder().convert(email)).toString();
       db = await openDatabase(
         join(await getDatabasesPath(), _databaseName),
         onCreate: (db, version) {
@@ -83,17 +81,20 @@ class DataBaseUtil {
           db.execute(
             "CREATE TABLE $_booksTableName(isbn TEXT PRIMARY KEY UNIQUE, title TEXT, author TEXT, ph TEXT, publishdate TEXT, price REAL, cover BLOB, content TEXT, category TEXT)",
           );
-          // 用户存储书籍表: isbn(主) 最后一次操作日期 是否读过 描述 自定义类别
-          db.execute(
-            "CREATE TABLE $_userTableName(isbn TEXT PRIMARY KEY UNIQUE, touchdate TEXT, read INTEGER, description TEXT, tag TEXT)",
-          );
-          return;
         },
         version: 1,
       );
-    } catch (_) {
-      return false;
-    }
+    } catch (_) {}
+    try {
+      if (email != null) {
+        _userTableName =
+            'user_' + md5.convert(Utf8Encoder().convert(email)).toString();
+        // 用户存储书籍表: isbn(主) 最后一次操作日期 是否读过 描述 自定义类别
+        await db.execute(
+          "CREATE TABLE $_userTableName(isbn TEXT PRIMARY KEY UNIQUE, touchdate TEXT, read INTEGER, description TEXT, tag TEXT)",
+        );
+      }
+    } catch (_) {}
     return true;
   }
 

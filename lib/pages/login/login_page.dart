@@ -105,7 +105,7 @@ class _LoginPageState extends State<LoginPage> {
 
                         if (!successed) return true;
 
-                        successed = await DataBaseUtil.createTable(email);
+                        successed = await DataBaseUtil.initDataBase(email);
                         if (successed)
                           Navigator.of(context).pushReplacementNamed('/home');
                         else

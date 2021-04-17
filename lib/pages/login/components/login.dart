@@ -91,7 +91,7 @@ class LoginInPage extends StatelessWidget {
 
                         if (!successed) return true;
 
-                        successed = await DataBaseUtil.createTable(email);
+                        successed = await DataBaseUtil.initDataBase(email);
                         if (successed)
                           Navigator.of(context).pushReplacementNamed('/home');
                         else

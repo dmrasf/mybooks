@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mybooks/pages/aboutme/aboutme_page.dart';
+import 'package:mybooks/pages/bookcase/bookcase_page.dart';
 import 'package:mybooks/pages/components/toast.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,7 +17,7 @@ class _HomePageState extends State<HomePage> {
     return WillPopScope(
       child: Scaffold(
         body: [
-          SafeArea(child: Container(color: Theme.of(context).backgroundColor)),
+          SafeArea(child: BookcasePage()),
           SafeArea(child: Container(color: Theme.of(context).backgroundColor)),
           SafeArea(child: AboutmePage()),
         ][_currentIndex],
@@ -31,9 +32,12 @@ class _HomePageState extends State<HomePage> {
           ),
           unselectedItemColor: Theme.of(context).buttonColor.withOpacity(0.4),
           selectedItemColor: Theme.of(context).buttonColor.withOpacity(0.8),
-          onTap: (index) => setState(() {
-            _currentIndex = index;
-          }),
+          onTap: (index) {
+            if (_currentIndex != index)
+              setState(() {
+                _currentIndex = index;
+              });
+          },
           items: [
             BottomNavigationBarItem(
               icon: Padding(
