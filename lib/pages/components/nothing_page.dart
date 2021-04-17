@@ -19,7 +19,7 @@ class NothingPage extends StatelessWidget {
               color: Theme.of(context).buttonColor.withOpacity(0.6),
             ),
           ),
-          SizedBox(height: MediaQuery.of(context).size.height * 0.25),
+          SizedBox(height: MediaQuery.of(context).size.height * 0.2),
           SvgPicture.asset(
             'assets/images/nothing.svg',
             color: Theme.of(context).buttonColor.withOpacity(0.6),

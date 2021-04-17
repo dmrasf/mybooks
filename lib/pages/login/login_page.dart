@@ -90,10 +90,9 @@ class _LoginPageState extends State<LoginPage> {
                         _clearText();
                         _formKey.currentState!.reset();
 
-                        //
+                        ///////////////////////////////
+                        await Future.delayed(Duration(seconds: 2));
                         // 服务器 .then
-                        await Future.delayed(Duration(milliseconds: 300));
-                        //
                         userProvider.isLogin = true;
                         userProvider.secret = Secret();
                         userProvider.user = User(
@@ -102,14 +101,13 @@ class _LoginPageState extends State<LoginPage> {
                               .convert(Utf8Encoder().convert(password))
                               .toString(),
                         );
-
                         if (!successed) return true;
+                        ///////////////////////////////
 
-                        successed = await DataBaseUtil.initDataBase(email);
-                        if (successed)
-                          Navigator.of(context).pushReplacementNamed('/home');
-                        else
-                          showToast(context, '创建数据库表错误', type: ToastType.ERROR);
+                        DataBaseUtil.initUserTable(email).then(
+                          (value) => Navigator.of(context)
+                              .pushReplacementNamed('/home'),
+                        );
                       }
                       return true;
                     },

@@ -9,7 +9,6 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:mybooks/models/user_provider.dart';
 import 'package:mybooks/utils/database.dart';
-import 'package:mybooks/pages/components/toast.dart';
 import 'package:mybooks/pages/components/check_connect.dart';
 
 class LoginInPage extends StatelessWidget {
@@ -76,10 +75,9 @@ class LoginInPage extends StatelessWidget {
                         _clearText();
                         _formKey.currentState!.reset();
 
-                        //
+                        /////////////////////////////////
                         // 服务器 .then
-                        await Future.delayed(Duration(milliseconds: 200));
-                        //
+                        await Future.delayed(Duration(seconds: 1));
                         userProvider.secret = Secret();
                         userProvider.user = User(
                           email: email,
@@ -88,14 +86,13 @@ class LoginInPage extends StatelessWidget {
                               .toString(),
                         );
                         userProvider.isLogin = true;
-
                         if (!successed) return true;
+                        /////////////////////////////////
 
-                        successed = await DataBaseUtil.initDataBase(email);
-                        if (successed)
-                          Navigator.of(context).pushReplacementNamed('/home');
-                        else
-                          showToast(context, '创建数据库表错误', type: ToastType.ERROR);
+                        DataBaseUtil.initUserTable(email).then(
+                          (value) => Navigator.of(context)
+                              .pushReplacementNamed('/home'),
+                        );
                       }
                       return true;
                     },

@@ -12,10 +12,11 @@ class Init {
   static Future<void> init() async {
     _preferences = await SharedPreferences.getInstance();
     String? _profile = _preferences.getString('profile');
+    await DataBaseUtil.initDataBase();
     if (_profile != null)
       try {
         profile = Profile.fromJson(jsonDecode(_profile));
-        await DataBaseUtil.initDataBase(profile.user.email);
+        await DataBaseUtil.initUserTable(profile.user.email);
       } catch (e) {
         print(e);
       }

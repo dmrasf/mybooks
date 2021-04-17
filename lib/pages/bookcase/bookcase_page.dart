@@ -14,18 +14,25 @@ class BookcasePage extends StatelessWidget {
     return FutureBuilder<List<UserBook>>(
       future: DataBaseUtil.getUserBooks(),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
+        late Widget child;
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasError) {
-            showToast(context, '构建数据库失败，请退出重试', type: ToastType.ERROR);
-            return NothingPage();
+            child = NothingPage();
+            showToast(context, snapshot.error!.toString(),
+                type: ToastType.ERROR);
           }
           userProvider.books = (snapshot.data as List<UserBook>).length;
           if ((snapshot.data as List<UserBook>).isEmpty)
-            return NothingPage();
+            child = NothingPage();
           else
-            return BooksShow(books: snapshot.data);
+            child = BooksShow(books: snapshot.data);
         } else
-          return LoadingPage();
+          child = LoadingPage();
+        return AnimatedSwitcher(
+          duration: Duration(milliseconds: 400),
+          switchOutCurve: Curves.easeOut,
+          child: child,
+        );
       },
     );
   }

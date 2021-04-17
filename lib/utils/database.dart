@@ -72,7 +72,7 @@ class DataBaseUtil {
   static late final String _userTableName;
 
   /// 进入app初始化数据库和表
-  static Future<bool> initDataBase(String? email) async {
+  static Future<void> initDataBase() async {
     try {
       db = await openDatabase(
         join(await getDatabasesPath(), _databaseName),
@@ -84,18 +84,24 @@ class DataBaseUtil {
         },
         version: 1,
       );
-    } catch (_) {}
-    try {
-      if (email != null) {
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static Future<void> initUserTable(String? email) async {
+    if (email != null) {
+      try {
         _userTableName =
             'user_' + md5.convert(Utf8Encoder().convert(email)).toString();
         // 用户存储书籍表: isbn(主) 最后一次操作日期 是否读过 描述 自定义类别
         await db.execute(
           "CREATE TABLE $_userTableName(isbn TEXT PRIMARY KEY UNIQUE, touchdate TEXT, read INTEGER, description TEXT, tag TEXT)",
         );
+      } catch (e) {
+        print(e);
       }
-    } catch (_) {}
-    return true;
+    }
   }
 
   /// 删除用户表 注销用户需要  谨慎使用

@@ -75,18 +75,24 @@ class _AvatarSettingPageState extends State<AvatarSettingPage> {
                                 style: Theme.of(context).textTheme.headline2,
                               ),
                               onPressed: () async {
-                                final pickedFile = await picker.getImage(
-                                    source: ImageSource.gallery);
-                                if (pickedFile != null) {
-                                  _localImgByte = await _compressImgFile(
-                                      File(pickedFile.path));
-                                  if (_localImgByte != null) {
-                                    print(_localImgByte!.length);
-                                    _isSave = false;
-                                    setState(() {});
+                                try {
+                                  final pickedFile = await picker.getImage(
+                                      source: ImageSource.gallery);
+                                  if (pickedFile != null) {
+                                    _localImgByte = await _compressImgFile(
+                                        File(pickedFile.path));
+                                    if (_localImgByte != null) {
+                                      print(_localImgByte!.length);
+                                      _isSave = false;
+                                      setState(() {});
+                                    }
+                                  } else {
+                                    _localImgByte = null;
                                   }
-                                } else
-                                  _localImgByte = null;
+                                } catch (_) {
+                                  showToast(context, '请设置权限',
+                                      type: ToastType.ERROR);
+                                }
                               },
                             ),
                           ),
