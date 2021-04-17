@@ -101,7 +101,7 @@ class _ScrollSelectItemsState extends State<ScrollSelectItems> {
                                     fontWeight: FontWeight.w700,
                                     decoration: TextDecoration.none,
                                     color: _currentIndex == index
-                                        ? Colors.orange.shade700
+                                        ? Theme.of(context).hintColor
                                         : Theme.of(context)
                                             .buttonColor
                                             .withOpacity(0.6),

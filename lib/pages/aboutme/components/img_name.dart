@@ -62,7 +62,7 @@ class _AboutmeImgNameState extends State<AboutmeImgName> {
                   textStyle: TextStyle(
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
-                    color: Theme.of(context).buttonColor,
+                    color: Colors.black87,
                   ),
                 ),
               ),
@@ -77,7 +77,7 @@ class _AboutmeImgNameState extends State<AboutmeImgName> {
                   style: GoogleFonts.ntr(
                     textStyle: TextStyle(
                       fontSize: 13,
-                      color: Theme.of(context).buttonColor,
+                      color: Colors.black87,
                     ),
                   ),
                   maxLines: 2,

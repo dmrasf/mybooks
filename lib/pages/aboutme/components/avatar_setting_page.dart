@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mybooks/pages/aboutme/components/appBar_setting.dart';
 import 'package:provider/provider.dart';
 import 'package:mybooks/models/user_provider.dart';
@@ -72,13 +71,7 @@ class _AvatarSettingPageState extends State<AvatarSettingPage> {
                             child: MyIconButton(
                               icon: Text(
                                 '更改',
-                                style: GoogleFonts.jua(
-                                  textStyle: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(context).buttonColor,
-                                  ),
-                                ),
+                                style: Theme.of(context).textTheme.headline2,
                               ),
                               onPressed: () async {
                                 final pickedFile = await picker.getImage(

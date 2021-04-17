@@ -141,7 +141,7 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
               SizedBox(height: 15),
               AboutmeSettingItem(
                 title: '注销帐号',
-                titleColor: Colors.red.shade700,
+                titleColor: Theme.of(context).errorColor,
                 hint: '',
                 icon: Icons.power_settings_new_sharp,
                 onPressed: () {

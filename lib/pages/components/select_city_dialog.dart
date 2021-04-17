@@ -168,7 +168,7 @@ class _CitySelectDialogState extends State<CitySelectDialog>
       textStyle: MaterialStateProperty.all(
         GoogleFonts.exo(textStyle: TextStyle(fontWeight: FontWeight.bold)),
       ),
-      foregroundColor: MaterialStateProperty.all(Colors.orange.shade700),
+      foregroundColor: MaterialStateProperty.all(Theme.of(context).hintColor),
       overlayColor: MaterialStateProperty.all(Colors.transparent),
     );
   }

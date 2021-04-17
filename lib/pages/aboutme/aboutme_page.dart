@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mybooks/pages/aboutme/components/button.dart';
 import 'package:mybooks/pages/aboutme/components/img_name.dart';
 import 'package:mybooks/pages/aboutme/components/info.dart';
 import 'package:mybooks/pages/aboutme/components/setting.dart';
@@ -37,7 +36,7 @@ class _AboutmePageState extends State<AboutmePage> {
               AboutmeSettingItem(
                 icon: Icons.remove_circle,
                 title: '取消登录',
-                titleColor: Colors.orange.shade700,
+                titleColor: Theme.of(context).hintColor,
                 hint: '',
                 onPressed: () => showDialog<bool>(
                   context: context,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:mybooks/models/user_provider.dart';
 
@@ -43,19 +42,9 @@ class AboutmeInfItem extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              hint,
-              style: GoogleFonts.jua(
-                textStyle: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
+            Text(hint, style: Theme.of(context).textTheme.headline1),
             SizedBox(height: 10),
-            Text(
-              title,
-              style: GoogleFonts.exo(
-                textStyle: TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ),
+            Text(title, style: Theme.of(context).textTheme.headline1),
           ],
         ),
       ),

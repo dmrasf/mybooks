@@ -11,7 +11,7 @@ AppBar appBarForSettingPage(BuildContext context, {String? title}) {
     ),
     title: Text(
       title == null ? '' : title,
-      style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+      style: Theme.of(context).textTheme.headline1,
     ),
     centerTitle: true,
   );

@@ -25,17 +25,13 @@ class OptionalItem extends StatelessWidget {
               isToggle
                   ? Icons.radio_button_on_sharp
                   : Icons.radio_button_off_sharp,
-              color: Theme.of(context).buttonColor,
+              color: isToggle
+                  ? Theme.of(context).hintColor
+                  : Theme.of(context).buttonColor,
               size: 15,
             ),
             SizedBox(width: 15),
-            Text(
-              hintStr,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            Text(hintStr, style: Theme.of(context).textTheme.headline2),
           ],
         ),
       ),

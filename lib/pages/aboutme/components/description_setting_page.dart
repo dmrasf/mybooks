@@ -28,10 +28,7 @@ class DescriptionSettingPage extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              '个性签名',
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
-            ),
+            Text('个性签名', style: Theme.of(context).textTheme.headline2),
             SizedBox(width: 20),
             Expanded(
               child: AboutmeSettingTextField(

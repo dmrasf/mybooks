@@ -120,20 +120,14 @@ class SecretItem extends StatelessWidget {
                   ? Icons.radio_button_on_sharp
                   : Icons.radio_button_off_sharp,
               color: isToggle
-                  ? Colors.orange.shade700
+                  ? Theme.of(context).hintColor
                   : Theme.of(context).buttonColor,
               size: 15,
             ),
             SizedBox(width: 20),
             Text(
               hintStr,
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: isToggle
-                    ? Colors.orange.shade700
-                    : Theme.of(context).buttonColor,
-              ),
+              style: Theme.of(context).textTheme.headline2,
             ),
           ],
         ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mybooks/models/locale_provider.dart';
 import 'package:mybooks/utils/change_page.dart';
 import 'package:mybooks/pages/aboutme/components/profile_setting_page.dart';
@@ -92,14 +91,17 @@ class AboutmeSettingItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(width: 5),
-            Icon(icon, size: 15),
+            Icon(
+              icon,
+              size: 15,
+              color: titleColor == null
+                  ? Theme.of(context).buttonColor
+                  : titleColor,
+            ),
             SizedBox(width: 15),
             Text(
               title,
-              style: TextStyle(
-                fontWeight: FontWeight.w800,
-                color: titleColor,
-              ),
+              style: Theme.of(context).textTheme.headline1,
             ),
             Spacer(),
             hint == null
@@ -114,12 +116,7 @@ class AboutmeSettingItem extends StatelessWidget {
                     ),
                     child: Text(
                       hint!,
-                      style: GoogleFonts.jua(
-                        textStyle: TextStyle(
-                          fontSize: 12,
-                          color: Theme.of(context).buttonColor.withOpacity(0.4),
-                        ),
-                      ),
+                      style: Theme.of(context).textTheme.headline3,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),

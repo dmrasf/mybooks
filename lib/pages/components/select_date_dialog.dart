@@ -53,14 +53,7 @@ class _DateSelectDialogState extends State<DateSelectDialog>
                 children: [
                   Text(
                     widget.content,
-                    style: GoogleFonts.acme(
-                      textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        decoration: TextDecoration.none,
-                        color: Theme.of(context).buttonColor,
-                      ),
-                    ),
+                    style: Theme.of(context).textTheme.headline1,
                   ),
                   SizedBox(height: 25),
                   Container(
@@ -81,7 +74,6 @@ class _DateSelectDialogState extends State<DateSelectDialog>
                             days = DateTime(_year, _month + 1, 0).day;
                             if (_day > days) _day = days;
                           }),
-                          title: '年',
                         ),
                         ScrollSelectItems(
                           items: List.generate(12, (index) => index + 1),
@@ -90,12 +82,10 @@ class _DateSelectDialogState extends State<DateSelectDialog>
                             days = DateTime(_year, _month + 1, 0).day;
                             if (_day > days) _day = days;
                           }),
-                          title: '月',
                         ),
                         ScrollSelectItems(
                           items: List.generate(days, (index) => index + 1),
                           listener: (value) => _day = value + 1,
-                          title: '日',
                         ),
                       ],
                     ),
@@ -143,7 +133,7 @@ class _DateSelectDialogState extends State<DateSelectDialog>
       textStyle: MaterialStateProperty.all(
         GoogleFonts.exo(textStyle: TextStyle(fontWeight: FontWeight.bold)),
       ),
-      foregroundColor: MaterialStateProperty.all(Colors.orange.shade700),
+      foregroundColor: MaterialStateProperty.all(Theme.of(context).hintColor),
       overlayColor: MaterialStateProperty.all(Colors.transparent),
     );
   }

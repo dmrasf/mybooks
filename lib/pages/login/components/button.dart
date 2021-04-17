@@ -43,7 +43,7 @@ class LoginInButton extends StatelessWidget {
         minimumSize: MaterialStateProperty.all(Size.zero),
         backgroundColor: MaterialStateProperty.all(Colors.transparent),
         overlayColor: MaterialStateProperty.all(Colors.transparent),
-        foregroundColor: MaterialStateProperty.all(Colors.orange.shade700),
+        foregroundColor: MaterialStateProperty.all(Theme.of(context).hintColor),
       ),
     );
   }

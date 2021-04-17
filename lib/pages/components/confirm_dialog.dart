@@ -88,11 +88,9 @@ class _ConfirmDialogState extends State<ConfirmDialog>
       minimumSize: MaterialStateProperty.all(Size.zero),
       backgroundColor: MaterialStateProperty.all(Colors.transparent),
       textStyle: MaterialStateProperty.all(
-        GoogleFonts.exo(
-          textStyle: TextStyle(fontWeight: FontWeight.bold),
-        ),
+        GoogleFonts.exo(textStyle: TextStyle(fontWeight: FontWeight.bold)),
       ),
-      foregroundColor: MaterialStateProperty.all(Colors.orange.shade700),
+      foregroundColor: MaterialStateProperty.all(Theme.of(context).hintColor),
       overlayColor: MaterialStateProperty.all(Colors.transparent),
     );
   }
