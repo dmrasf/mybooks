@@ -85,8 +85,8 @@ class _LoginPageState extends State<LoginPage> {
                       if (!successed) return true;
                       if (_formKey.currentState!.validate()) {
                         final String email = _controllerEmail.text;
-                        final String passed = _controllerPassword.text;
-                        final String passed2 = _controllerPassword2.text;
+                        final String password = _controllerPassword.text;
+                        final String password2 = _controllerPassword2.text;
                         _clearText();
                         _formKey.currentState!.reset();
 
@@ -97,17 +97,15 @@ class _LoginPageState extends State<LoginPage> {
                         userProvider.isLogin = true;
                         userProvider.secret = Secret();
                         userProvider.user = User(
-                          email: _controllerEmail.text,
+                          email: email,
                           token: md5
-                              .convert(Utf8Encoder().convert(
-                                _controllerPassword.text,
-                              ))
+                              .convert(Utf8Encoder().convert(password))
                               .toString(),
                         );
 
                         if (!successed) return true;
 
-                        successed = await createTable(email);
+                        successed = await DataBaseUtil.createTable(email);
                         if (successed)
                           Navigator.of(context).pushReplacementNamed('/home');
                         else

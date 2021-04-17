@@ -3,6 +3,10 @@ import 'package:mybooks/pages/login/components/login_button.dart';
 import 'package:mybooks/pages/login/components/textfield.dart';
 import 'package:mybooks/pages/components/icon_button.dart';
 import 'package:provider/provider.dart';
+import 'package:mybooks/models/user.dart';
+import 'package:mybooks/models/secret.dart';
+import 'dart:convert';
+import 'package:crypto/crypto.dart';
 import 'package:mybooks/models/user_provider.dart';
 import 'package:mybooks/utils/database.dart';
 import 'package:mybooks/pages/components/toast.dart';
@@ -68,7 +72,7 @@ class LoginInPage extends StatelessWidget {
                       if (!successed) return true;
                       if (_formKey.currentState!.validate()) {
                         final String email = _controllerEmail.text;
-                        final String passed = _controllerPassword.text;
+                        final String password = _controllerPassword.text;
                         _clearText();
                         _formKey.currentState!.reset();
 
@@ -76,11 +80,18 @@ class LoginInPage extends StatelessWidget {
                         // 服务器 .then
                         await Future.delayed(Duration(milliseconds: 200));
                         //
+                        userProvider.secret = Secret();
+                        userProvider.user = User(
+                          email: email,
+                          token: md5
+                              .convert(Utf8Encoder().convert(password))
+                              .toString(),
+                        );
                         userProvider.isLogin = true;
 
                         if (!successed) return true;
 
-                        successed = await createTable(email);
+                        successed = await DataBaseUtil.createTable(email);
                         if (successed)
                           Navigator.of(context).pushReplacementNamed('/home');
                         else

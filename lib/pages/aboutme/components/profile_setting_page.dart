@@ -12,6 +12,8 @@ import 'package:mybooks/pages/aboutme/components/description_setting_page.dart';
 import 'package:mybooks/pages/aboutme/components/gender_setting_page.dart';
 import 'package:mybooks/pages/aboutme/components/secrets_setting_page.dart';
 import 'package:mybooks/pages/aboutme/components/avatar_setting_page.dart';
+import 'package:mybooks/pages/components/toast.dart';
+import 'package:mybooks/utils/database.dart';
 
 class ProfileSettingPage extends StatefulWidget {
   @override
@@ -144,15 +146,20 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                 icon: Icons.pie_chart_outline_outlined,
                 titleColor: Theme.of(context).hintColor,
                 hint: '',
-                onPressed: () => showDialog<bool>(
-                  context: context,
-                  builder: (context) => ConfirmDialog(
-                    content: '确认清空？需要重新缓存',
-                  ),
-                  barrierColor: Colors.transparent,
-                ).then((isConfirm) {
-                  if (isConfirm != null) if (isConfirm) {}
-                }),
+                onPressed: () => DataBaseUtil.getCacheSize().then(
+                  (value) => showDialog<bool>(
+                    context: context,
+                    builder: (context) => ConfirmDialog(
+                      content: '确认清空 ' + value + ' ? 需要重新缓存',
+                    ),
+                    barrierColor: Colors.transparent,
+                  ).then((isConfirm) {
+                    if (isConfirm != null) if (isConfirm)
+                      DataBaseUtil.clearCache().then(
+                        (value) => showToast(context, '成功清理$value个图书数据'),
+                      );
+                  }),
+                ),
               ),
               AboutmeSettingItem(
                 title: '注销帐号',

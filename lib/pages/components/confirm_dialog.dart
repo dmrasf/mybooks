@@ -28,14 +28,7 @@ class _ConfirmDialogState extends State<ConfirmDialog> {
                 children: [
                   Text(
                     widget.content,
-                    style: GoogleFonts.acme(
-                      textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        decoration: TextDecoration.none,
-                        color: Theme.of(context).buttonColor,
-                      ),
-                    ),
+                    style: Theme.of(context).textTheme.headline1,
                   ),
                   SizedBox(height: 25),
                   Row(
