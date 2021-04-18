@@ -6,7 +6,7 @@ import 'package:mybooks/pages/components/toast.dart';
 import 'package:mybooks/pages/components/float_button.dart';
 import 'package:mybooks/utils/database.dart';
 import 'package:mybooks/utils/change_page.dart';
-import 'package:mybooks/pages/home/components/scan_barcode_page.dart';
+import 'package:mybooks/pages/scan/scan_barcode_page.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);

@@ -93,21 +93,19 @@ class _LoginPageState extends State<LoginPage> {
                         ///////////////////////////////
                         await Future.delayed(Duration(seconds: 2));
                         // 服务器 .then
-                        userProvider.isLogin = true;
-                        userProvider.secret = Secret();
-                        userProvider.user = User(
-                          email: email,
-                          token: md5
-                              .convert(Utf8Encoder().convert(password))
-                              .toString(),
-                        );
                         if (!successed) return true;
                         ///////////////////////////////
 
-                        DataBaseUtil.initUserTable(email).then(
-                          (value) => Navigator.of(context)
-                              .pushReplacementNamed('/home'),
-                        );
+                        DataBaseUtil.initUserTable(email).then((value) {
+                          userProvider.isLogin = true;
+                          userProvider.secret = Secret();
+                          userProvider.user = User(
+                            email: email,
+                            token: md5
+                                .convert(Utf8Encoder().convert(password))
+                                .toString(),
+                          );
+                        });
                       }
                       return true;
                     },

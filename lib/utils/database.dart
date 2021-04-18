@@ -59,14 +59,14 @@ class Book {
 
 class UserBook {
   final String isbn;
-  final String? touchdate;
+  final String touchdate;
   final int? read;
   final String? description;
   final String? tags;
   final double? rate;
   UserBook({
     required this.isbn,
-    this.touchdate,
+    required this.touchdate,
     this.read,
     this.description,
     this.tags,
@@ -115,7 +115,7 @@ class DataBaseUtil {
             'user_' + md5.convert(Utf8Encoder().convert(email)).toString();
         // 用户存储书籍表: isbn(主) 最后一次操作日期 是否读过 描述 自定义类别 自己的评价
         await db.execute(
-          "CREATE TABLE $_userTableName(isbn TEXT PRIMARY KEY UNIQUE, touchdate TEXT, read INTEGER, description TEXT, tags TEXT, rate TEXT)",
+          "CREATE TABLE $_userTableName(isbn TEXT PRIMARY KEY UNIQUE, touchdate TEXT NOT NULL, read INTEGER, description TEXT, tags TEXT, rate TEXT)",
         );
       } catch (e) {
         print(e);

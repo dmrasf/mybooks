@@ -26,7 +26,7 @@ class ScanActionButton extends StatelessWidget {
         shape: MaterialStateProperty.all(StadiumBorder()),
         side: MaterialStateProperty.all(BorderSide(
           color: type == null ? Theme.of(context).hintColor : type!,
-          width: 1,
+          width: 2,
         )),
       ),
     );

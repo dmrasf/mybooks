@@ -7,7 +7,7 @@ class ScanBooksList extends StatelessWidget {
   Widget build(BuildContext context) {
     print(isbns);
     return Container(
-      color: Colors.pink,
+      color: Theme.of(context).backgroundColor,
       child: Row(
         children: List.generate(isbns.length, (index) => Text(isbns[index])),
       ),

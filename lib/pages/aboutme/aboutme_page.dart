@@ -45,7 +45,6 @@ class _AboutmePageState extends State<AboutmePage> {
                 ).then((isConfirm) {
                   if (isConfirm != null) if (isConfirm) {
                     userProvider.isLogin = false;
-                    Navigator.of(context).pushReplacementNamed('/login');
                   }
                 }),
               ),

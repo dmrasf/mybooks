@@ -17,7 +17,8 @@ class _BooksShowState extends State<BooksShow> {
       child: Column(
         children: List.generate(
           widget.books.length,
-          (index) => Text(widget.books[index].isbn),
+          (index) => Text(
+              widget.books[index].isbn + ' ' + widget.books[index].touchdate),
         ),
       ),
     );

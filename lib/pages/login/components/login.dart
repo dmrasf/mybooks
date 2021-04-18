@@ -78,21 +78,20 @@ class LoginInPage extends StatelessWidget {
                         /////////////////////////////////
                         // 服务器 .then
                         await Future.delayed(Duration(seconds: 1));
-                        userProvider.secret = Secret();
-                        userProvider.user = User(
-                          email: email,
-                          token: md5
-                              .convert(Utf8Encoder().convert(password))
-                              .toString(),
-                        );
-                        userProvider.isLogin = true;
                         if (!successed) return true;
                         /////////////////////////////////
 
-                        DataBaseUtil.initUserTable(email).then(
-                          (value) => Navigator.of(context)
-                              .pushReplacementNamed('/home'),
-                        );
+                        DataBaseUtil.initUserTable(email).then((value) {
+                          Navigator.of(context).pop();
+                          userProvider.secret = Secret();
+                          userProvider.user = User(
+                            email: email,
+                            token: md5
+                                .convert(Utf8Encoder().convert(password))
+                                .toString(),
+                          );
+                          userProvider.isLogin = true;
+                        });
                       }
                       return true;
                     },

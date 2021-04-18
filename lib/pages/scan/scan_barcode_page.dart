@@ -5,8 +5,8 @@ import 'package:mybooks/utils/check_isbn.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:mybooks/pages/aboutme/components/appBar_setting.dart';
 import 'package:mybooks/pages/components/toast.dart';
-import 'package:mybooks/pages/home/components/scan_books_list.dart';
-import 'package:mybooks/pages/home/components/scan_text_button.dart';
+import 'package:mybooks/pages/scan/components/scan_books_list.dart';
+import 'package:mybooks/pages/scan/components/scan_text_button.dart';
 import 'package:mybooks/pages/components/float_button.dart';
 import 'package:mybooks/pages/components/confirm_dialog.dart';
 import 'dart:io';
@@ -56,11 +56,12 @@ class _ScanBarCodePageState extends State<ScanBarCodePage> {
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: _buildBarScanView(context),
+                //child: Container(color: Colors.teal.shade50),
               ),
             ),
             Container(
-              constraints: BoxConstraints(minHeight: 200, maxHeight: 300),
-              height: MediaQuery.of(context).size.height * 0.3,
+              constraints: BoxConstraints(minHeight: 300),
+              height: MediaQuery.of(context).size.height * 0.4,
               margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               padding:
                   EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 10),
@@ -106,7 +107,7 @@ class _ScanBarCodePageState extends State<ScanBarCodePage> {
                           if (_isbns.isEmpty) return;
                           _addNewBooksToDatabase().then((value) {
                             if (value != 0)
-                              showToast(context, '$value个重复，没有添加');
+                              showToast(context, '有$value本书已经存在，没有被添加');
                             homePageGlobalKey.currentState?.updateUserBooks();
                             setState(() {});
                           });
@@ -173,8 +174,10 @@ class _ScanBarCodePageState extends State<ScanBarCodePage> {
     for (int i = 0; i < _isbns.length; i++) {
       if (await DataBaseUtil.queryUserBook(isbn: _isbns[i])) {
         repeat++;
-      } else if (!await DataBaseUtil.addUserBook(UserBook(isbn: _isbns[i])))
-        newIsbn.add(_isbns[i]);
+      } else if (!await DataBaseUtil.addUserBook(UserBook(
+        isbn: _isbns[i],
+        touchdate: DateTime.now().toString(),
+      ))) newIsbn.add(_isbns[i]);
     }
     _isbns = newIsbn;
     return repeat;
