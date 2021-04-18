@@ -9,6 +9,7 @@ import 'package:mybooks/utils/location.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mybooks/pages/login/login_page.dart';
 import 'package:mybooks/pages/home/home_page.dart';
+import 'package:mybooks/utils/global.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,9 +62,9 @@ class MyApp extends StatelessWidget {
           },
           routes: <String, WidgetBuilder>{
             "/login": (context) => LoginPage(),
-            "/home": (context) => HomePage(),
+            "/home": (context) => HomePage(key: homePageGlobalKey),
           },
-          home: myUser.isLogin ? HomePage() : LoginPage(),
+          home: myUser.isLogin ? HomePage(key: homePageGlobalKey) : LoginPage(),
         ),
       ),
     );

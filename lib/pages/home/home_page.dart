@@ -1,24 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:mybooks/pages/aboutme/aboutme_page.dart';
 import 'package:mybooks/pages/bookcase/bookcase_page.dart';
+import 'package:mybooks/pages/record/record_page.dart';
+import 'package:mybooks/pages/aboutme/aboutme_page.dart';
 import 'package:mybooks/pages/components/toast.dart';
+import 'package:mybooks/utils/database.dart';
 
 class HomePage extends StatefulWidget {
+  HomePage({Key? key}) : super(key: key);
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   int _currentIndex = 0;
   DateTime? _popTime;
+  List<UserBook>? _userBooks;
+
+  @override
+  void initState() {
+    updateUserBooks();
+    super.initState();
+  }
+
+  void updateUserBooks() async {
+    _userBooks = await DataBaseUtil.getUserBooks();
+    if (_currentIndex != 2) setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       child: Scaffold(
         body: [
-          SafeArea(child: BookcasePage()),
-          SafeArea(child: Container(color: Theme.of(context).backgroundColor)),
+          SafeArea(child: BookcasePage(userBooks: _userBooks)),
+          SafeArea(child: RecordPage(userBooks: _userBooks)),
           SafeArea(child: AboutmePage()),
         ][_currentIndex],
         bottomNavigationBar: BottomNavigationBar(
