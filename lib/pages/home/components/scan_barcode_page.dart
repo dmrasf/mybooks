@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mybooks/utils/database.dart';
 import 'package:mybooks/utils/global.dart';
+import 'package:mybooks/utils/check_isbn.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:mybooks/pages/aboutme/components/appBar_setting.dart';
 import 'package:mybooks/pages/components/toast.dart';
@@ -146,11 +147,13 @@ class _ScanBarCodePageState extends State<ScanBarCodePage> {
           (scanData) {
             if (_isbns.contains(scanData.code))
               showToast(context, '重复');
-            else
+            else if (checkIsbn(scanData.code))
               setState(() {
                 _result = scanData;
                 _isbns.add(_result!.code);
               });
+            else
+              showToast(context, '这是啥', type: ToastType.ERROR);
           },
         );
       },

@@ -13,6 +13,7 @@ class _BooksShowState extends State<BooksShow> {
   Widget build(BuildContext context) {
     return Container(
       color: Theme.of(context).backgroundColor,
+      alignment: Alignment.center,
       child: Column(
         children: List.generate(
           widget.books.length,
