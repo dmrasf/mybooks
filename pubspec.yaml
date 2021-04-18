@@ -42,6 +42,7 @@ dependencies:
   path: ^1.8.0
   connectivity: ^3.0.3
   flutter_svg: ^0.21.0+1
+  qr_code_scanner: ^0.4.0
 
 dev_dependencies:
   flutter_test:

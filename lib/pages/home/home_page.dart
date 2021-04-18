@@ -5,6 +5,8 @@ import 'package:mybooks/pages/aboutme/aboutme_page.dart';
 import 'package:mybooks/pages/components/toast.dart';
 import 'package:mybooks/pages/components/float_button.dart';
 import 'package:mybooks/utils/database.dart';
+import 'package:mybooks/utils/change_page.dart';
+import 'package:mybooks/pages/home/components/scan_barcode_page.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -82,9 +84,8 @@ class HomePageState extends State<HomePage> {
         floatingActionButton: _currentIndex == 0
             ? FloatButton(
                 child: Icon(Icons.add, size: 15),
-                onPressed: () {
-                  print('====================================');
-                },
+                onPressed: () =>
+                    ChangePage.fadeChangePage(context, ScanBarCodePage()),
               )
             : null,
         floatingActionButtonLocation: CustomFloatingActionButtonLocation(

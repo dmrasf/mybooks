@@ -79,7 +79,7 @@ class _SecretsSettingPageState extends State<SecretsSettingPage> {
               ),
               childCount: _TypeString.length,
             ),
-            itemExtent: MediaQuery.of(context).size.height * 0.08,
+            itemExtent: 60,
           ),
         ],
       ),
