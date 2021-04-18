@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:mybooks/models/user_provider.dart';
 import 'package:mybooks/utils/database.dart';
 import 'package:mybooks/pages/components/nothing_page.dart';
 import 'package:mybooks/pages/bookcase/components/books_show.dart';
+import 'package:mybooks/pages/components/float_button.dart';
+import 'package:mybooks/utils/change_page.dart';
+import 'package:mybooks/pages/scan/scan_barcode_page.dart';
 
 class BookcasePage extends StatelessWidget {
   final List<UserBook>? userBooks;
@@ -11,12 +12,22 @@ class BookcasePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<MyUserModel>(context);
-    if (userBooks == null) return NothingPage(title: '没有书');
-    userProvider.books = userBooks!.length;
-    if (userBooks!.isEmpty)
-      return NothingPage(title: '没有书');
-    else
-      return BooksShow(books: userBooks!);
+    return Scaffold(
+      body: userBooks == null
+          ? NothingPage(title: '没有书')
+          : userBooks!.isEmpty
+              ? NothingPage(title: '没有书')
+              : BooksShow(books: userBooks!),
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+      floatingActionButton: FloatButton(
+        child: Icon(Icons.add, size: 15),
+        onPressed: () => ChangePage.fadeChangePage(context, ScanBarCodePage()),
+      ),
+      floatingActionButtonLocation: CustomFloatingActionButtonLocation(
+        location: FloatingActionButtonLocation.endFloat,
+        offsetX: -5,
+        offsetY: -20,
+      ),
+    );
   }
 }

@@ -56,12 +56,9 @@ class _ScanBarCodePageState extends State<ScanBarCodePage> {
               child: Container(
                 margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 child: _buildBarScanView(context),
-                //child: Container(color: Colors.teal.shade50),
               ),
             ),
             Container(
-              constraints: BoxConstraints(minHeight: 300),
-              height: MediaQuery.of(context).size.height * 0.4,
               margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               padding:
                   EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 10),
@@ -72,7 +69,7 @@ class _ScanBarCodePageState extends State<ScanBarCodePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(child: ScanBooksList(isbns: _isbns)),
+                  ScanBooksList(isbns: _isbns),
                   SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -154,7 +151,7 @@ class _ScanBarCodePageState extends State<ScanBarCodePage> {
                 _isbns.add(_result!.code);
               });
             else
-              showToast(context, '这是啥', type: ToastType.ERROR);
+              showToast(context, '这不是书', type: ToastType.ERROR);
           },
         );
       },
