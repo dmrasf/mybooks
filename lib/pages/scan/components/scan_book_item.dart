@@ -49,7 +49,7 @@ class _ScanBookItemState extends State<ScanBookItem> {
               //),
               //),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.95),
+                color: Theme.of(context).backgroundColor,
                 image: _cover == null
                     ? null
                     : DecorationImage(
@@ -66,7 +66,10 @@ class _ScanBookItemState extends State<ScanBookItem> {
               child: FittedBox(
                 fit: BoxFit.fitWidth,
                 child: _title == null
-                    ? Container(color: Colors.black45, height: 10, width: 70)
+                    ? Container(
+                        color: Theme.of(context).buttonColor,
+                        height: 10,
+                        width: 70)
                     : Text(
                         _title!,
                         overflow: TextOverflow.ellipsis,
@@ -88,7 +91,10 @@ class _ScanBookItemState extends State<ScanBookItem> {
               child: FittedBox(
                 fit: BoxFit.fitWidth,
                 child: _author == null
-                    ? Container(color: Colors.black45, height: 13, width: 30)
+                    ? Container(
+                        color: Theme.of(context).buttonColor,
+                        height: 13,
+                        width: 30)
                     : Text(
                         _author!,
                         overflow: TextOverflow.ellipsis,
@@ -107,7 +113,10 @@ class _ScanBookItemState extends State<ScanBookItem> {
               child: FittedBox(
                 fit: BoxFit.fitWidth,
                 child: _ph == null
-                    ? Container(color: Colors.black45, height: 10, width: 70)
+                    ? Container(
+                        color: Theme.of(context).buttonColor,
+                        height: 10,
+                        width: 70)
                     : Text(
                         _ph!,
                         overflow: TextOverflow.ellipsis,
