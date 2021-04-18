@@ -8,7 +8,9 @@ import 'package:crypto/crypto.dart';
 
 class Book {
   final String isbn;
+  final String? isbn10;
   final String? title;
+  final String? subtitle;
   final String? author;
   final String? ph;
   final String? publishdate;
@@ -16,9 +18,14 @@ class Book {
   final Uint8List? cover;
   final String? content;
   final String? category;
+  final int? pages;
+  final double? rate;
+  final String? binding;
   Book({
     required this.isbn,
+    this.isbn10,
     this.title,
+    this.subtitle,
     this.author,
     this.ph,
     this.publishdate,
@@ -26,17 +33,26 @@ class Book {
     this.cover,
     this.content,
     this.category,
+    this.pages,
+    this.rate,
+    this.binding,
   });
   Map<String, dynamic> toMap() {
     return {
       'isbn': isbn,
+      'isbn10': isbn10,
       'title': title,
+      'subtitle': subtitle,
       'author': author,
       'ph': ph,
       'publishdate': publishdate,
+      'price': price,
       'cover': cover,
       'content': content,
       'category': category,
+      'pages': pages,
+      'rate': rate,
+      'binding': binding,
     };
   }
 }
@@ -46,13 +62,15 @@ class UserBook {
   final String? touchdate;
   final int? read;
   final String? description;
-  final String? tag;
+  final String? tags;
+  final double? rate;
   UserBook({
     required this.isbn,
     this.touchdate,
     this.read,
     this.description,
-    this.tag,
+    this.tags,
+    this.rate,
   });
   Map<String, dynamic> toMap() {
     return {
@@ -60,7 +78,8 @@ class UserBook {
       'touchdate': touchdate,
       'read': read,
       'description': description,
-      'tag': tag,
+      'tags': tags,
+      'rate': rate,
     };
   }
 }
@@ -77,9 +96,9 @@ class DataBaseUtil {
       db = await openDatabase(
         join(await getDatabasesPath(), _databaseName),
         onCreate: (db, version) {
-          // 书籍表: isbn(主) 题目 作者 出版社 出版日期 价格 封面 内容简介 类别
+          // 书籍表: isbn(主) isbn10 题目 副标题 作者 出版社 出版日期 价格 封面 内容简介 类别 页数 评价 装订方式
           db.execute(
-            "CREATE TABLE $_booksTableName(isbn TEXT PRIMARY KEY UNIQUE, title TEXT, author TEXT, ph TEXT, publishdate TEXT, price REAL, cover BLOB, content TEXT, category TEXT)",
+            "CREATE TABLE $_booksTableName(isbn TEXT PRIMARY KEY UNIQUE, isbn10 TEXT, title TEXT, subtitle TEXT, author TEXT, ph TEXT, publishdate TEXT, price REAL, cover BLOB, content TEXT, category TEXT, pages INTEGER, rate REAL, binding TEXT)",
           );
         },
         version: 1,
@@ -94,9 +113,9 @@ class DataBaseUtil {
       try {
         _userTableName =
             'user_' + md5.convert(Utf8Encoder().convert(email)).toString();
-        // 用户存储书籍表: isbn(主) 最后一次操作日期 是否读过 描述 自定义类别
+        // 用户存储书籍表: isbn(主) 最后一次操作日期 是否读过 描述 自定义类别 自己的评价
         await db.execute(
-          "CREATE TABLE $_userTableName(isbn TEXT PRIMARY KEY UNIQUE, touchdate TEXT, read INTEGER, description TEXT, tag TEXT)",
+          "CREATE TABLE $_userTableName(isbn TEXT PRIMARY KEY UNIQUE, touchdate TEXT, read INTEGER, description TEXT, tags TEXT, rate TEXT)",
         );
       } catch (e) {
         print(e);
@@ -151,7 +170,8 @@ class DataBaseUtil {
         touchdate: maps[i]['touchdate'],
         read: maps[i]['read'],
         description: maps[i]['description'],
-        tag: maps[i]['tag'],
+        tags: maps[i]['tags'],
+        rate: maps[i]['rate'],
       );
     });
     return userBooks;
@@ -168,7 +188,9 @@ class DataBaseUtil {
     List<Book> books = List.generate(maps.length, (i) {
       return Book(
         isbn: maps[i]['isbn'],
+        isbn10: maps[i]['isbn10'],
         title: maps[i]['title'],
+        subtitle: maps[i]['subtitle'],
         author: maps[i]['author'],
         ph: maps[i]['ph'],
         publishdate: maps[i]['publishdate'],
@@ -176,6 +198,9 @@ class DataBaseUtil {
         cover: maps[i]['cover'],
         content: maps[i]['content'],
         category: maps[i]['category'],
+        pages: maps[i]['pages'],
+        rate: maps[i]['rate'],
+        binding: maps[i]['binding'],
       );
     });
     return books[0];
