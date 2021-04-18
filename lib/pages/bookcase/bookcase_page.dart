@@ -12,10 +12,10 @@ class BookcasePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<MyUserModel>(context);
-    if (userBooks == null) return NothingPage();
+    if (userBooks == null) return NothingPage(title: '没有书');
     userProvider.books = userBooks!.length;
     if (userBooks!.isEmpty)
-      return NothingPage();
+      return NothingPage(title: '没有书');
     else
       return BooksShow(books: userBooks!);
   }

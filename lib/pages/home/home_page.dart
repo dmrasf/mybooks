@@ -3,6 +3,7 @@ import 'package:mybooks/pages/bookcase/bookcase_page.dart';
 import 'package:mybooks/pages/record/record_page.dart';
 import 'package:mybooks/pages/aboutme/aboutme_page.dart';
 import 'package:mybooks/pages/components/toast.dart';
+import 'package:mybooks/pages/components/float_button.dart';
 import 'package:mybooks/utils/database.dart';
 
 class HomePage extends StatefulWidget {
@@ -76,6 +77,20 @@ class HomePageState extends State<HomePage> {
               label: '我',
             ),
           ],
+        ),
+        floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
+        floatingActionButton: _currentIndex == 0
+            ? FloatButton(
+                child: Icon(Icons.add, size: 15),
+                onPressed: () {
+                  print('====================================');
+                },
+              )
+            : null,
+        floatingActionButtonLocation: CustomFloatingActionButtonLocation(
+          location: FloatingActionButtonLocation.endFloat,
+          offsetX: -5,
+          offsetY: -20,
         ),
       ),
       onWillPop: () async {

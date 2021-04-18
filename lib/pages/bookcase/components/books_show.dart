@@ -12,7 +12,7 @@ class _BooksShowState extends State<BooksShow> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.pink,
+      color: Theme.of(context).backgroundColor,
     );
   }
 }
