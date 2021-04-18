@@ -20,7 +20,7 @@ class _ScanBarCodePageState extends State<ScanBarCodePage> {
   final GlobalKey _qrKey = GlobalKey(debugLabel: 'QR');
   QRViewController? _controller;
   Barcode? _result;
-  final List<String> _isbns = [];
+  List<String> _isbns = [];
 
   @override
   void dispose() {
@@ -108,7 +108,7 @@ class _ScanBarCodePageState extends State<ScanBarCodePage> {
                             if (value != 0)
                               showToast(context, '$value个重复，没有添加');
                             homePageGlobalKey.currentState?.updateUserBooks();
-                            setState(() => _isbns.clear());
+                            setState(() {});
                           });
                         },
                         title: '全部添加',
@@ -146,7 +146,7 @@ class _ScanBarCodePageState extends State<ScanBarCodePage> {
         _controller!.scannedDataStream.listen(
           (scanData) {
             if (_isbns.contains(scanData.code))
-              showToast(context, '重复');
+              return;
             else if (checkIsbn(scanData.code))
               setState(() {
                 _result = scanData;
@@ -169,8 +169,14 @@ class _ScanBarCodePageState extends State<ScanBarCodePage> {
 
   Future<int> _addNewBooksToDatabase() async {
     int repeat = 0;
-    for (int i = 0; i < _isbns.length; i++)
-      if (!await DataBaseUtil.addUserBook(UserBook(isbn: _isbns[i]))) repeat++;
+    List<String> newIsbn = [];
+    for (int i = 0; i < _isbns.length; i++) {
+      if (await DataBaseUtil.queryUserBook(isbn: _isbns[i])) {
+        repeat++;
+      } else if (!await DataBaseUtil.addUserBook(UserBook(isbn: _isbns[i])))
+        newIsbn.add(_isbns[i]);
+    }
+    _isbns = newIsbn;
     return repeat;
   }
 }
