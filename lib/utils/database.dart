@@ -104,7 +104,7 @@ class DataBaseUtil {
   static late final Database db;
   static final String _databaseName = 'mybooks.db';
   static final String _booksTableName = 'books';
-  static late final String _userTableName;
+  static final List<String> _userTableName = [];
 
   /// 进入app初始化数据库和表
   static Future<void> initDataBase() async {
@@ -127,11 +127,13 @@ class DataBaseUtil {
   static Future<void> initUserTable(String? email) async {
     if (email != null) {
       try {
-        _userTableName =
-            'user_' + md5.convert(Utf8Encoder().convert(email)).toString();
+        _userTableName.clear();
+        _userTableName.add(
+          'user_' + md5.convert(Utf8Encoder().convert(email)).toString(),
+        );
         // 用户存储书籍表: isbn(主) 最后一次操作日期 是否读过 描述 自定义类别 自己的评价
         await db.execute(
-          "CREATE TABLE $_userTableName(isbn TEXT PRIMARY KEY UNIQUE, touchdate TEXT NOT NULL, read INTEGER, description TEXT, tags TEXT, rate TEXT)",
+          "CREATE TABLE ${_userTableName[0]}(isbn TEXT PRIMARY KEY UNIQUE, touchdate TEXT NOT NULL, read INTEGER, description TEXT, tags TEXT, rate TEXT)",
         );
       } catch (e) {
         print(e);
@@ -141,13 +143,13 @@ class DataBaseUtil {
 
   /// 删除用户表 注销用户需要  谨慎使用
   static Future<void> deleteUserTable() async {
-    return await db.execute("DROP TABLE $_userTableName");
+    return await db.execute("DROP TABLE ${_userTableName[0]}");
   }
 
   /// 用户添加书籍
   static Future<bool> addUserBook(UserBook userBook) async {
     int i = await db.insert(
-      _userTableName,
+      _userTableName[0],
       userBook.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -158,7 +160,7 @@ class DataBaseUtil {
   /// 查询用户是否有这本书
   static Future<bool> queryUserBook({required String isbn}) async {
     final List<Map<String, dynamic>> maps = await db.query(
-      _userTableName,
+      _userTableName[0],
       where: "isbn = ?",
       whereArgs: [isbn],
     );
@@ -169,7 +171,7 @@ class DataBaseUtil {
   /// 删除用户的一个书籍
   static Future<bool> deleteUserBook({required String isbn}) async {
     int d = await db.delete(
-      _userTableName,
+      _userTableName[0],
       where: "isbn = ?",
       whereArgs: [isbn],
     );
@@ -179,7 +181,7 @@ class DataBaseUtil {
 
   /// 获取用户所有书籍
   static Future<List<UserBook>> getUserBooks() async {
-    final List<Map<String, dynamic>> maps = await db.query(_userTableName);
+    final List<Map<String, dynamic>> maps = await db.query(_userTableName[0]);
     List<UserBook> userBooks = List.generate(maps.length, (i) {
       return UserBook(
         isbn: maps[i]['isbn'],
