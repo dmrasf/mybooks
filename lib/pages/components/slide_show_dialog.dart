@@ -22,8 +22,8 @@ class _SlideShowDialogState extends State<SlideShowDialog>
 
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 
   @override

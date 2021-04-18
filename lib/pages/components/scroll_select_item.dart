@@ -28,9 +28,9 @@ class _ScrollSelectItemsState extends State<ScrollSelectItems> {
 
   @override
   void dispose() {
-    super.dispose();
     _controller.removeListener(_listenr);
     _controller.dispose();
+    super.dispose();
   }
 
   void _listenr() {

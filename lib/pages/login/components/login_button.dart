@@ -33,8 +33,8 @@ class _LoginActionButtonState extends State<LoginActionButton>
 
   @override
   void dispose() {
-    super.dispose();
     _controller.dispose();
+    super.dispose();
   }
 
   @override
