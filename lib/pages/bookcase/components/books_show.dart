@@ -24,47 +24,59 @@ class _BooksShowState extends State<BooksShow> {
       alignment: Alignment.center,
       child: Column(
         children: [
+          BookcaseTitleCard(),
           Container(
-            color: Theme.of(context).primaryColor,
-            child: Column(
+            padding: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 10),
+            height: 43,
+            child: Row(
               children: [
-                BookcaseTitleCard(),
+                Icon(
+                  Icons.tag,
+                  size: 12,
+                  color: Theme.of(context).buttonColor,
+                ),
+                SizedBox(width: 10),
                 Container(
-                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  height: 40,
-                  child: Row(
+                  width: MediaQuery.of(context).size.width * 0.5,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
                     children: [
-                      Icon(
-                        Icons.tag,
-                        size: 12,
-                        color: Theme.of(context).buttonColor,
+                      BookTag(
+                        activeColor: Theme.of(context).errorColor,
+                        name: '艺术',
+                        listener: (isToggle) {
+                          print(isToggle);
+                        },
                       ),
-                      SizedBox(width: 13),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.5,
-                        child: ListView(
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          children: [
-                            BookTag(
-                              activeColor: Theme.of(context).errorColor,
-                              name: '小说',
-                            ),
-                            SizedBox(width: 10),
-                            BookTag(
-                              activeColor: Theme.of(context).hintColor,
-                              name: '小说',
-                            ),
-                          ],
-                        ),
-                      ),
-                      Spacer(),
-                      Icon(
-                        Icons.search,
-                        size: 12,
-                        color: Theme.of(context).buttonColor,
+                      SizedBox(width: 10),
+                      BookTag(
+                        activeColor: Theme.of(context).hintColor,
+                        name: '小说',
+                        listener: (isToggle) {
+                          print(isToggle);
+                        },
                       ),
                     ],
+                  ),
+                ),
+                Spacer(),
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * 0.15,
+                    padding: EdgeInsets.only(right: 10),
+                    alignment: Alignment.centerRight,
+                    height: 40,
+                    child: Icon(
+                      Icons.search,
+                      size: 10,
+                      color: Theme.of(context).buttonColor,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).primaryColor,
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
                   ),
                 ),
               ],
@@ -76,20 +88,17 @@ class _BooksShowState extends State<BooksShow> {
                 parent: AlwaysScrollableScrollPhysics(),
               ),
               slivers: [
-                SliverPadding(
-                  padding: EdgeInsets.only(top: 5),
-                  sliver: SliverGrid(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 3 / 2,
-                      crossAxisSpacing: 1,
-                      mainAxisSpacing: 1,
-                    ),
-                    delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) =>
-                          BookShowListItem(isbn: widget.books[index].isbn),
-                      childCount: widget.books.length,
-                    ),
+                SliverGrid(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 3 / 2,
+                    crossAxisSpacing: 1,
+                    mainAxisSpacing: 1,
+                  ),
+                  delegate: SliverChildBuilderDelegate(
+                    (BuildContext context, int index) =>
+                        BookShowListItem(isbn: widget.books[index].isbn),
+                    childCount: widget.books.length,
                   ),
                 ),
               ],
