@@ -31,24 +31,32 @@ class _AboutmePageState extends State<AboutmePage> {
               SizedBox(height: 10),
               AboutmeInfo(),
               SizedBox(height: 10),
-              AboutmeSetting(updateState: () => setState(() {})),
-              SizedBox(height: 10),
-              AboutmeSettingItem(
-                icon: Icons.remove_circle,
-                title: '取消登录',
-                titleColor: Theme.of(context).hintColor,
-                hint: '',
-                onPressed: () => showDialog<bool>(
-                  context: context,
-                  builder: (context) => ConfirmDialog(content: '确认退出？'),
-                  barrierColor: Colors.transparent,
-                ).then((isConfirm) {
-                  if (isConfirm != null) if (isConfirm) {
-                    userProvider.isLogin = false;
-                  }
-                }),
-              ),
             ],
+          ),
+          Expanded(
+            child: ListView(
+              shrinkWrap: true,
+              physics: BouncingScrollPhysics(),
+              children: [
+                AboutmeSetting(updateState: () => setState(() {})),
+                SizedBox(height: 10),
+                AboutmeSettingItem(
+                  icon: Icons.remove_circle,
+                  title: '取消登录',
+                  titleColor: Theme.of(context).hintColor,
+                  hint: '',
+                  onPressed: () => showDialog<bool>(
+                    context: context,
+                    builder: (context) => ConfirmDialog(content: '确认退出？'),
+                    barrierColor: Colors.transparent,
+                  ).then((isConfirm) {
+                    if (isConfirm != null) if (isConfirm) {
+                      userProvider.isLogin = false;
+                    }
+                  }),
+                ),
+              ],
+            ),
           ),
         ],
       ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mybooks/utils/change_page.dart';
 import 'package:mybooks/utils/database.dart';
+import 'package:mybooks/pages/bookcase/components/book_show.dart';
 
 class BookShowListItem extends StatefulWidget {
   final String isbn;
@@ -11,7 +13,7 @@ class BookShowListItem extends StatefulWidget {
 
 class _BookShowListItemState extends State<BookShowListItem> {
   Book? _book;
-  UserBook? _userBooks;
+  UserBook? _userBook;
 
   @override
   void initState() {
@@ -19,8 +21,7 @@ class _BookShowListItemState extends State<BookShowListItem> {
       (value) => setState(() => _book = value),
     );
     DataBaseUtil.queryUserBook(isbn: widget.isbn).then((value) {
-      print(value);
-      if (value != null) setState(() => _userBooks = value);
+      if (value != null) setState(() => _userBook = value);
     });
     super.initState();
   }
@@ -35,17 +36,30 @@ class _BookShowListItemState extends State<BookShowListItem> {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          AspectRatio(
-            aspectRatio: 2 / 3,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                image: _book?.cover == null
-                    ? null
-                    : DecorationImage(
-                        image: MemoryImage(_book!.cover!),
-                        fit: BoxFit.cover,
-                      ),
+          GestureDetector(
+            onTap: () {
+              print(widget.isbn);
+              ChangePage.fadeChangePage(
+                context,
+                BookShow(userBook: _userBook!, isbn: widget.isbn, book: _book!),
+              );
+            },
+            onLongPress: () {},
+            child: Hero(
+              tag: widget.isbn,
+              child: AspectRatio(
+                aspectRatio: 2 / 3,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    image: _book?.cover == null
+                        ? null
+                        : DecorationImage(
+                            image: MemoryImage(_book!.cover!),
+                            fit: BoxFit.cover,
+                          ),
+                  ),
+                ),
               ),
             ),
           ),
@@ -95,8 +109,8 @@ class _BookShowListItemState extends State<BookShowListItem> {
   }
 
   String _getTouchDate() {
-    if (_userBooks == null) return ' ';
-    String touchdate = _userBooks!.touchdate;
+    if (_userBook == null) return ' ';
+    String touchdate = _userBook!.touchdate;
     DateTime pd = DateTime.parse(touchdate);
     DateTime cd = DateTime.now();
     int days = cd.difference(pd).inDays;
