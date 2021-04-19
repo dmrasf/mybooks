@@ -154,6 +154,7 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                     ),
                     barrierColor: Colors.transparent,
                   ).then((isConfirm) {
+                    return;
                     if (isConfirm != null) if (isConfirm)
                       DataBaseUtil.clearCache().then(
                         (value) => showToast(context, '成功清理$value个图书数据'),

@@ -5,6 +5,7 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'dart:convert';
 import 'package:crypto/crypto.dart';
+import 'package:mybooks/utils/http_client.dart';
 
 //final testbook = Book(
 //isbn: '9787530212004',
@@ -27,6 +28,8 @@ class Book {
   final String? isbn10;
   final String? title;
   final String? subtitle;
+  final String? translator;
+  final String? origintitle;
   final String? author;
   final String? ph;
   final String? publishdate;
@@ -42,6 +45,8 @@ class Book {
     this.isbn10,
     this.title,
     this.subtitle,
+    this.translator,
+    this.origintitle,
     this.author,
     this.ph,
     this.publishdate,
@@ -112,9 +117,9 @@ class DataBaseUtil {
       db = await openDatabase(
         join(await getDatabasesPath(), _databaseName),
         onCreate: (db, version) {
-          // 书籍表: isbn(主) isbn10 题目 副标题 作者 出版社 出版日期 价格 封面 内容简介 类别 页数 评价 装订方式
+          // 书籍表: isbn(主) isbn10 题目 副标题 译者 原标题 作者 出版社 出版日期 价格 封面 内容简介 类别 页数 评价 装订方式
           db.execute(
-            "CREATE TABLE $_booksTableName(isbn TEXT PRIMARY KEY UNIQUE, isbn10 TEXT, title TEXT, subtitle TEXT, author TEXT, ph TEXT, publishdate TEXT, price TEXT, cover BLOB, content TEXT, category TEXT, pages INTEGER, rate REAL, binding TEXT)",
+            "CREATE TABLE $_booksTableName(isbn TEXT PRIMARY KEY UNIQUE, isbn10 TEXT, title TEXT, subtitle TEXT, translator TEXT, origintitle TEXT, author TEXT, ph TEXT, publishdate TEXT, price TEXT, cover BLOB, content TEXT, category TEXT, pages INTEGER, rate REAL, binding TEXT)",
           );
         },
         version: 1,
@@ -202,26 +207,35 @@ class DataBaseUtil {
       where: "isbn = ?",
       whereArgs: [isbn],
     );
-    if (maps.isEmpty) return null;
-    List<Book> books = List.generate(maps.length, (i) {
-      return Book(
-        isbn: maps[i]['isbn'],
-        isbn10: maps[i]['isbn10'],
-        title: maps[i]['title'],
-        subtitle: maps[i]['subtitle'],
-        author: maps[i]['author'],
-        ph: maps[i]['ph'],
-        publishdate: maps[i]['publishdate'],
-        price: maps[i]['price'],
-        cover: maps[i]['cover'],
-        content: maps[i]['content'],
-        category: maps[i]['category'],
-        pages: maps[i]['pages'],
-        rate: maps[i]['rate'],
-        binding: maps[i]['binding'],
-      );
-    });
-    return books[0];
+    if (maps.isEmpty) {
+      Book? book = await HttpClientUtil.getBookFromServer2(isbn);
+      if (book == null) book = await HttpClientUtil.getBookFromServer(isbn);
+      if (book == null) return null;
+      await insertBook(book);
+      return book;
+    } else {
+      List<Book> books = List.generate(maps.length, (i) {
+        return Book(
+          isbn: maps[i]['isbn'],
+          isbn10: maps[i]['isbn10'],
+          title: maps[i]['title'],
+          subtitle: maps[i]['subtitle'],
+          translator: maps[i]['translator'],
+          origintitle: maps[i]['origintitle'],
+          author: maps[i]['author'],
+          ph: maps[i]['ph'],
+          publishdate: maps[i]['publishdate'],
+          price: maps[i]['price'],
+          cover: maps[i]['cover'],
+          content: maps[i]['content'],
+          category: maps[i]['category'],
+          pages: maps[i]['pages'],
+          rate: maps[i]['rate'],
+          binding: maps[i]['binding'],
+        );
+      });
+      return books[0];
+    }
   }
 
   /// 向缓存添加图书

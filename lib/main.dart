@@ -10,6 +10,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:mybooks/pages/login/login_page.dart';
 import 'package:mybooks/pages/home/home_page.dart';
 import 'package:mybooks/utils/global.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,6 +20,9 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+    );
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(value: MyThemeModel()),

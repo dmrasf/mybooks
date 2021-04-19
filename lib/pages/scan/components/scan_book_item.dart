@@ -20,14 +20,16 @@ class _ScanBookItemState extends State<ScanBookItem> {
   @override
   void initState() {
     DataBaseUtil.getBook(isbn: widget.isbn).then(
-      (value) => setState(() {
+      (value) async {
         if (value != null) {
-          _title = value.title;
-          _ph = value.ph;
-          _author = value.author;
-          _cover = value.cover;
+          setState(() {
+            _title = value.title;
+            _ph = value.ph;
+            _author = value.author;
+            _cover = value.cover;
+          });
         }
-      }),
+      },
     );
     super.initState();
   }
@@ -42,12 +44,6 @@ class _ScanBookItemState extends State<ScanBookItem> {
           AspectRatio(
             aspectRatio: 2 / 3,
             child: Container(
-              //child: BackdropFilter(
-              //filter: ImageFilter.blur(sigmaX: 0.6, sigmaY: 0.6),
-              //child: Container(
-              //decoration: BoxDecoration(color: Color(0x2f2e2e2e)),
-              //),
-              //),
               decoration: BoxDecoration(
                 color: Theme.of(context).backgroundColor,
                 image: _cover == null
@@ -65,21 +61,16 @@ class _ScanBookItemState extends State<ScanBookItem> {
               width: 70,
               child: FittedBox(
                 fit: BoxFit.fitWidth,
-                child: _title == null
-                    ? Container(
-                        color: Theme.of(context).buttonColor,
-                        height: 10,
-                        width: 70)
-                    : Text(
-                        _title!,
-                        overflow: TextOverflow.ellipsis,
-                        style: GoogleFonts.zcoolXiaoWei(
-                          textStyle: TextStyle(
-                            color: Colors.black87,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
+                child: Text(
+                  _title == null ? widget.isbn : _title!,
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.zcoolXiaoWei(
+                    textStyle: TextStyle(
+                      color: Theme.of(context).buttonColor,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
@@ -97,9 +88,8 @@ class _ScanBookItemState extends State<ScanBookItem> {
                         width: 30)
                     : Text(
                         _author!,
-                        overflow: TextOverflow.ellipsis,
                         style: TextStyle(
-                          color: Colors.black,
+                          color: Theme.of(context).buttonColor,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -119,10 +109,9 @@ class _ScanBookItemState extends State<ScanBookItem> {
                         width: 70)
                     : Text(
                         _ph!,
-                        overflow: TextOverflow.ellipsis,
                         style: GoogleFonts.zcoolXiaoWei(
                           textStyle: TextStyle(
-                            color: Colors.black,
+                            color: Theme.of(context).buttonColor,
                             fontWeight: FontWeight.w300,
                           ),
                         ),

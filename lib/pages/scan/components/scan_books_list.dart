@@ -3,7 +3,7 @@ import 'package:mybooks/pages/scan/components/scan_book_item.dart';
 
 class ScanBooksList extends StatelessWidget {
   final List<String> isbns;
-  ScanBooksList({required this.isbns});
+  ScanBooksList({Key? key, required this.isbns}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

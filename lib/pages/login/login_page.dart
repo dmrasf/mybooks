@@ -86,7 +86,6 @@ class _LoginPageState extends State<LoginPage> {
                       if (_formKey.currentState!.validate()) {
                         final String email = _controllerEmail.text;
                         final String password = _controllerPassword.text;
-                        final String password2 = _controllerPassword2.text;
                         _clearText();
                         _formKey.currentState!.reset();
 
