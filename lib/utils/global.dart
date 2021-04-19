@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mybooks/pages/home/home_page.dart';
+import 'package:mybooks/pages/record/record_page.dart';
+import 'package:mybooks/pages/bookcase/bookcase_page.dart';
 
-final GlobalKey<HomePageState> homePageGlobalKey = GlobalKey();
+final GlobalKey<RecordPageState> recordPageGlobalKey = GlobalKey();
+final GlobalKey<BookcasePageState> bookcasePageGlobalKey = GlobalKey();

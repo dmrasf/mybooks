@@ -6,18 +6,33 @@ import 'package:mybooks/pages/components/float_button.dart';
 import 'package:mybooks/utils/change_page.dart';
 import 'package:mybooks/pages/scan/scan_barcode_page.dart';
 
-class BookcasePage extends StatelessWidget {
-  final List<UserBook>? userBooks;
-  BookcasePage({Key? key, this.userBooks}) : super(key: key);
+class BookcasePage extends StatefulWidget {
+  BookcasePage({Key? key}) : super(key: key);
+  @override
+  BookcasePageState createState() => BookcasePageState();
+}
+
+class BookcasePageState extends State<BookcasePage> {
+  List<UserBook>? _userBooks;
+  @override
+  void initState() {
+    updateUserBooks();
+    super.initState();
+  }
+
+  void updateUserBooks() async {
+    _userBooks = await DataBaseUtil.getUserBooks();
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: userBooks == null
+      body: _userBooks == null
           ? NothingPage(title: '没有书')
-          : userBooks!.isEmpty
+          : _userBooks!.isEmpty
               ? NothingPage(title: '没有书')
-              : BooksShow(books: userBooks!),
+              : BooksShow(books: _userBooks!),
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
       floatingActionButton: FloatButton(
         child: Icon(Icons.add, size: 15),

@@ -3,10 +3,14 @@ import 'package:mybooks/pages/bookcase/bookcase_page.dart';
 import 'package:mybooks/pages/record/record_page.dart';
 import 'package:mybooks/pages/aboutme/aboutme_page.dart';
 import 'package:mybooks/pages/components/toast.dart';
-import 'package:mybooks/utils/database.dart';
+import 'package:mybooks/utils/global.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  final List<Widget> _screens = [
+    SafeArea(child: BookcasePage(key: bookcasePageGlobalKey)),
+    SafeArea(child: RecordPage(key: recordPageGlobalKey)),
+    SafeArea(child: AboutmePage()),
+  ];
   @override
   HomePageState createState() => HomePageState();
 }
@@ -14,28 +18,12 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> {
   int _currentIndex = 0;
   DateTime? _popTime;
-  List<UserBook>? _userBooks;
-
-  @override
-  void initState() {
-    updateUserBooks();
-    super.initState();
-  }
-
-  void updateUserBooks() async {
-    _userBooks = await DataBaseUtil.getUserBooks();
-    if (_currentIndex != 2) setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
       child: Scaffold(
-        body: [
-          SafeArea(child: BookcasePage(userBooks: _userBooks)),
-          SafeArea(child: RecordPage(userBooks: _userBooks)),
-          SafeArea(child: AboutmePage()),
-        ][_currentIndex],
+        body: IndexedStack(index: _currentIndex, children: widget._screens),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Theme.of(context).primaryColor,
           currentIndex: _currentIndex,
@@ -48,10 +36,7 @@ class HomePageState extends State<HomePage> {
           unselectedItemColor: Theme.of(context).buttonColor.withOpacity(0.4),
           selectedItemColor: Theme.of(context).buttonColor.withOpacity(0.8),
           onTap: (index) {
-            if (_currentIndex != index)
-              setState(() {
-                _currentIndex = index;
-              });
+            if (_currentIndex != index) setState(() => _currentIndex = index);
           },
           items: [
             BottomNavigationBarItem(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mybooks/utils/database.dart';
-import 'package:mybooks/utils/global.dart';
 import 'package:mybooks/utils/check_isbn.dart';
+import 'package:mybooks/utils/global.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:mybooks/pages/aboutme/components/appBar_setting.dart';
 import 'package:mybooks/pages/components/toast.dart';
@@ -20,7 +20,7 @@ class _ScanBarCodePageState extends State<ScanBarCodePage> {
   final GlobalKey _qrKey = GlobalKey(debugLabel: 'QR');
   QRViewController? _controller;
   Barcode? _result;
-  List<String> _isbns = [];
+  Set<String> _isbns = Set();
 
   @override
   void dispose() {
@@ -69,7 +69,7 @@ class _ScanBarCodePageState extends State<ScanBarCodePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  ScanBooksList(isbns: _isbns),
+                  ScanBooksList(isbns: _isbns.toList()),
                   SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -77,7 +77,7 @@ class _ScanBarCodePageState extends State<ScanBarCodePage> {
                       ScanActionButton(
                         onPressed: () {
                           if (_isbns.isNotEmpty)
-                            setState(() => _isbns.removeAt(_isbns.length - 1));
+                            setState(() => _isbns.remove(_result?.code));
                         },
                         title: '取消本次操作',
                       ),
@@ -105,7 +105,6 @@ class _ScanBarCodePageState extends State<ScanBarCodePage> {
                           _addNewBooksToDatabase().then((value) {
                             if (value != 0)
                               showToast(context, '有$value本书已经存在，没有被添加');
-                            homePageGlobalKey.currentState?.updateUserBooks();
                             setState(() {});
                           });
                         },
@@ -146,9 +145,15 @@ class _ScanBarCodePageState extends State<ScanBarCodePage> {
             if (_isbns.contains(scanData.code))
               return;
             else if (checkIsbn(scanData.code))
-              setState(() {
-                _result = scanData;
-                _isbns.add(_result!.code);
+              DataBaseUtil.getBook(isbn: scanData.code).then((value) {
+                if (_isbns.contains(scanData.code)) return;
+                if (value == null)
+                  showToast(context, '无法查询此书');
+                else
+                  setState(() {
+                    _result = scanData;
+                    _isbns.add(_result!.code);
+                  });
               });
             else
               showToast(context, '这不是书', type: ToastType.ERROR);
@@ -167,15 +172,18 @@ class _ScanBarCodePageState extends State<ScanBarCodePage> {
 
   Future<int> _addNewBooksToDatabase() async {
     int repeat = 0;
-    List<String> newIsbn = [];
-    for (int i = 0; i < _isbns.length; i++) {
-      if (await DataBaseUtil.queryUserBook(isbn: _isbns[i])) {
+    Set<String> newIsbn = Set();
+    _isbns.forEach((e) async {
+      if (await DataBaseUtil.queryUserBook(isbn: e)) {
         repeat++;
-      } else if (!await DataBaseUtil.addUserBook(UserBook(
-        isbn: _isbns[i],
-        touchdate: DateTime.now().toString(),
-      ))) newIsbn.add(_isbns[i]);
-    }
+      } else if (!await DataBaseUtil.addUserBook(
+          UserBook(isbn: e, touchdate: DateTime.now().toString())))
+        newIsbn.add(e);
+      else {
+        bookcasePageGlobalKey.currentState?.updateUserBooks();
+        recordPageGlobalKey.currentState?.updateUserBooks();
+      }
+    });
     _isbns = newIsbn;
     return repeat;
   }
