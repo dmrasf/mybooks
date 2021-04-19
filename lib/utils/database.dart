@@ -163,14 +163,24 @@ class DataBaseUtil {
   }
 
   /// 查询用户是否有这本书
-  static Future<bool> queryUserBook({required String isbn}) async {
+  static Future<UserBook?> queryUserBook({required String isbn}) async {
     final List<Map<String, dynamic>> maps = await db.query(
       _userTableName[0],
       where: "isbn = ?",
       whereArgs: [isbn],
     );
-    if (maps.isEmpty) return false;
-    return true;
+    List<UserBook> userBooks = List.generate(maps.length, (i) {
+      return UserBook(
+        isbn: maps[i]['isbn'],
+        touchdate: maps[i]['touchdate'],
+        read: maps[i]['read'],
+        description: maps[i]['description'],
+        tags: maps[i]['tags'],
+        rate: maps[i]['rate'],
+      );
+    });
+    if (userBooks.isEmpty) return null;
+    return userBooks[0];
   }
 
   /// 删除用户的一个书籍

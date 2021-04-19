@@ -7,7 +7,7 @@ class BookcaseTitleCard extends StatelessWidget {
     return Container(
       height: 100,
       width: double.infinity,
-      margin: EdgeInsets.only(left: 10, right: 10, top: 10),
+      //margin: EdgeInsets.only(left: 10, right: 10, top: 10),
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -32,8 +32,7 @@ class BookcaseTitleCard extends StatelessWidget {
             child: FittedBox(
               fit: BoxFit.scaleDown,
               child: Text(
-                //'花有重开日，\n人无在少年。',
-                'dewd',
+                '花有重开日，\n人无再少年。',
                 style: GoogleFonts.lato(
                   textStyle: TextStyle(
                     color: Colors.black54,
@@ -48,11 +47,12 @@ class BookcaseTitleCard extends StatelessWidget {
       ),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Color(0xff7080e7), Color(0xfff0eaff)],
+          colors: [Color(0xff7080e7), Color(0xff90eaff)],
           begin: Alignment.topCenter,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.all(Radius.circular(5)),
+
+        //borderRadius: BorderRadius.all(Radius.circular(5)),
       ),
     );
   }

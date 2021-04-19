@@ -174,7 +174,7 @@ class _ScanBarCodePageState extends State<ScanBarCodePage> {
     int repeat = 0;
     Set<String> newIsbn = Set();
     _isbns.forEach((e) async {
-      if (await DataBaseUtil.queryUserBook(isbn: e)) {
+      if ((await DataBaseUtil.queryUserBook(isbn: e)) != null) {
         repeat++;
       } else if (!await DataBaseUtil.addUserBook(
           UserBook(isbn: e, touchdate: DateTime.now().toString())))

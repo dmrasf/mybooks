@@ -31,22 +31,39 @@ class _BooksShowState extends State<BooksShow> {
                 BookcaseTitleCard(),
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  height: 40,
                   child: Row(
                     children: [
-                      Icon(Icons.tag,
-                          size: 12, color: Theme.of(context).buttonColor),
+                      Icon(
+                        Icons.tag,
+                        size: 12,
+                        color: Theme.of(context).buttonColor,
+                      ),
                       SizedBox(width: 13),
-                      BookTag(
-                          activeColor: Theme.of(context).hintColor, name: '小说'),
-                      SizedBox(width: 10),
-                      BookTag(
-                          activeColor: Theme.of(context).hintColor, name: '小说'),
-                      SizedBox(width: 10),
-                      BookTag(
-                          activeColor: Theme.of(context).hintColor, name: '小说'),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: ListView(
+                          scrollDirection: Axis.horizontal,
+                          shrinkWrap: true,
+                          children: [
+                            BookTag(
+                              activeColor: Theme.of(context).errorColor,
+                              name: '小说',
+                            ),
+                            SizedBox(width: 10),
+                            BookTag(
+                              activeColor: Theme.of(context).hintColor,
+                              name: '小说',
+                            ),
+                          ],
+                        ),
+                      ),
                       Spacer(),
-                      Icon(Icons.search,
-                          size: 12, color: Theme.of(context).buttonColor),
+                      Icon(
+                        Icons.search,
+                        size: 12,
+                        color: Theme.of(context).buttonColor,
+                      ),
                     ],
                   ),
                 ),
@@ -56,14 +73,17 @@ class _BooksShowState extends State<BooksShow> {
           Expanded(
             child: CustomScrollView(
               physics: BouncingScrollPhysics(
-                  parent: AlwaysScrollableScrollPhysics()),
+                parent: AlwaysScrollableScrollPhysics(),
+              ),
               slivers: [
                 SliverPadding(
-                  padding: EdgeInsets.only(left: 5, top: 10),
+                  padding: EdgeInsets.only(top: 5),
                   sliver: SliverGrid(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 3 / 2,
+                      crossAxisSpacing: 1,
+                      mainAxisSpacing: 1,
                     ),
                     delegate: SliverChildBuilderDelegate(
                       (BuildContext context, int index) =>

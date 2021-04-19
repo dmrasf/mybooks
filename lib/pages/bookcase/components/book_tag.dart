@@ -4,10 +4,12 @@ class BookTag extends StatefulWidget {
   final void Function(bool)? listener;
   final String? name;
   final Color activeColor;
+  final bool isToggle;
   BookTag({
     Key? key,
     this.name,
     this.listener,
+    this.isToggle = false,
     required this.activeColor,
   }) : super(key: key);
   @override
@@ -15,15 +17,23 @@ class BookTag extends StatefulWidget {
 }
 
 class _BookTagState extends State<BookTag> {
-  bool _isToggle = false;
+  late bool _isToggle;
+
+  @override
+  void initState() {
+    _isToggle = widget.isToggle;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         setState(() {
-          _isToggle = !_isToggle;
-          if (widget.listener != null) widget.listener!(_isToggle);
+          if (widget.listener != null) {
+            _isToggle = !_isToggle;
+            widget.listener!(_isToggle);
+          }
         });
       },
       child: Container(
