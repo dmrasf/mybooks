@@ -12,6 +12,8 @@ Profile _$ProfileFromJson(Map<String, dynamic> json) {
     secret: Secret.fromJson(json['secret'] as Map<String, dynamic>),
     login: json['login'] as bool,
     theme: json['theme'] as bool?,
+    tags: Map<String, bool>.from(json['tags'] as Map),
+    crossAxisCount: json['crossAxisCount'] as int,
     locale: json['locale'] as String?,
   );
 }
@@ -22,4 +24,6 @@ Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
       'login': instance.login,
       'theme': instance.theme,
       'locale': instance.locale,
+      'tags': instance.tags,
+      'crossAxisCount': instance.crossAxisCount,
     };

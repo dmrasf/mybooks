@@ -24,6 +24,7 @@ class HomePageState extends State<HomePage> {
     return WillPopScope(
       child: Scaffold(
         body: IndexedStack(index: _currentIndex, children: widget._screens),
+        backgroundColor: Theme.of(context).backgroundColor,
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Theme.of(context).primaryColor,
           currentIndex: _currentIndex,

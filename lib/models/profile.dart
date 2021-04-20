@@ -11,11 +11,15 @@ class Profile {
   bool login;
   bool? theme;
   String? locale;
+  Map<String, bool> tags;
+  int crossAxisCount;
   Profile({
     required this.user,
     required this.secret,
     required this.login,
     this.theme,
+    this.tags = const {},
+    this.crossAxisCount = 2,
     this.locale,
   });
 

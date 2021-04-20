@@ -113,12 +113,12 @@ class _BookShowListItemState extends State<BookShowListItem> {
     String touchdate = _userBook!.touchdate;
     DateTime pd = DateTime.parse(touchdate);
     DateTime cd = DateTime.now();
-    int days = cd.difference(pd).inDays;
-    if (days == 0) return '今天';
-    int months = days % 30;
-    if (months == 0) return '$days天前';
-    int years = days % 365;
-    if (years == 0) return '$months月前';
-    return '$years年前';
+    int years = cd.year - pd.year;
+    if (years != 0) return '$years 年前';
+    int months = cd.month - pd.month;
+    if (months != 0) return '$months 月前';
+    int days = cd.day - pd.day;
+    if (days != 0) return '$days 天前';
+    return '今天';
   }
 }

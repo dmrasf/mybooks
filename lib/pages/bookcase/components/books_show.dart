@@ -1,11 +1,16 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:mybooks/utils/change_page.dart';
 import 'package:mybooks/utils/database.dart';
 import 'package:provider/provider.dart';
 import 'package:mybooks/models/user_provider.dart';
 import 'package:mybooks/pages/bookcase/components/bookcase_title_card.dart';
 import 'package:mybooks/pages/bookcase/components/book_list_item.dart';
 import 'package:mybooks/pages/bookcase/components/book_tag.dart';
+import 'package:mybooks/pages/bookcase/components/book_search.dart';
+import 'package:mybooks/pages/bookcase/components/change_crossAxisCount.dart';
+import 'package:mybooks/pages/bookcase/components/add_tags_page.dart';
+import 'package:mybooks/pages/bookcase/components/choose_tags.dart';
 
 class BooksShow extends StatefulWidget {
   final List<UserBook> books;
@@ -15,96 +20,78 @@ class BooksShow extends StatefulWidget {
 }
 
 class _BooksShowState extends State<BooksShow> {
-  int _crossAxisCount = 0;
-  final List<String> list = [
-    "0",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
-  ];
+  Set<String> _allTags = Set();
+
+  @override
+  void initState() {
+    widget.books.forEach((userBook) {
+      if (userBook.tags == null) return;
+      List<String> tags = jsonDecode(userBook.tags!);
+      _allTags.addAll(tags);
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<MyUserModel>(context);
-    userProvider.books = widget.books.length;
+    List<UserBook> showBooks = _getShowBooksFromTags(userProvider.tags);
     return Container(
       color: Theme.of(context).backgroundColor,
       alignment: Alignment.center,
       child: Column(
         children: [
-          BookcaseTitleCard(),
+          BookcaseTitleCard(booksNum: showBooks.length),
           Container(
-            padding: EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 10),
-            height: 43,
+            padding: EdgeInsets.only(top: 10, bottom: 10, left: 10, right: 10),
+            height: 40,
             child: Row(
               children: [
-                Icon(
-                  Icons.tag,
-                  size: 12,
-                  color: Theme.of(context).buttonColor,
+                AddTags(
+                  onTap: () {
+                    ChangePage.fadeChangePage(context, TagsChoosePage());
+                  },
                 ),
                 SizedBox(width: 10),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.5,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
+                    physics: BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics()),
                     shrinkWrap: true,
-                    children: [
-                      BookTag(
-                        activeColor: Theme.of(context).errorColor,
-                        name: '艺术',
-                        listener: (isToggle) {
-                          print(isToggle);
-                        },
-                      ),
-                      SizedBox(width: 10),
-                      BookTag(
+                    children: List.generate(
+                      userProvider.tags.length,
+                      (i) => BookTag(
                         activeColor: Theme.of(context).hintColor,
-                        name: '小说',
+                        name: userProvider.tags.keys.toList()[i],
+                        isToggle: userProvider
+                            .tags[userProvider.tags.keys.toList()[i]],
                         listener: (isToggle) {
-                          print(isToggle);
+                          userProvider
+                                  .tags[userProvider.tags.keys.toList()[i]] =
+                              isToggle;
+                          setState(() {});
+                        },
+                        clear: () {
+                          setState(() {
+                            userProvider.tags
+                                .remove(userProvider.tags.keys.toList()[i]);
+                          });
                         },
                       ),
-                    ],
+                    ),
                   ),
                 ),
                 Spacer(),
-                TextButton(
-                  child: Text('TT'),
-                  onPressed: () {
-                    setState(() {
-                      _crossAxisCount = (_crossAxisCount + 1) % 4;
-                    });
-                  },
+                ChangeCrossAxisCount(
+                  crossAxisCount: userProvider.crossAxisCount,
+                  onPressed: () => setState(() {
+                    userProvider.crossAxisCount =
+                        (userProvider.crossAxisCount - 1) % 3 + 2;
+                  }),
                 ),
-                GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    width: MediaQuery.of(context).size.width * 0.17,
-                    padding: EdgeInsets.only(right: 10),
-                    alignment: Alignment.centerRight,
-                    height: 40,
-                    child: Icon(
-                      Icons.search,
-                      size: 10,
-                      color: Theme.of(context).buttonColor,
-                    ),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: BorderRadius.all(Radius.circular(20)),
-                    ),
-                  ),
-                ),
+                BookSearch(width: MediaQuery.of(context).size.width * 0.17),
               ],
             ),
           ),
@@ -116,41 +103,47 @@ class _BooksShowState extends State<BooksShow> {
               slivers: [
                 SliverGrid(
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: _crossAxisCount + 2,
+                    crossAxisCount: userProvider.crossAxisCount,
                     childAspectRatio: 3 / 2,
                     crossAxisSpacing: 1,
                     mainAxisSpacing: 1,
                   ),
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) => BookShowListItem(
-                      isbn: widget.books[index].isbn,
+                      isbn: showBooks[index].isbn,
                     ),
-                    childCount: widget.books.length,
+                    childCount: showBooks.length,
                   ),
                 ),
               ],
             ),
-            //child: CustomAnimateGridView(
-            //delegate: SliverGridDelegateWithFixedCrossAxisCount(
-            //crossAxisCount: 2,
-            //childAspectRatio: 3 / 2,
-            //crossAxisSpacing: 1,
-            //mainAxisSpacing: 1,
-            //),
-            //itemCount: list.length,
-            //itemBuilder: (context, index) {
-            //return Container(
-            //margin: EdgeInsets.all(10),
-            //alignment: Alignment.center,
-            //child: Text('$index'),
-            //color: Colors.blue,
-            //);
-            //}),
-            //child: Container(),
           ),
         ],
       ),
     );
+  }
+
+  List<UserBook> _getShowBooksFromTags(Map<String, bool> tags) {
+    List<UserBook> showBooks = [];
+    if (tags.isEmpty)
+      showBooks = widget.books;
+    else
+      widget.books.forEach((userBook) {
+        if (userBook.tags == null) {
+          if (!tags.containsValue(true)) showBooks.add(userBook);
+          return;
+        }
+        Set<String> sameTags = tags.keys.toSet().intersection(
+              jsonDecode(userBook.tags!).toSet(),
+            );
+        if (sameTags.isEmpty) {
+          if (!tags.containsValue(true)) showBooks.add(userBook);
+        } else {
+          if (sameTags.map((e) => tags[e]!).toSet().contains(true))
+            showBooks.add(userBook);
+        }
+      });
+    return showBooks;
   }
 }
 

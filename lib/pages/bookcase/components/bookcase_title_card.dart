@@ -2,22 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class BookcaseTitleCard extends StatelessWidget {
+  final int? booksNum;
+  BookcaseTitleCard({this.booksNum});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
+      height: 140,
       width: double.infinity,
-      //margin: EdgeInsets.only(left: 10, right: 10, top: 10),
       child: Stack(
         alignment: Alignment.center,
         children: [
           Positioned(
-            left: 30,
+            left: 60,
             child: Text(
-              '你的书架',
+              booksNum == null ? '0' : booksNum!.toString(),
               style: GoogleFonts.jua(
                 textStyle: TextStyle(
-                  fontSize: 30,
+                  fontSize: 60,
                   fontWeight: FontWeight.bold,
                   color: Theme.of(context).buttonColor.withOpacity(0.4),
                 ),
@@ -46,7 +48,7 @@ class BookcaseTitleCard extends StatelessWidget {
         ],
       ),
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor,
+        color: Theme.of(context).primaryColor.withOpacity(0.4),
         //gradient: LinearGradient(
         //colors: [Color(0xff7080e7), Color(0xff90eaff)],
         //begin: Alignment.topCenter,

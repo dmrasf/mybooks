@@ -17,6 +17,21 @@ class MyUserModel extends ChangeNotifier {
     }
   }
 
+  int get crossAxisCount => Init.profile.crossAxisCount;
+  set crossAxisCount(int crossAxisCount) {
+    Init.profile.crossAxisCount = crossAxisCount;
+    Init.saveProfile();
+  }
+
+  Map<String, bool> get tags => Init.profile.tags;
+  set tags(Map<String, bool> tags) {
+    if (tags.isEmpty)
+      Init.profile.tags.clear();
+    else
+      Init.profile.tags = tags;
+    Init.saveProfile();
+  }
+
   Secret get secret => Init.profile.secret;
   set secret(Secret secret) {
     Init.profile.secret = secret;

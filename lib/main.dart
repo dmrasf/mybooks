@@ -67,7 +67,10 @@ class MyApp extends StatelessWidget {
             "/login": (context) => LoginPage(),
             "/home": (context) => HomePage(),
           },
-          home: myUser.isLogin ? HomePage() : LoginPage(),
+          home: AnimatedSwitcher(
+            duration: Duration(milliseconds: 200),
+            child: myUser.isLogin ? HomePage() : LoginPage(),
+          ),
         ),
       ),
     );
