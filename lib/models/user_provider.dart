@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mybooks/models/secret.dart';
 import 'package:mybooks/utils/init.dart';
+import 'package:mybooks/utils/global.dart';
 import 'package:mybooks/models/user.dart';
 
 class MyUserModel extends ChangeNotifier {
@@ -29,6 +30,12 @@ class MyUserModel extends ChangeNotifier {
       Init.profile.tags.clear();
     else
       Init.profile.tags = tags;
+    Init.saveProfile();
+  }
+
+  SortType get sortByDate => Init.profile.sortByDate;
+  set sortByDate(SortType sortByDate) {
+    Init.profile.sortByDate = sortByDate;
     Init.saveProfile();
   }
 

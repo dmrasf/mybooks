@@ -4,3 +4,5 @@ import 'package:mybooks/pages/bookcase/bookcase_page.dart';
 
 final GlobalKey<RecordPageState> recordPageGlobalKey = GlobalKey();
 final GlobalKey<BookcasePageState> bookcasePageGlobalKey = GlobalKey();
+
+enum SortType { letterOrder, inletterOrder, dateOrder, indateOrder }

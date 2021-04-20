@@ -15,6 +15,7 @@ Profile _$ProfileFromJson(Map<String, dynamic> json) {
     tags: Map<String, bool>.from(json['tags'] as Map),
     crossAxisCount: json['crossAxisCount'] as int,
     locale: json['locale'] as String?,
+    sortByDate: _$enumDecode(_$SortTypeEnumMap, json['sortByDate']),
   );
 }
 
@@ -26,4 +27,38 @@ Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
       'locale': instance.locale,
       'tags': instance.tags,
       'crossAxisCount': instance.crossAxisCount,
+      'sortByDate': _$SortTypeEnumMap[instance.sortByDate],
     };
+
+K _$enumDecode<K, V>(
+  Map<K, V> enumValues,
+  Object? source, {
+  K? unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError(
+      'A value must be provided. Supported values: '
+      '${enumValues.values.join(', ')}',
+    );
+  }
+
+  return enumValues.entries.singleWhere(
+    (e) => e.value == source,
+    orElse: () {
+      if (unknownValue == null) {
+        throw ArgumentError(
+          '`$source` is not one of the supported values: '
+          '${enumValues.values.join(', ')}',
+        );
+      }
+      return MapEntry(unknownValue, enumValues.values.first);
+    },
+  ).key;
+}
+
+const _$SortTypeEnumMap = {
+  SortType.letterOrder: 'letterOrder',
+  SortType.inletterOrder: 'inletterOrder',
+  SortType.dateOrder: 'dateOrder',
+  SortType.indateOrder: 'indateOrder',
+};
