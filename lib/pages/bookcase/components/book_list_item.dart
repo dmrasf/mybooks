@@ -5,7 +5,9 @@ import 'package:mybooks/pages/bookcase/components/book_show.dart';
 
 class BookShowListItem extends StatefulWidget {
   final String isbn;
-  BookShowListItem({Key? key, required this.isbn}) : super(key: key);
+  final int crossAxisCount;
+  BookShowListItem({Key? key, required this.isbn, required this.crossAxisCount})
+      : super(key: key);
   @override
   _BookShowListItemState createState() => _BookShowListItemState();
 }
@@ -27,12 +29,16 @@ class _BookShowListItemState extends State<BookShowListItem> {
 
   @override
   Widget build(BuildContext context) {
+    Size widgetSize = Size(
+      MediaQuery.of(context).size.width / widget.crossAxisCount * 2.25 / 3.25,
+      MediaQuery.of(context).size.width / widget.crossAxisCount / 3.25 * 1.5,
+    );
     return Container(
       alignment: Alignment.center,
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(widgetSize.width * 0.05),
       color: Theme.of(context).primaryColor,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           GestureDetector(
@@ -64,36 +70,94 @@ class _BookShowListItemState extends State<BookShowListItem> {
           ),
           Expanded(
             child: Container(
-              padding: EdgeInsets.only(left: 10, top: 10),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.start,
+              padding: EdgeInsets.only(
+                left: widgetSize.width * 0.05,
+                top: widgetSize.width * 0.05,
+              ),
+              child: Stack(
+                clipBehavior: Clip.antiAliasWithSaveLayer,
                 children: [
-                  FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: _book?.title == null
-                        ? Container()
-                        : Text(
-                            _book!.title!,
-                            style: TextStyle(
-                              color: Theme.of(context)
-                                  .buttonColor
-                                  .withOpacity(0.8),
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    child: Container(
+                      width: widgetSize.width * 0.5,
+                      alignment: Alignment.centerLeft,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: _book?.title == null
+                            ? Container()
+                            : Text(
+                                _book!.title!,
+                                style: TextStyle(
+                                  color: Theme.of(context)
+                                      .buttonColor
+                                      .withOpacity(0.8),
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w100,
+                                ),
+                              ),
+                      ),
+                    ),
                   ),
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: FittedBox(
-                      fit: BoxFit.fitWidth,
-                      child: Text(
-                        _getTouchDate(),
-                        style: TextStyle(
-                          color: Theme.of(context).buttonColor.withOpacity(0.2),
-                          fontSize: 10,
-                          fontWeight: FontWeight.w100,
+                  Positioned(
+                    left: 0,
+                    bottom: widgetSize.height * 0.3,
+                    child: Container(
+                      width: widgetSize.width * 0.5,
+                      alignment: Alignment.centerLeft,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          _book?.author == null ? '作者' : '作者：' + _book!.author!,
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).buttonColor.withOpacity(0.6),
+                            fontSize: 12,
+                            fontWeight: FontWeight.w100,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 0,
+                    bottom: 0,
+                    child: Container(
+                      width: widgetSize.width * 0.5,
+                      alignment: Alignment.centerLeft,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          _book?.rate == null
+                              ? '暂无评分'
+                              : _book!.rate!.toStringAsFixed(0),
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).buttonColor.withOpacity(0.4),
+                            fontSize: 8,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    right: 0,
+                    bottom: 0,
+                    child: Container(
+                      width: widgetSize.width * 0.2,
+                      alignment: Alignment.centerRight,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          _getTouchDate(),
+                          style: TextStyle(
+                            color:
+                                Theme.of(context).buttonColor.withOpacity(0.2),
+                            fontSize: 10,
+                            fontWeight: FontWeight.w100,
+                          ),
                         ),
                       ),
                     ),

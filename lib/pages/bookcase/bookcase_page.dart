@@ -7,6 +7,7 @@ import 'package:mybooks/utils/change_page.dart';
 import 'package:mybooks/pages/scan/scan_barcode_page.dart';
 import 'package:provider/provider.dart';
 import 'package:mybooks/models/user_provider.dart';
+import 'dart:convert';
 
 class BookcasePage extends StatefulWidget {
   BookcasePage({Key? key}) : super(key: key);
@@ -30,13 +31,25 @@ class BookcasePageState extends State<BookcasePage> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<MyUserModel>(context);
-    if (_userBooks != null) userProvider.books = _userBooks!.length;
+    Set<String> existTags = Set();
+    if (_userBooks != null) {
+      userProvider.books = _userBooks!.length;
+      _userBooks!.forEach((userBook) {
+        if (userBook.tags == null) return;
+        List<String> tags = jsonDecode(userBook.tags!);
+        tags.forEach((e) {
+          existTags.add(e);
+          if (userProvider.tags.containsKey(e)) return;
+          userProvider.tags[e] = false;
+        });
+      });
+    }
     return Scaffold(
       body: _userBooks == null
           ? NothingPage(title: '没有书')
           : _userBooks!.isEmpty
               ? NothingPage(title: '没有书')
-              : BooksShow(books: _userBooks!),
+              : BooksShow(books: _userBooks!, existTags: existTags),
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
       floatingActionButton: FloatButton(
         child: Icon(Icons.add, size: 15),

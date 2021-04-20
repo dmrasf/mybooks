@@ -23,10 +23,8 @@ class ScanActionButton extends StatelessWidget {
         overlayColor: MaterialStateProperty.all(
           (type == null ? Theme.of(context).hintColor : type!).withOpacity(0.1),
         ),
-        shape: MaterialStateProperty.all(StadiumBorder()),
-        side: MaterialStateProperty.all(BorderSide(
-          color: type == null ? Theme.of(context).hintColor : type!,
-          width: 2,
+        shape: MaterialStateProperty.all(RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
         )),
       ),
     );

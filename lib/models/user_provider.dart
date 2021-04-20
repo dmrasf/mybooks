@@ -25,6 +25,11 @@ class MyUserModel extends ChangeNotifier {
   }
 
   Map<String, bool> get tags => Init.profile.tags;
+  set tag(MapEntry<String, bool> entry) {
+    Init.profile.tags[entry.key] = entry.value;
+    Init.saveProfile();
+  }
+
   set tags(Map<String, bool> tags) {
     if (tags.isEmpty)
       Init.profile.tags.clear();

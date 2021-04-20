@@ -13,25 +13,22 @@ import 'package:mybooks/pages/bookcase/components/change_crossAxisCount.dart';
 import 'package:mybooks/pages/bookcase/components/add_tags_page.dart';
 import 'package:mybooks/pages/bookcase/components/choose_tags.dart';
 import 'package:mybooks/pages/bookcase/components/set_order.dart';
+//import 'package:lpinyin/lpinyin.dart';
 
 class BooksShow extends StatefulWidget {
   final List<UserBook> books;
-  BooksShow({Key? key, required this.books}) : super(key: key);
+  final Set<String> existTags;
+  BooksShow({Key? key, required this.books, required this.existTags})
+      : super(key: key);
   @override
   _BooksShowState createState() => _BooksShowState();
 }
 
 class _BooksShowState extends State<BooksShow> {
-  Set<String> _allTags = Set();
   bool _isSort = false;
 
   @override
   void initState() {
-    widget.books.forEach((userBook) {
-      if (userBook.tags == null) return;
-      List<String> tags = jsonDecode(userBook.tags!);
-      _allTags.addAll(tags);
-    });
     super.initState();
   }
 
@@ -54,13 +51,23 @@ class _BooksShowState extends State<BooksShow> {
             child: Row(
               children: [
                 AddTags(
-                  onTap: () {
-                    ChangePage.fadeChangePage(context, TagsChoosePage());
-                  },
+                  onTap: () => ChangePage.fadeChangePage(
+                      context,
+                      TagsChoosePage(
+                        userTags: userProvider.tags,
+                        notDeleteTags: widget.existTags,
+                      )).then((value) {
+                    if (value == null) return;
+                    if ((value as Map<String, bool>).isEmpty) return;
+                    Map<String, bool> tmp = new Map.from(userProvider.tags);
+                    tmp.addAll(value);
+                    setState(() {
+                      userProvider.tags = tmp;
+                    });
+                  }),
                 ),
-                SizedBox(width: 10),
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.4,
+                  width: MediaQuery.of(context).size.width * 0.45,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     physics: BouncingScrollPhysics(
@@ -74,16 +81,12 @@ class _BooksShowState extends State<BooksShow> {
                         isToggle: userProvider
                             .tags[userProvider.tags.keys.toList()[i]],
                         listener: (isToggle) {
-                          userProvider
-                                  .tags[userProvider.tags.keys.toList()[i]] =
-                              isToggle;
+                          if (userProvider
+                                  .tags[userProvider.tags.keys.toList()[i]] ==
+                              isToggle) return;
+                          userProvider.tag = MapEntry(
+                              userProvider.tags.keys.toList()[i], isToggle);
                           setState(() {});
-                        },
-                        clear: () {
-                          setState(() {
-                            userProvider.tags
-                                .remove(userProvider.tags.keys.toList()[i]);
-                          });
                         },
                       ),
                     ),
@@ -129,6 +132,7 @@ class _BooksShowState extends State<BooksShow> {
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) => BookShowListItem(
                       isbn: showBooks[index].isbn,
+                      crossAxisCount: userProvider.crossAxisCount,
                     ),
                     childCount: showBooks.length,
                   ),
@@ -164,18 +168,14 @@ class _BooksShowState extends State<BooksShow> {
             showBooks.add(userBook);
         }
       });
+    if (sortType == SortType.indateOrder)
+      showBooks = showBooks.reversed.toList();
     showBooks.sort((a, b) {
       switch (sortType) {
         case SortType.dateOrder:
-          return DateTime.parse(a.touchdate)
-              .compareTo(DateTime.parse(b.touchdate));
+          return a.touchdate.compareTo(b.touchdate);
         case SortType.indateOrder:
-          return DateTime.parse(b.touchdate)
-              .compareTo(DateTime.parse(a.touchdate));
-        case SortType.letterOrder:
-          return 0;
-        case SortType.inletterOrder:
-          return 0;
+          return b.touchdate.compareTo(a.touchdate);
         default:
           return 0;
       }

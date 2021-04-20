@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mybooks/pages/components/select_dialog.dart';
 import 'package:mybooks/utils/global.dart';
 
 const SortTypeName = {
@@ -17,17 +16,11 @@ class SetOrder extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () {
-        showDialog(
-          context: context,
-          builder: (context) => SelectDialog(
-            content: '排序方式',
-            selected: SortTypeName,
-            defaultIndex: sortType,
-          ),
-        ).then((value) {
-          if (listener == null) return;
-          listener!(value);
-        });
+        if (listener == null) return;
+        if (sortType == SortType.dateOrder)
+          listener!(SortType.indateOrder);
+        else if (sortType == SortType.indateOrder)
+          listener!(SortType.dateOrder);
       },
       child: Text(SortTypeName[sortType]!),
       style: ButtonStyle(

@@ -8,20 +8,21 @@ class BookcaseTitleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 140,
+      height: 120,
       width: double.infinity,
       child: Stack(
         alignment: Alignment.center,
         children: [
           Positioned(
-            left: 60,
+            left: 30,
+            top: 20,
             child: Text(
               booksNum == null ? '0' : booksNum!.toString(),
               style: GoogleFonts.jua(
                 textStyle: TextStyle(
                   fontSize: 60,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).buttonColor.withOpacity(0.4),
+                  color: Theme.of(context).buttonColor.withOpacity(0.9),
                 ),
               ),
             ),
@@ -34,7 +35,7 @@ class BookcaseTitleCard extends StatelessWidget {
             child: FittedBox(
               fit: BoxFit.scaleDown,
               child: Text(
-                '花有重开日，\n人无再少年。',
+                '花有重开日，人无再少年。',
                 style: GoogleFonts.lato(
                   textStyle: TextStyle(
                     color: Theme.of(context).buttonColor.withOpacity(0.3),
@@ -48,7 +49,7 @@ class BookcaseTitleCard extends StatelessWidget {
         ],
       ),
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor.withOpacity(0.4),
+        color: Theme.of(context).primaryColor.withOpacity(0.7),
         //gradient: LinearGradient(
         //colors: [Color(0xff7080e7), Color(0xff90eaff)],
         //begin: Alignment.topCenter,

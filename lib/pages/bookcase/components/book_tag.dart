@@ -5,13 +5,11 @@ class BookTag extends StatefulWidget {
   final String? name;
   final Color activeColor;
   final bool? isToggle;
-  final void Function()? clear;
   BookTag({
     Key? key,
     this.name,
     this.listener,
     required this.activeColor,
-    this.clear,
     this.isToggle,
   }) : super(key: key);
   @override
@@ -75,15 +73,6 @@ class _BookTagState extends State<BookTag> {
                   width: 1,
                 ),
               ),
-            ),
-          ),
-          SizedBox(width: 4),
-          GestureDetector(
-            onTap: widget.clear,
-            child: Icon(
-              Icons.clear_outlined,
-              size: 10,
-              color: Theme.of(context).buttonColor,
             ),
           ),
         ],
