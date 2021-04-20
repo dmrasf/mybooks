@@ -5,24 +5,27 @@ import 'package:mybooks/pages/components/slide_show_dialog.dart';
 class SelectDialog extends StatefulWidget {
   final String content;
   final Map<dynamic, dynamic> selected;
-  final int defaultIndex;
+  final dynamic? defaultIndex;
   SelectDialog({
     Key? key,
     required this.content,
     required this.selected,
-    this.defaultIndex = 0,
+    this.defaultIndex,
   }) : super(key: key);
   @override
   _SelectDialogState createState() => _SelectDialogState();
 }
 
 class _SelectDialogState extends State<SelectDialog> {
-  late int _index;
+  late dynamic _index;
 
   @override
   void initState() {
+    if (widget.defaultIndex == null)
+      _index = widget.selected.keys.toList()[0];
+    else
+      _index = widget.defaultIndex;
     super.initState();
-    _index = widget.defaultIndex;
   }
 
   @override
@@ -57,14 +60,15 @@ class _SelectDialogState extends State<SelectDialog> {
                     List.generate(
                       widget.selected.length,
                       (index) => SecretItem(
-                        isToggle: _index == index,
+                        isToggle:
+                            _index == widget.selected.keys.toList()[index]!,
                         onPressed: () {
                           setState(() {
-                            _index = index;
+                            _index = widget.selected.keys.toList()[index]!;
                           });
                           Navigator.of(context).pop(_index);
                         },
-                        hintStr: widget.selected[index]!,
+                        hintStr: widget.selected.values.toList()[index]!,
                       ),
                     ),
               ),

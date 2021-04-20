@@ -33,9 +33,9 @@ class MyUserModel extends ChangeNotifier {
     Init.saveProfile();
   }
 
-  SortType get sortByDate => Init.profile.sortByDate;
-  set sortByDate(SortType sortByDate) {
-    Init.profile.sortByDate = sortByDate;
+  SortType get sortType => Init.profile.sortType;
+  set sortType(SortType sortType) {
+    Init.profile.sortType = sortType;
     Init.saveProfile();
   }
 

@@ -15,7 +15,7 @@ Profile _$ProfileFromJson(Map<String, dynamic> json) {
     tags: Map<String, bool>.from(json['tags'] as Map),
     crossAxisCount: json['crossAxisCount'] as int,
     locale: json['locale'] as String?,
-    sortByDate: _$enumDecode(_$SortTypeEnumMap, json['sortByDate']),
+    sortType: _$enumDecode(_$SortTypeEnumMap, json['sortType']),
   );
 }
 
@@ -27,7 +27,7 @@ Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
       'locale': instance.locale,
       'tags': instance.tags,
       'crossAxisCount': instance.crossAxisCount,
-      'sortByDate': _$SortTypeEnumMap[instance.sortByDate],
+      'sortType': _$SortTypeEnumMap[instance.sortType],
     };
 
 K _$enumDecode<K, V>(

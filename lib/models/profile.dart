@@ -14,7 +14,7 @@ class Profile {
   String? locale;
   Map<String, bool> tags;
   int crossAxisCount;
-  SortType sortByDate;
+  SortType sortType;
   Profile({
     required this.user,
     required this.secret,
@@ -23,7 +23,7 @@ class Profile {
     this.tags = const {},
     this.crossAxisCount = 2,
     this.locale,
-    this.sortByDate = SortType.dateOrder,
+    this.sortType = SortType.dateOrder,
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) =>

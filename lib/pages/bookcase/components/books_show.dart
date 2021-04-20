@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mybooks/utils/change_page.dart';
 import 'package:mybooks/utils/database.dart';
+import 'package:mybooks/utils/global.dart';
 import 'package:provider/provider.dart';
 import 'package:mybooks/models/user_provider.dart';
 import 'package:mybooks/pages/bookcase/components/bookcase_title_card.dart';
@@ -11,6 +12,7 @@ import 'package:mybooks/pages/bookcase/components/book_search.dart';
 import 'package:mybooks/pages/bookcase/components/change_crossAxisCount.dart';
 import 'package:mybooks/pages/bookcase/components/add_tags_page.dart';
 import 'package:mybooks/pages/bookcase/components/choose_tags.dart';
+import 'package:mybooks/pages/bookcase/components/set_order.dart';
 
 class BooksShow extends StatefulWidget {
   final List<UserBook> books;
@@ -21,6 +23,7 @@ class BooksShow extends StatefulWidget {
 
 class _BooksShowState extends State<BooksShow> {
   Set<String> _allTags = Set();
+  bool _isSort = false;
 
   @override
   void initState() {
@@ -35,7 +38,10 @@ class _BooksShowState extends State<BooksShow> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<MyUserModel>(context);
-    List<UserBook> showBooks = _getShowBooksFromTags(userProvider.tags);
+    List<UserBook> showBooks = _getShowBooksFromTags(
+      userProvider.tags,
+      userProvider.sortType,
+    );
     return Container(
       color: Theme.of(context).backgroundColor,
       alignment: Alignment.center,
@@ -54,7 +60,7 @@ class _BooksShowState extends State<BooksShow> {
                 ),
                 SizedBox(width: 10),
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.5,
+                  width: MediaQuery.of(context).size.width * 0.4,
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     physics: BouncingScrollPhysics(
@@ -84,12 +90,23 @@ class _BooksShowState extends State<BooksShow> {
                   ),
                 ),
                 Spacer(),
+                SetOrder(
+                  sortType: userProvider.sortType,
+                  listener: (sortType) {
+                    if (userProvider.sortType == sortType) return;
+                    _isSort = true;
+                    setState(() => userProvider.sortType = sortType);
+                  },
+                ),
                 ChangeCrossAxisCount(
                   crossAxisCount: userProvider.crossAxisCount,
-                  onPressed: () => setState(() {
-                    userProvider.crossAxisCount =
-                        (userProvider.crossAxisCount - 1) % 3 + 2;
-                  }),
+                  onPressed: () {
+                    _isSort = false;
+                    setState(() {
+                      userProvider.crossAxisCount =
+                          (userProvider.crossAxisCount - 1) % 3 + 2;
+                    });
+                  },
                 ),
                 BookSearch(width: MediaQuery.of(context).size.width * 0.17),
               ],
@@ -97,6 +114,7 @@ class _BooksShowState extends State<BooksShow> {
           ),
           Expanded(
             child: CustomScrollView(
+              key: _isSort ? UniqueKey() : null,
               physics: BouncingScrollPhysics(
                 parent: AlwaysScrollableScrollPhysics(),
               ),
@@ -123,7 +141,10 @@ class _BooksShowState extends State<BooksShow> {
     );
   }
 
-  List<UserBook> _getShowBooksFromTags(Map<String, bool> tags) {
+  List<UserBook> _getShowBooksFromTags(
+    Map<String, bool> tags,
+    SortType sortType,
+  ) {
     List<UserBook> showBooks = [];
     if (tags.isEmpty)
       showBooks = widget.books;
@@ -143,6 +164,22 @@ class _BooksShowState extends State<BooksShow> {
             showBooks.add(userBook);
         }
       });
+    showBooks.sort((a, b) {
+      switch (sortType) {
+        case SortType.dateOrder:
+          return DateTime.parse(a.touchdate)
+              .compareTo(DateTime.parse(b.touchdate));
+        case SortType.indateOrder:
+          return DateTime.parse(b.touchdate)
+              .compareTo(DateTime.parse(a.touchdate));
+        case SortType.letterOrder:
+          return 0;
+        case SortType.inletterOrder:
+          return 0;
+        default:
+          return 0;
+      }
+    });
     return showBooks;
   }
 }
