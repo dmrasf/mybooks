@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mybooks/models/userbooks_provider.dart';
 import 'package:mybooks/utils/init.dart';
 import 'package:provider/provider.dart';
 import 'package:mybooks/models/theme_provider.dart';
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(value: MyThemeModel()),
         ChangeNotifierProvider.value(value: MyLocaleModel()),
         ChangeNotifierProvider.value(value: MyUserModel()),
+        ChangeNotifierProvider.value(value: MyUserBooksModel()),
       ],
       child: Consumer3<MyThemeModel, MyLocaleModel, MyUserModel>(
         builder: (context, myTheme, myLocale, myUser, child) => MaterialApp(
@@ -69,7 +71,11 @@ class MyApp extends StatelessWidget {
           },
           home: AnimatedSwitcher(
             duration: Duration(milliseconds: 200),
-            child: myUser.isLogin ? HomePage() : LoginPage(),
+            child: myUser.isLogin
+                ? context.read<MyUserBooksModel>().initUserBooks()
+                    ? HomePage()
+                    : HomePage()
+                : LoginPage(),
           ),
         ),
       ),

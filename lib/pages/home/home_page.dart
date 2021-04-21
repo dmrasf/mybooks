@@ -3,12 +3,11 @@ import 'package:mybooks/pages/bookcase/bookcase_page.dart';
 import 'package:mybooks/pages/record/record_page.dart';
 import 'package:mybooks/pages/aboutme/aboutme_page.dart';
 import 'package:mybooks/pages/components/toast.dart';
-import 'package:mybooks/utils/global.dart';
 
 class HomePage extends StatefulWidget {
   final List<Widget> _screens = [
-    SafeArea(child: BookcasePage(key: bookcasePageGlobalKey)),
-    SafeArea(child: RecordPage(key: recordPageGlobalKey)),
+    SafeArea(child: BookcasePage()),
+    SafeArea(child: RecordPage()),
     SafeArea(child: AboutmePage()),
   ];
   @override

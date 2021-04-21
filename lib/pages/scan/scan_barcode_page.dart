@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mybooks/utils/database.dart';
 import 'package:mybooks/utils/check_isbn.dart';
-import 'package:mybooks/utils/global.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:mybooks/pages/aboutme/components/appBar_setting.dart';
 import 'package:mybooks/pages/components/toast.dart';
@@ -10,6 +9,8 @@ import 'package:mybooks/pages/scan/components/scan_text_button.dart';
 import 'package:mybooks/pages/components/float_button.dart';
 import 'package:mybooks/pages/components/confirm_dialog.dart';
 import 'dart:io';
+import 'package:provider/provider.dart';
+import 'package:mybooks/models/userbooks_provider.dart';
 
 class ScanBarCodePage extends StatefulWidget {
   @override
@@ -176,13 +177,10 @@ class _ScanBarCodePageState extends State<ScanBarCodePage> {
     _isbns.forEach((e) async {
       if ((await DataBaseUtil.queryUserBook(isbn: e)) != null) {
         repeat++;
-      } else if (!await DataBaseUtil.addUserBook(
-          UserBook(isbn: e, touchdate: DateTime.now().toString())))
+      } else if (!await context
+          .read<MyUserBooksModel>()
+          .addUserBook(UserBook(isbn: e, touchdate: DateTime.now().toString())))
         newIsbn.add(e);
-      else {
-        bookcasePageGlobalKey.currentState?.updateUserBooks();
-        recordPageGlobalKey.currentState?.updateUserBooks();
-      }
     });
     _isbns = newIsbn;
     return repeat;

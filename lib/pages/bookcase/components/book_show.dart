@@ -22,23 +22,37 @@ class _BookShowState extends State<BookShow> {
     return Scaffold(
       appBar: appBarForSettingPage(context, title: widget.book.title),
       body: Container(
-        width: 300,
-        child: Hero(
-          tag: widget.isbn,
-          child: AspectRatio(
-            aspectRatio: 2 / 3,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-                image: widget.book.cover == null
-                    ? null
-                    : DecorationImage(
-                        image: MemoryImage(widget.book.cover!),
-                        fit: BoxFit.cover,
+        padding: EdgeInsets.only(left: 10, right: 10, top: 5),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  constraints: BoxConstraints(maxWidth: 600),
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: Hero(
+                    tag: widget.isbn,
+                    child: AspectRatio(
+                      aspectRatio: 2 / 3,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor,
+                          image: widget.book.cover == null
+                              ? null
+                              : DecorationImage(
+                                  image: MemoryImage(widget.book.cover!),
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
                       ),
-              ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 30),
+              ],
             ),
-          ),
+          ],
         ),
       ),
     );

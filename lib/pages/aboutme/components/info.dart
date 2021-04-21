@@ -1,22 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:mybooks/models/userbooks_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:mybooks/models/user_provider.dart';
 
 class AboutmeInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<MyUserModel>(context);
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 10),
-      color: Theme.of(context).primaryColor,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          AboutmeInfItem(title: '书籍数', hint: userProvider.books.toString()),
-          AboutmeInfItem(title: '关注', hint: userProvider.following.toString()),
-          AboutmeInfItem(title: '被关注', hint: userProvider.followers.toString()),
-        ],
-      ),
+    return Consumer2<MyUserBooksModel, MyUserModel>(
+      builder: (context, myUserBooksModel, myUserModel, child) {
+        return Container(
+          padding: EdgeInsets.symmetric(vertical: 10),
+          color: Theme.of(context).primaryColor,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              AboutmeInfItem(
+                  title: '书籍数',
+                  hint: myUserBooksModel.userBooks.length.toString()),
+              AboutmeInfItem(
+                title: '关注',
+                hint: myUserModel.following.toString(),
+              ),
+              AboutmeInfItem(
+                title: '被关注',
+                hint: myUserModel.followers.toString(),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
