@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:mybooks/utils/change_page.dart';
 import 'package:mybooks/utils/database.dart';
 import 'package:mybooks/utils/global.dart';
@@ -13,7 +14,6 @@ import 'package:mybooks/pages/bookcase/components/change_crossAxisCount.dart';
 import 'package:mybooks/pages/bookcase/components/add_tags_page.dart';
 import 'package:mybooks/pages/bookcase/components/choose_tags.dart';
 import 'package:mybooks/pages/bookcase/components/set_order.dart';
-//import 'package:lpinyin/lpinyin.dart';
 
 class BooksShow extends StatefulWidget {
   final List<UserBook> books;
@@ -97,14 +97,13 @@ class _BooksShowState extends State<BooksShow> {
                   sortType: userProvider.sortType,
                   listener: (sortType) {
                     if (userProvider.sortType == sortType) return;
-                    _isSort = true;
+                    _isSort = !_isSort;
                     setState(() => userProvider.sortType = sortType);
                   },
                 ),
                 ChangeCrossAxisCount(
                   crossAxisCount: userProvider.crossAxisCount,
                   onPressed: () {
-                    _isSort = false;
                     setState(() {
                       userProvider.crossAxisCount =
                           (userProvider.crossAxisCount - 1) % 3 + 2;
@@ -117,7 +116,7 @@ class _BooksShowState extends State<BooksShow> {
           ),
           Expanded(
             child: CustomScrollView(
-              key: _isSort ? UniqueKey() : null,
+              key: ValueKey(_isSort),
               physics: BouncingScrollPhysics(
                 parent: AlwaysScrollableScrollPhysics(),
               ),
