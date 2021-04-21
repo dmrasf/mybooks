@@ -148,13 +148,11 @@ class _ScanBarCodePageState extends State<ScanBarCodePage> {
             else if (checkIsbn(scanData.code))
               DataBaseUtil.getBook(isbn: scanData.code).then((value) {
                 if (_isbns.contains(scanData.code)) return;
-                if (value == null)
-                  showToast(context, '无法查询此书');
-                else
-                  setState(() {
-                    _result = scanData;
-                    _isbns.add(_result!.code);
-                  });
+                if (value == null) return;
+                setState(() {
+                  _result = scanData;
+                  _isbns.add(_result!.code);
+                });
               });
             else
               showToast(context, '这不是书', type: ToastType.ERROR);
@@ -172,10 +170,11 @@ class _ScanBarCodePageState extends State<ScanBarCodePage> {
   }
 
   Future<int> _addNewBooksToDatabase() async {
+    final userBooksModel = Provider.of<MyUserBooksModel>(context);
     int repeat = 0;
     Set<String> newIsbn = Set();
     _isbns.forEach((e) async {
-      if ((await DataBaseUtil.queryUserBook(isbn: e)) != null) {
+      if (userBooksModel.userBooks.containsKey(e)) {
         repeat++;
       } else if (!await context
           .read<MyUserBooksModel>()

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mybooks/utils/change_page.dart';
 import 'package:mybooks/utils/database.dart';
 import 'package:mybooks/pages/bookcase/components/book_show.dart';
+import 'package:provider/provider.dart';
+import 'package:mybooks/models/userbooks_provider.dart';
 
 class BookShowListItem extends StatefulWidget {
   final String isbn;
@@ -14,16 +16,12 @@ class BookShowListItem extends StatefulWidget {
 
 class _BookShowListItemState extends State<BookShowListItem> {
   Book? _book;
-  UserBook? _userBook;
 
   @override
   void initState() {
     DataBaseUtil.getBook(isbn: widget.isbn).then(
       (value) => setState(() => _book = value),
     );
-    DataBaseUtil.queryUserBook(isbn: widget.isbn).then((value) {
-      if (value != null) setState(() => _userBook = value);
-    });
     super.initState();
   }
 
@@ -46,7 +44,11 @@ class _BookShowListItemState extends State<BookShowListItem> {
               print(widget.isbn);
               ChangePage.fadeChangePage(
                 context,
-                BookShow(userBook: _userBook!, isbn: widget.isbn, book: _book!),
+                BookShow(
+                  isbn: widget.isbn,
+                  book: _book!,
+                  update: () => setState(() {}),
+                ),
               );
             },
             onLongPress: () {},
@@ -151,7 +153,11 @@ class _BookShowListItemState extends State<BookShowListItem> {
                       child: FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          _getTouchDate(),
+                          _getTouchDate(
+                            context
+                                .read<MyUserBooksModel>()
+                                .userBooks[widget.isbn]!,
+                          ),
                           style: TextStyle(
                             color:
                                 Theme.of(context).buttonColor.withOpacity(0.2),
@@ -171,9 +177,8 @@ class _BookShowListItemState extends State<BookShowListItem> {
     );
   }
 
-  String _getTouchDate() {
-    if (_userBook == null) return ' ';
-    String touchdate = _userBook!.touchdate;
+  String _getTouchDate(UserBook userBook) {
+    String touchdate = userBook.touchdate;
     DateTime pd = DateTime.parse(touchdate);
     DateTime cd = DateTime.now();
     int years = cd.year - pd.year;

@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:mybooks/models/userbooks_provider.dart';
 import 'package:mybooks/pages/bookcase/components/add_tag_quit_text.dart';
 import 'package:mybooks/pages/bookcase/components/add_tags_tag.dart';
 import 'package:mybooks/pages/bookcase/components/add_tag_textfield.dart';
 import 'package:mybooks/pages/components/confirm_dialog.dart';
+import 'dart:convert';
 
 class TagsChoosePage extends StatefulWidget {
   final Map<String, bool> userTags;
-  final Set<String> notDeleteTags;
   final bool isTagsUnion;
   TagsChoosePage({
     required this.userTags,
-    required this.notDeleteTags,
     required this.isTagsUnion,
   });
   @override
@@ -29,6 +30,12 @@ class _TagsChoosePageState extends State<TagsChoosePage> {
 
   @override
   Widget build(BuildContext context) {
+    Set<String> existTags = Set();
+    context.read<MyUserBooksModel>().userBooks.values.forEach((userBook) {
+      if (userBook.tags == null) return;
+      List<String> tags = jsonDecode(userBook.tags!);
+      existTags.addAll(tags);
+    });
     return WillPopScope(
       child: Scaffold(
         body: Container(
@@ -104,7 +111,7 @@ class _TagsChoosePageState extends State<TagsChoosePage> {
                               listener: (isToggle) =>
                                   _newTags[_newTags.keys.toList()[index]] =
                                       isToggle,
-                              clear: widget.notDeleteTags
+                              clear: existTags
                                       .contains(_newTags.keys.toList()[index])
                                   ? null
                                   : () {

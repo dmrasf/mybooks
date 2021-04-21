@@ -3,15 +3,11 @@ import 'package:mybooks/utils/database.dart';
 import 'package:mybooks/pages/aboutme/components/appBar_setting.dart';
 
 class BookShow extends StatefulWidget {
-  final UserBook userBook;
   final Book book;
   final String isbn;
-  BookShow({
-    Key? key,
-    required this.userBook,
-    required this.isbn,
-    required this.book,
-  }) : super(key: key);
+  final VoidCallback? update;
+  BookShow({Key? key, required this.isbn, required this.book, this.update})
+      : super(key: key);
   @override
   _BookShowState createState() => _BookShowState();
 }

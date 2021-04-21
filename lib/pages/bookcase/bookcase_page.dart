@@ -20,16 +20,12 @@ class BookcasePageState extends State<BookcasePage> {
     return Scaffold(
       body: Consumer<MyUserBooksModel>(
         builder: (context, myUserBooksModel, child) {
-          Set<String> existTags = Set();
-          myUserBooksModel.userBooksTag.values.forEach((tags) {
-            existTags.addAll(tags);
-          });
           context.read<MyUserModel>().books = myUserBooksModel.userBooks.length;
           return myUserBooksModel.userBooks.isEmpty
               ? NothingPage(title: '没有书')
               : BooksShow(
-                  books: myUserBooksModel.userBooks.values.toList(),
-                  existTags: existTags,
+                  books: myUserBooksModel.userBooks,
+                  allTags: myUserBooksModel.userBooksTag,
                 );
         },
       ),
