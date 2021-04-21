@@ -21,11 +21,6 @@ class _BooksShowState extends State<BooksShow> {
   bool _isSort = false;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<MyUserModel>(context);
     List<String> showBooks = _getShowBooksFromTags(

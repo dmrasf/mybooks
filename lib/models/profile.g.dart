@@ -17,6 +17,7 @@ Profile _$ProfileFromJson(Map<String, dynamic> json) {
     crossAxisCount: json['crossAxisCount'] as int,
     locale: json['locale'] as String?,
     sortType: _$enumDecode(_$SortTypeEnumMap, json['sortType']),
+    dailyPoetryToken: json['dailyPoetryToken'] as String?,
   );
 }
 
@@ -30,6 +31,7 @@ Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
       'isTagsUnion': instance.isTagsUnion,
       'crossAxisCount': instance.crossAxisCount,
       'sortType': _$SortTypeEnumMap[instance.sortType],
+      'dailyPoetryToken': instance.dailyPoetryToken,
     };
 
 K _$enumDecode<K, V>(

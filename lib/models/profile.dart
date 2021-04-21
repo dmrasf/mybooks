@@ -16,6 +16,7 @@ class Profile {
   bool isTagsUnion;
   int crossAxisCount;
   SortType sortType;
+  String? dailyPoetryToken;
   Profile({
     required this.user,
     required this.secret,
@@ -26,6 +27,7 @@ class Profile {
     this.crossAxisCount = 2,
     this.locale,
     this.sortType = SortType.dateOrder,
+    this.dailyPoetryToken,
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) =>

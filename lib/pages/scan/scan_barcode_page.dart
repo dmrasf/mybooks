@@ -170,7 +170,8 @@ class _ScanBarCodePageState extends State<ScanBarCodePage> {
   }
 
   Future<int> _addNewBooksToDatabase() async {
-    final userBooksModel = Provider.of<MyUserBooksModel>(context);
+    final userBooksModel =
+        Provider.of<MyUserBooksModel>(context, listen: false);
     int repeat = 0;
     Set<String> newIsbn = Set();
     _isbns.forEach((e) async {

@@ -18,6 +18,12 @@ class MyUserModel extends ChangeNotifier {
     }
   }
 
+  String? get dailyPoetryToken => Init.profile.dailyPoetryToken;
+  set dailyPoetryToken(String? token) {
+    Init.profile.dailyPoetryToken = token;
+    Init.saveProfile();
+  }
+
   int get crossAxisCount => Init.profile.crossAxisCount;
   set crossAxisCount(int crossAxisCount) {
     Init.profile.crossAxisCount = crossAxisCount;
