@@ -194,6 +194,20 @@ class DataBaseUtil {
     return true;
   }
 
+  /// 更新用户书籍信息
+  static Future<bool> updateUserBook({
+    required String isbn,
+    required UserBook userBook,
+  }) async {
+    await db.update(
+      _userTableName[0],
+      userBook.toMap(),
+      where: "isbn = ?",
+      whereArgs: [isbn],
+    );
+    return true;
+  }
+
   /// 获取用户所有书籍
   static Future<List<UserBook>> getUserBooks() async {
     final List<Map<String, dynamic>> maps = await db.query(_userTableName[0]);

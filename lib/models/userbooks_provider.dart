@@ -56,20 +56,65 @@ class MyUserBooksModel extends ChangeNotifier {
   /// 修改标签
   void changeUserBookTag(String isbn, String tag, bool isAdd) {
     if (!userBooks.containsKey(isbn)) return;
+    if (tag == '') return;
+    if (isAdd)
+      userBooksTag[isbn]!.add(tag);
+    else
+      userBooksTag[isbn]!.remove(tag);
+    UserBook newUserBook = UserBook(
+      isbn: isbn,
+      touchdate: userBooks[isbn]!.touchdate,
+      read: userBooks[isbn]!.read,
+      description: userBooks[isbn]!.description,
+      tags: jsonEncode(userBooksTag[isbn]!.toList()),
+      rate: userBooks[isbn]!.rate,
+    );
+    userBooks[isbn] = newUserBook;
+    DataBaseUtil.updateUserBook(isbn: isbn, userBook: newUserBook);
   }
 
   /// 修改评论
   void changeUserBookDescription(String isbn, String description) {
     if (!userBooks.containsKey(isbn)) return;
+    UserBook newUserBook = UserBook(
+      isbn: isbn,
+      touchdate: userBooks[isbn]!.touchdate,
+      read: userBooks[isbn]!.read,
+      description: description,
+      tags: userBooks[isbn]!.tags,
+      rate: userBooks[isbn]!.rate,
+    );
+    userBooks[isbn] = newUserBook;
+    DataBaseUtil.updateUserBook(isbn: isbn, userBook: newUserBook);
   }
 
   /// 修改已读状态
-  void changeUserBookRead(String isbn, bool isRead) {
+  void changeUserBookRead(String isbn, int? isRead) {
     if (!userBooks.containsKey(isbn)) return;
+    UserBook newUserBook = UserBook(
+      isbn: isbn,
+      touchdate: userBooks[isbn]!.touchdate,
+      read: isRead,
+      description: userBooks[isbn]!.description,
+      tags: userBooks[isbn]!.tags,
+      rate: userBooks[isbn]!.rate,
+    );
+    userBooks[isbn] = newUserBook;
+    DataBaseUtil.updateUserBook(isbn: isbn, userBook: newUserBook);
   }
 
   /// 修改评分
-  void changeUserBookRate(String isbn, double rate) {
+  void changeUserBookRate(String isbn, double? rate) {
     if (!userBooks.containsKey(isbn)) return;
+    UserBook newUserBook = UserBook(
+      isbn: isbn,
+      touchdate: userBooks[isbn]!.touchdate,
+      read: userBooks[isbn]!.read,
+      description: userBooks[isbn]!.description,
+      tags: userBooks[isbn]!.tags,
+      rate: rate,
+    );
+    userBooks[isbn] = newUserBook;
+    DataBaseUtil.updateUserBook(isbn: isbn, userBook: newUserBook);
   }
 }

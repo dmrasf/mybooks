@@ -31,6 +31,7 @@ class _BookShowListItemState extends State<BookShowListItem> {
       MediaQuery.of(context).size.width / widget.crossAxisCount * 2.25 / 3.25,
       MediaQuery.of(context).size.width / widget.crossAxisCount / 3.25 * 1.5,
     );
+    final userBooksProvider = Provider.of<MyUserBooksModel>(context);
     return Container(
       alignment: Alignment.center,
       padding: EdgeInsets.all(widgetSize.width * 0.05),
@@ -50,6 +51,27 @@ class _BookShowListItemState extends State<BookShowListItem> {
                   update: () => setState(() {}),
                 ),
               );
+            },
+            onDoubleTap: () {
+              int? currentRead = userBooksProvider.userBooks[widget.isbn]!.read;
+              print(currentRead);
+              int? newRead;
+              switch (currentRead) {
+                case null:
+                  newRead = 1;
+                  break;
+                case 1:
+                  newRead = 0;
+                  break;
+                case 0:
+                  newRead = null;
+                  break;
+                default:
+                  newRead = null;
+                  break;
+              }
+              userBooksProvider.changeUserBookRead(widget.isbn, newRead);
+              setState(() {});
             },
             onLongPress: () {},
             child: Hero(
