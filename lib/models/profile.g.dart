@@ -13,6 +13,7 @@ Profile _$ProfileFromJson(Map<String, dynamic> json) {
     login: json['login'] as bool,
     theme: json['theme'] as bool?,
     tags: Map<String, bool>.from(json['tags'] as Map),
+    isTagsUnion: json['isTagsUnion'] as bool,
     crossAxisCount: json['crossAxisCount'] as int,
     locale: json['locale'] as String?,
     sortType: _$enumDecode(_$SortTypeEnumMap, json['sortType']),
@@ -26,6 +27,7 @@ Map<String, dynamic> _$ProfileToJson(Profile instance) => <String, dynamic>{
       'theme': instance.theme,
       'locale': instance.locale,
       'tags': instance.tags,
+      'isTagsUnion': instance.isTagsUnion,
       'crossAxisCount': instance.crossAxisCount,
       'sortType': _$SortTypeEnumMap[instance.sortType],
     };

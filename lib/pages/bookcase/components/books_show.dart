@@ -38,6 +38,7 @@ class _BooksShowState extends State<BooksShow> {
     List<UserBook> showBooks = _getShowBooksFromTags(
       userProvider.tags,
       userProvider.sortType,
+      userProvider.isTagsUnion,
     );
     return Container(
       color: Theme.of(context).backgroundColor,
@@ -56,13 +57,12 @@ class _BooksShowState extends State<BooksShow> {
                       TagsChoosePage(
                         userTags: userProvider.tags,
                         notDeleteTags: widget.existTags,
+                        isTagsUnion: userProvider.isTagsUnion,
                       )).then((value) {
                     if (value == null) return;
-                    if ((value as Map<String, bool>).isEmpty) return;
-                    Map<String, bool> tmp = new Map.from(userProvider.tags);
-                    tmp.addAll(value);
                     setState(() {
-                      userProvider.tags = tmp;
+                      userProvider.tags = value[0];
+                      userProvider.isTagsUnion = value[1];
                     });
                   }),
                 ),
@@ -76,6 +76,7 @@ class _BooksShowState extends State<BooksShow> {
                     children: List.generate(
                       userProvider.tags.length,
                       (i) => BookTag(
+                        key: UniqueKey(),
                         activeColor: Theme.of(context).hintColor,
                         name: userProvider.tags.keys.toList()[i],
                         isToggle: userProvider
@@ -147,6 +148,7 @@ class _BooksShowState extends State<BooksShow> {
   List<UserBook> _getShowBooksFromTags(
     Map<String, bool> tags,
     SortType sortType,
+    bool isTagsUnion,
   ) {
     List<UserBook> showBooks = [];
     if (tags.isEmpty)

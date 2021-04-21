@@ -24,6 +24,12 @@ class MyUserModel extends ChangeNotifier {
     Init.saveProfile();
   }
 
+  bool get isTagsUnion => Init.profile.isTagsUnion;
+  set isTagsUnion(bool isTagsUnion) {
+    Init.profile.isTagsUnion = isTagsUnion;
+    Init.saveProfile();
+  }
+
   Map<String, bool> get tags => Init.profile.tags;
   set tag(MapEntry<String, bool> entry) {
     Init.profile.tags[entry.key] = entry.value;
@@ -31,10 +37,8 @@ class MyUserModel extends ChangeNotifier {
   }
 
   set tags(Map<String, bool> tags) {
-    if (tags.isEmpty)
-      Init.profile.tags.clear();
-    else
-      Init.profile.tags = tags;
+    Init.profile.tags.clear();
+    Init.profile.tags.addAll(tags);
     Init.saveProfile();
   }
 

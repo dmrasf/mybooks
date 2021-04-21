@@ -13,6 +13,7 @@ class Profile {
   bool? theme;
   String? locale;
   Map<String, bool> tags;
+  bool isTagsUnion;
   int crossAxisCount;
   SortType sortType;
   Profile({
@@ -20,7 +21,8 @@ class Profile {
     required this.secret,
     required this.login,
     this.theme,
-    this.tags = const {},
+    required this.tags,
+    this.isTagsUnion = false,
     this.crossAxisCount = 2,
     this.locale,
     this.sortType = SortType.dateOrder,

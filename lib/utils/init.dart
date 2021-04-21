@@ -21,7 +21,12 @@ class Init {
         print(e);
       }
     else
-      profile = Profile(user: User(), secret: Secret(), login: false);
+      profile = Profile(
+        user: User(),
+        secret: Secret(),
+        login: false,
+        tags: Map<String, bool>(),
+      );
   }
 
   static saveProfile() => _preferences.setString(

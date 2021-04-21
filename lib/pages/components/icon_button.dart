@@ -16,6 +16,7 @@ class MyIconButton extends StatelessWidget {
       child: icon,
       style: ButtonStyle(
         minimumSize: MaterialStateProperty.all(Size.zero),
+        padding: MaterialStateProperty.all(EdgeInsets.zero),
         backgroundColor: MaterialStateProperty.all(Colors.transparent),
         foregroundColor: MaterialStateProperty.all(
           Theme.of(context).buttonColor,
