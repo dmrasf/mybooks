@@ -7,6 +7,10 @@ class MyUserBooksModel extends ChangeNotifier {
   Map<String, Set<String>> userBooksTag = {};
   bool _init = false;
 
+  void quit() {
+    _init = false;
+  }
+
   bool initUserBooks() {
     if (_init == true) return true;
     _init = true;

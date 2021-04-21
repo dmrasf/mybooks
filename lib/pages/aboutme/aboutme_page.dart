@@ -5,6 +5,7 @@ import 'package:mybooks/pages/aboutme/components/setting.dart';
 import 'package:mybooks/pages/components/confirm_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:mybooks/models/user_provider.dart';
+import 'package:mybooks/models/userbooks_provider.dart';
 
 class AboutmePage extends StatefulWidget {
   @override
@@ -52,6 +53,7 @@ class _AboutmePageState extends State<AboutmePage> {
                   ).then((isConfirm) {
                     if (isConfirm != null) if (isConfirm) {
                       userProvider.isLogin = false;
+                      context.read<MyUserBooksModel>().quit();
                     }
                   }),
                 ),
