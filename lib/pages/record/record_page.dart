@@ -18,7 +18,7 @@ class RecordPageState extends State<RecordPage> {
       if (myUserBooksModel.userBooks.isEmpty)
         return NothingPage(title: '还是没有书');
       else
-        return LineChartSample1();
+        return RecordItemsShow();
     });
   }
 }
@@ -32,7 +32,8 @@ class _RecordItemsShowState extends State<RecordItemsShow> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('dewde'),
+      padding: EdgeInsets.all(20),
+      child: LineChartSample1(),
     );
   }
 }

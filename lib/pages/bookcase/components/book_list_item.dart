@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mybooks/utils/change_page.dart';
 import 'package:mybooks/utils/database.dart';
 import 'package:mybooks/pages/bookcase/components/book_show.dart';
@@ -32,6 +33,7 @@ class _BookShowListItemState extends State<BookShowListItem> {
       MediaQuery.of(context).size.width / widget.crossAxisCount / 3.25 * 1.5,
     );
     final userBooksProvider = Provider.of<MyUserBooksModel>(context);
+    int? isRead = userBooksProvider.userBooks[widget.isbn]!.read;
     return Container(
       alignment: Alignment.center,
       padding: EdgeInsets.all(widgetSize.width * 0.05),
@@ -40,57 +42,84 @@ class _BookShowListItemState extends State<BookShowListItem> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          GestureDetector(
-            onTap: () {
-              print(widget.isbn);
-              ChangePage.fadeChangePage(
-                context,
-                BookShow(
-                  isbn: widget.isbn,
-                  book: _book!,
-                  update: () => setState(() {}),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  print(widget.isbn);
+                  ChangePage.fadeChangePage(
+                    context,
+                    BookShow(
+                      isbn: widget.isbn,
+                      book: _book!,
+                      update: () => setState(() {}),
+                    ),
+                  );
+                },
+                onDoubleTap: () {
+                  int? currentRead =
+                      userBooksProvider.userBooks[widget.isbn]!.read;
+                  print(currentRead);
+                  int? newRead;
+                  switch (currentRead) {
+                    case null:
+                      newRead = 1;
+                      break;
+                    case 1:
+                      newRead = 0;
+                      break;
+                    case 0:
+                      newRead = null;
+                      break;
+                    default:
+                      newRead = null;
+                      break;
+                  }
+                  userBooksProvider.changeUserBookRead(widget.isbn, newRead);
+                  setState(() {});
+                },
+                child: Hero(
+                  tag: widget.isbn,
+                  child: AspectRatio(
+                    aspectRatio: 2 / 3,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        image: _book?.cover == null
+                            ? null
+                            : DecorationImage(
+                                image: MemoryImage(_book!.cover!),
+                                fit: BoxFit.cover,
+                              ),
+                      ),
+                    ),
+                  ),
                 ),
-              );
-            },
-            onDoubleTap: () {
-              int? currentRead = userBooksProvider.userBooks[widget.isbn]!.read;
-              print(currentRead);
-              int? newRead;
-              switch (currentRead) {
-                case null:
-                  newRead = 1;
-                  break;
-                case 1:
-                  newRead = 0;
-                  break;
-                case 0:
-                  newRead = null;
-                  break;
-                default:
-                  newRead = null;
-                  break;
-              }
-              userBooksProvider.changeUserBookRead(widget.isbn, newRead);
-              setState(() {});
-            },
-            onLongPress: () {},
-            child: Hero(
-              tag: widget.isbn,
-              child: AspectRatio(
-                aspectRatio: 2 / 3,
+              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
                 child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    image: _book?.cover == null
+                  width: widgetSize.width * 0.2,
+                  alignment: Alignment.center,
+                  color: Theme.of(context).hintColor,
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: isRead == null
                         ? null
-                        : DecorationImage(
-                            image: MemoryImage(_book!.cover!),
-                            fit: BoxFit.cover,
+                        : Text(
+                            isRead == 1 ? '已读' : '未读',
+                            style: TextStyle(
+                              color: Colors.black87,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
                   ),
                 ),
               ),
-            ),
+            ],
           ),
           Expanded(
             child: Container(
