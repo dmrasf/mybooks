@@ -32,6 +32,13 @@ class _BookShowListItemState extends State<BookShowListItem> {
       MediaQuery.of(context).size.width / widget.crossAxisCount * 2.25 / 3.25,
       MediaQuery.of(context).size.width / widget.crossAxisCount / 3.25 * 1.5,
     );
+    late bool _isToggle;
+    final myBooksShowStatusProvider =
+        Provider.of<MyBooksShowStatusModel>(context);
+    if (myBooksShowStatusProvider.selectedBooks.contains(widget.isbn))
+      _isToggle = true;
+    else
+      _isToggle = false;
     return Consumer2<MyBooksShowStatusModel, MyUserBooksModel>(
       builder: (context, myBooksShowStatus, userBooksProvider, child) =>
           Container(
@@ -75,7 +82,11 @@ class _BookShowListItemState extends State<BookShowListItem> {
                           setState(() {});
                         },
                   onTap: myBooksShowStatus.isSelected
-                      ? null
+                      ? () {
+                          myBooksShowStatus.selectedBook(
+                              widget.isbn, !_isToggle);
+                          setState(() {});
+                        }
                       : () => ChangePage.fadeChangePage(
                             context,
                             BookShow(
@@ -137,7 +148,12 @@ class _BookShowListItemState extends State<BookShowListItem> {
                           alignment: Alignment.centerRight,
                           child: FittedBox(
                             fit: BoxFit.scaleDown,
-                            child: BooksSelectItemToggleBox(isbn: widget.isbn),
+                            child: Icon(
+                              _isToggle
+                                  ? Icons.check_box_rounded
+                                  : Icons.check_box_outline_blank_outlined,
+                              color: Theme.of(context).hintColor,
+                            ),
                           ),
                         ),
                       )
@@ -227,7 +243,7 @@ class _BookShowListItemState extends State<BookShowListItem> {
                       bottom: 0,
                       child: Container(
                         width: widgetSize.width * 0.5,
-                        alignment: Alignment.centerLeft,
+                        alignment: Alignment.centerRight,
                         child: FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Text(
@@ -266,41 +282,5 @@ class _BookShowListItemState extends State<BookShowListItem> {
     int days = cd.day - pd.day;
     if (days != 0) return '$days 天前';
     return '今天';
-  }
-}
-
-class BooksSelectItemToggleBox extends StatefulWidget {
-  final String isbn;
-  BooksSelectItemToggleBox({required this.isbn});
-  @override
-  _BooksSelectItemToggleBoxState createState() =>
-      _BooksSelectItemToggleBoxState();
-}
-
-class _BooksSelectItemToggleBoxState extends State<BooksSelectItemToggleBox> {
-  bool _isToggle = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final myBooksShowStatusProvider =
-        Provider.of<MyBooksShowStatusModel>(context);
-    if (myBooksShowStatusProvider.selectedBooks.contains(widget.isbn))
-      _isToggle = true;
-    else
-      _isToggle = false;
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _isToggle = !_isToggle;
-        });
-        myBooksShowStatusProvider.selectedBook(widget.isbn, _isToggle);
-      },
-      child: Icon(
-        _isToggle
-            ? Icons.check_box_outlined
-            : Icons.check_box_outline_blank_outlined,
-        color: Theme.of(context).hintColor,
-      ),
-    );
   }
 }

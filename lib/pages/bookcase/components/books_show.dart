@@ -41,7 +41,10 @@ class BooksShowState extends State<BooksShow> {
           Consumer<MyBooksShowStatusModel>(
             builder: (context, myBooksShowStatus, child) =>
                 myBooksShowStatus.isSelected
-                    ? BooksShowSelectedControllerBar(allShowBooks: showBooks)
+                    ? BooksShowSelectedControllerBar(
+                        allShowBooks: showBooks,
+                        sortCallBack: () => _isSort = !_isSort,
+                      )
                     : BooksShowControllerBar(
                         sortCallBack: () => _isSort = !_isSort,
                         listener: () => setState(() {}),

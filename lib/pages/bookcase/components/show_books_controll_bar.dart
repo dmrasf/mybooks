@@ -38,6 +38,7 @@ class BooksShowControllerBar extends StatelessWidget {
               if (value == null) return;
               userProvider.tags = value[0];
               userProvider.isTagsUnion = value[1];
+              sortCallBack();
               listener();
             }),
           ),
@@ -95,8 +96,10 @@ class BooksShowControllerBar extends StatelessWidget {
 
 class BooksShowSelectedControllerBar extends StatelessWidget {
   final List<String> allShowBooks;
+  final void Function() sortCallBack;
 
-  BooksShowSelectedControllerBar({required this.allShowBooks});
+  BooksShowSelectedControllerBar(
+      {required this.allShowBooks, required this.sortCallBack});
 
   @override
   Widget build(BuildContext context) {
@@ -166,13 +169,12 @@ class BooksShowSelectedControllerBar extends StatelessWidget {
                 barrierColor: Colors.transparent,
               ).then((value) {
                 if (value == null) return;
-                print(userBooksProvider.userBooks.keys.toList().toString());
                 myBooksShowStatusProvider.selectedBooks.forEach((isbn) {
                   userBooksProvider.changeUserBookTag(isbn, value, true);
                 });
-                print(userBooksProvider.userBooks.keys.toList().toString());
                 myBooksShowStatusProvider.isSelected = false;
                 myBooksShowStatusProvider.clearAllSelected();
+                sortCallBack();
               });
             },
           ),
@@ -202,6 +204,7 @@ class BooksShowSelectedControllerBar extends StatelessWidget {
                 });
                 myBooksShowStatusProvider.isSelected = false;
                 myBooksShowStatusProvider.clearAllSelected();
+                sortCallBack();
               });
             },
           ),
