@@ -31,9 +31,7 @@ class _TagsChoosePageState extends State<TagsChoosePage> {
   @override
   Widget build(BuildContext context) {
     Set<String> existTags = Set();
-    context.read<MyUserBooksModel>().userBooks.values.forEach((userBook) {
-      if (userBook.tags == null) return;
-      List<String> tags = jsonDecode(userBook.tags!);
+    context.read<MyUserBooksModel>().userBooksTag.values.forEach((tags) {
       existTags.addAll(tags);
     });
     return WillPopScope(

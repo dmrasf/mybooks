@@ -20,7 +20,7 @@ class MyUserBooksModel extends ChangeNotifier {
         userBooks[userBook.isbn] = userBook;
         userBooksTag[userBook.isbn] = Set();
         if (userBook.tags == null) return;
-        List<String> tags = jsonDecode(userBook.tags!);
+        dynamic tags = jsonDecode(userBook.tags!);
         tags.forEach(
           (e) => userBooksTag[userBook.isbn]!.add(e),
         );
@@ -33,13 +33,10 @@ class MyUserBooksModel extends ChangeNotifier {
   /// 添加书籍
   Future<bool> addUserBook(UserBook userBook) async {
     if (userBooks.containsKey(userBook.isbn)) return false;
-    bool isWork = await DataBaseUtil.addUserBook(userBook);
-    if (isWork) {
-      userBooks[userBook.isbn] = userBook;
-      userBooksTag[userBook.isbn] = Set();
-      notifyListeners();
-    } else
-      return false;
+    await DataBaseUtil.addUserBook(userBook);
+    userBooks[userBook.isbn] = userBook;
+    userBooksTag[userBook.isbn] = Set();
+    notifyListeners();
     return true;
   }
 
@@ -53,10 +50,24 @@ class MyUserBooksModel extends ChangeNotifier {
     return true;
   }
 
+  /// 删除书籍
+  Future<bool> deleteUserBooks(List<String> isbns) async {
+    isbns.forEach((isbn) async {
+      if (!userBooks.containsKey(isbn)) return;
+      userBooks.remove(isbn);
+      userBooksTag.remove(isbn);
+      await DataBaseUtil.deleteUserBook(isbn: isbn);
+      notifyListeners();
+    });
+    return true;
+  }
+
   /// 修改标签
   void changeUserBookTag(String isbn, String tag, bool isAdd) {
     if (!userBooks.containsKey(isbn)) return;
     if (tag == '') return;
+    print(userBooksTag[isbn]!.toString());
+    print(userBooks[isbn]!.tags);
     if (isAdd)
       userBooksTag[isbn]!.add(tag);
     else
@@ -71,6 +82,8 @@ class MyUserBooksModel extends ChangeNotifier {
     );
     userBooks[isbn] = newUserBook;
     DataBaseUtil.updateUserBook(isbn: isbn, userBook: newUserBook);
+    print(userBooksTag[isbn]!.toString());
+    print(userBooks[isbn]!.tags);
   }
 
   /// 修改评论

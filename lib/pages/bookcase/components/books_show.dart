@@ -1,6 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:mybooks/utils/database.dart';
+import 'package:mybooks/models/booksShowStatus_provider.dart';
+import 'package:mybooks/models/userbooks_provider.dart';
 import 'package:mybooks/utils/global.dart';
 import 'package:provider/provider.dart';
 import 'package:mybooks/models/user_provider.dart';
@@ -9,16 +9,20 @@ import 'package:mybooks/pages/bookcase/components/show_books_grid.dart';
 import 'package:mybooks/pages/bookcase/components/show_books_controll_bar.dart';
 
 class BooksShow extends StatefulWidget {
-  final Map<String, UserBook> books;
-  final Map<String, Set<String>> allTags;
-  BooksShow({Key? key, required this.books, required this.allTags})
-      : super(key: key);
+  final List<String> books;
+  BooksShow({Key? key, required this.books}) : super(key: key);
   @override
-  _BooksShowState createState() => _BooksShowState();
+  BooksShowState createState() => BooksShowState();
 }
 
-class _BooksShowState extends State<BooksShow> {
+class BooksShowState extends State<BooksShow> {
   bool _isSort = false;
+
+  @override
+  void didChangeDependencies() {
+    _isSort = !_isSort;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,9 +38,14 @@ class _BooksShowState extends State<BooksShow> {
       child: Column(
         children: [
           BookcaseTitleCard(booksNum: showBooks.length),
-          BooksShowControllerBar(
-            sortCallBack: () => _isSort = !_isSort,
-            listener: () => setState(() {}),
+          Consumer<MyBooksShowStatusModel>(
+            builder: (context, myBooksShowStatus, child) =>
+                myBooksShowStatus.isSelected
+                    ? BooksShowSelectedControllerBar(allShowBooks: showBooks)
+                    : BooksShowControllerBar(
+                        sortCallBack: () => _isSort = !_isSort,
+                        listener: () => setState(() {}),
+                      ),
           ),
           ShowBooksGrid(key: ValueKey(_isSort), showBooks: showBooks),
         ],
@@ -49,35 +58,36 @@ class _BooksShowState extends State<BooksShow> {
     SortType sortType,
     bool isTagsUnion,
   ) {
+    final userBooksProvider = Provider.of<MyUserBooksModel>(context);
     List<String> showBooks = [];
-    if (tags.isEmpty)
-      showBooks = widget.books.keys.toList();
-    else
-      widget.books.values.forEach((userBook) {
-        if (userBook.tags == null) {
-          if (!tags.containsValue(true)) showBooks.add(userBook.isbn);
-          return;
-        }
-        Set<String> sameTags = tags.keys.toSet().intersection(
-              jsonDecode(userBook.tags!).toSet(),
-            );
-        if (sameTags.isEmpty) {
-          if (!tags.containsValue(true)) showBooks.add(userBook.isbn);
+    if (!tags.values.contains(true))
+      showBooks.addAll(widget.books);
+    else {
+      Set<String> fliterTag = Set();
+      tags.forEach((key, value) {
+        if (value == true) fliterTag.add(key);
+      });
+      widget.books.forEach((isbn) {
+        if (!isTagsUnion) {
+          if (userBooksProvider.userBooksTag[isbn]!.containsAll(fliterTag))
+            showBooks.add(isbn);
         } else {
-          if (sameTags.map((e) => tags[e]!).toSet().contains(true))
-            showBooks.add(userBook.isbn);
+          if (userBooksProvider.userBooksTag[isbn]!
+              .intersection(fliterTag)
+              .isNotEmpty) showBooks.add(isbn);
         }
       });
+    }
     if (sortType == SortType.indateOrder)
       showBooks = showBooks.reversed.toList();
     showBooks.sort((a, b) {
       switch (sortType) {
         case SortType.dateOrder:
-          return widget.books[a]!.touchdate
-              .compareTo(widget.books[b]!.touchdate);
+          return userBooksProvider.userBooks[a]!.touchdate
+              .compareTo(userBooksProvider.userBooks[b]!.touchdate);
         case SortType.indateOrder:
-          return widget.books[b]!.touchdate
-              .compareTo(widget.books[a]!.touchdate);
+          return userBooksProvider.userBooks[b]!.touchdate
+              .compareTo(userBooksProvider.userBooks[a]!.touchdate);
         default:
           return 0;
       }

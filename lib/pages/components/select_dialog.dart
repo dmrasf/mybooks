@@ -17,14 +17,11 @@ class SelectDialog extends StatefulWidget {
 }
 
 class _SelectDialogState extends State<SelectDialog> {
-  late dynamic _index;
+  late dynamic? _index;
 
   @override
   void initState() {
-    if (widget.defaultIndex == null)
-      _index = widget.selected.keys.toList()[0];
-    else
-      _index = widget.defaultIndex;
+    _index = widget.defaultIndex;
     super.initState();
   }
 
@@ -44,33 +41,50 @@ class _SelectDialogState extends State<SelectDialog> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                      Text(
-                        widget.content,
-                        style: GoogleFonts.acme(
-                          textStyle: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            decoration: TextDecoration.none,
-                            color: Theme.of(context).buttonColor,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 25),
-                    ] +
-                    List.generate(
-                      widget.selected.length,
-                      (index) => SecretItem(
-                        isToggle:
-                            _index == widget.selected.keys.toList()[index]!,
-                        onPressed: () {
-                          setState(() {
-                            _index = widget.selected.keys.toList()[index]!;
-                          });
-                          Navigator.of(context).pop(_index);
-                        },
-                        hintStr: widget.selected.values.toList()[index]!,
+                  Text(
+                    widget.content,
+                    style: GoogleFonts.acme(
+                      textStyle: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        decoration: TextDecoration.none,
+                        color: Theme.of(context).buttonColor,
                       ),
                     ),
+                  ),
+                  SizedBox(height: 25),
+                  Container(
+                    constraints: BoxConstraints(
+                        maxHeight: MediaQuery.of(context).size.height * 0.4),
+                    height: widget.selected.length * 45,
+                    child: CustomScrollView(
+                      physics: BouncingScrollPhysics(
+                        parent: AlwaysScrollableScrollPhysics(),
+                      ),
+                      slivers: [
+                        SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) => SecretItem(
+                              isToggle: _index == null
+                                  ? false
+                                  : _index ==
+                                      widget.selected.keys.toList()[index]!,
+                              onPressed: () {
+                                setState(() {
+                                  _index =
+                                      widget.selected.keys.toList()[index]!;
+                                });
+                                Navigator.of(context).pop(_index);
+                              },
+                              hintStr: widget.selected.values.toList()[index]!,
+                            ),
+                            childCount: widget.selected.length,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
               decoration: BoxDecoration(
                 color: Theme.of(context).dialogBackgroundColor,

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:mybooks/models/booksShowStatus_provider.dart';
 import 'package:mybooks/pages/bookcase/bookcase_page.dart';
 import 'package:mybooks/pages/record/record_page.dart';
 import 'package:mybooks/pages/aboutme/aboutme_page.dart';
@@ -64,15 +66,20 @@ class HomePageState extends State<HomePage> {
         ),
       ),
       onWillPop: () async {
-        if (_popTime == null ||
-            DateTime.now().difference(_popTime!) >
-                Duration(milliseconds: 500)) {
-          _popTime = DateTime.now();
-          showToast(context, '再按一次退出');
+        if (context.read<MyBooksShowStatusModel>().isSelected == true) {
+          context.read<MyBooksShowStatusModel>().isSelected = false;
           return false;
+        } else {
+          if (_popTime == null ||
+              DateTime.now().difference(_popTime!) >
+                  Duration(milliseconds: 500)) {
+            _popTime = DateTime.now();
+            showToast(context, '再按一次退出');
+            return false;
+          }
+          _popTime = DateTime.now();
+          return true;
         }
-        _popTime = DateTime.now();
-        return true;
       },
     );
   }

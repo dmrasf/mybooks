@@ -11,10 +11,10 @@ import 'package:mybooks/models/userbooks_provider.dart';
 class BookcasePage extends StatefulWidget {
   BookcasePage({Key? key}) : super(key: key);
   @override
-  BookcasePageState createState() => BookcasePageState();
+  _BookcasePageState createState() => _BookcasePageState();
 }
 
-class BookcasePageState extends State<BookcasePage> {
+class _BookcasePageState extends State<BookcasePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,10 +23,7 @@ class BookcasePageState extends State<BookcasePage> {
           context.read<MyUserModel>().books = myUserBooksModel.userBooks.length;
           return myUserBooksModel.userBooks.isEmpty
               ? NothingPage(title: '没有书')
-              : BooksShow(
-                  books: myUserBooksModel.userBooks,
-                  allTags: myUserBooksModel.userBooksTag,
-                );
+              : BooksShow(books: myUserBooksModel.userBooks.keys.toList());
         },
       ),
       floatingActionButtonAnimator: FloatingActionButtonAnimator.scaling,
