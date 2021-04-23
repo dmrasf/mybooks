@@ -15,7 +15,7 @@ class BookcaseTitleCard extends StatefulWidget {
 class _BookcaseTitleCardState extends State<BookcaseTitleCard> {
   Map<String, dynamic>? dailyPoetry;
   final _httpClient = HttpClient();
-  String _showPoetry = '一句诗词';
+  String _showPoetry = '';
   Map<String, dynamic> _poetry = {};
 
   @override

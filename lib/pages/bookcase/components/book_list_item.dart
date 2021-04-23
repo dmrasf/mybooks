@@ -224,9 +224,7 @@ class _BookShowListItemState extends State<BookShowListItem> {
                         child: FittedBox(
                           fit: BoxFit.scaleDown,
                           child: Text(
-                            _book?.rate == null
-                                ? '暂无评分'
-                                : _book!.rate!.toStringAsFixed(0),
+                            _book?.rate == null ? '暂无评分' : _book!.rate!,
                             style: TextStyle(
                               color: Theme.of(context)
                                   .buttonColor

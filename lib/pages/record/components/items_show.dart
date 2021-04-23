@@ -40,7 +40,7 @@ class _RecordItemsShowState extends State<RecordItemsShow> {
               slivers: [
                 SliverList(
                   delegate: SliverChildListDelegate([
-                    LineShowAddHistory(),
+                    LineShowAddHistory(allUserBooks: _allUserBooks),
                   ]),
                 )
               ],

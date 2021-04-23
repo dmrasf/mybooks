@@ -38,9 +38,7 @@ class HttpClientUtil {
           price: book['result']['price']?.toString(),
           content: book['result']['summary']?.toString(),
           category: null,
-          pages: book['result']['pages'] == null
-              ? null
-              : int.parse(book['result']['pages'].toString()),
+          pages: book['result']['pages']?.toString(),
           rate: null,
           binding: book['result']['binding']?.toString(),
         );
@@ -82,12 +80,8 @@ class HttpClientUtil {
           price: book['data']['price']?.toString(),
           content: book['data']['description']?.toString(),
           category: null,
-          pages: book['data']['pages'] == null
-              ? null
-              : int.parse(book['data']['pages'].toString()),
-          rate: book['data']['doubanScore'] == null
-              ? null
-              : double.parse(book['data']['doubanScore'].toString()),
+          pages: book['data']['pages']?.toString(),
+          rate: book['data']['doubanScore']?.toString(),
           binding: book['data']['designed']?.toString(),
         );
         print(newBook.toMap());
