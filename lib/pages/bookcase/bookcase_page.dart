@@ -8,13 +8,7 @@ import 'package:mybooks/pages/scan/scan_barcode_page.dart';
 import 'package:provider/provider.dart';
 import 'package:mybooks/models/userbooks_provider.dart';
 
-class BookcasePage extends StatefulWidget {
-  BookcasePage({Key? key}) : super(key: key);
-  @override
-  _BookcasePageState createState() => _BookcasePageState();
-}
-
-class _BookcasePageState extends State<BookcasePage> {
+class BookcasePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
