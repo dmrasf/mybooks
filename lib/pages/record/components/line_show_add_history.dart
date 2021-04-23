@@ -42,13 +42,9 @@ class LineShowAddHistoryState extends State<LineShowAddHistory> {
       aspectRatio: 3 / 2,
       child: Container(
         padding: EdgeInsets.only(left: 10, right: 20, top: 20, bottom: 10),
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(8)),
-          gradient: LinearGradient(
-            colors: [Colors.teal, Colors.white30],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: Theme.of(context).primaryColor,
         ),
         child: Stack(
           children: [
@@ -59,7 +55,7 @@ class LineShowAddHistoryState extends State<LineShowAddHistory> {
                   '收藏历史',
                   style: GoogleFonts.jua(
                     textStyle: TextStyle(
-                      color: Colors.black54,
+                      color: Theme.of(context).buttonColor,
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
@@ -117,9 +113,9 @@ class LineShowAddHistoryState extends State<LineShowAddHistory> {
       ),
       borderData: FlBorderData(
         show: true,
-        border: const Border(
-          bottom: BorderSide(color: Colors.black, width: 1),
-          left: BorderSide(color: Colors.black, width: 1),
+        border: Border(
+          bottom: BorderSide(color: Theme.of(context).buttonColor, width: 1),
+          left: BorderSide(color: Theme.of(context).buttonColor, width: 1),
           right: BorderSide(color: Colors.transparent),
           top: BorderSide(color: Colors.transparent),
         ),
@@ -159,7 +155,7 @@ class LineShowAddHistoryState extends State<LineShowAddHistory> {
         },
       ),
       isCurved: false,
-      colors: [Colors.black],
+      colors: [Theme.of(context).buttonColor],
       barWidth: 1,
       isStrokeCapRound: true,
       dotData: FlDotData(show: false),
@@ -171,7 +167,7 @@ class LineShowAddHistoryState extends State<LineShowAddHistory> {
   TextStyle _barStyle() {
     return GoogleFonts.jua(
       textStyle: TextStyle(
-        color: Colors.black,
+        color: Theme.of(context).buttonColor,
         fontSize: 10,
       ),
     );

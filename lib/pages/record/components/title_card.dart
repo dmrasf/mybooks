@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mybooks/utils/database.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class RecordTitleCard extends StatefulWidget {
   final Map<String, Book> allUserBooks;
@@ -22,15 +23,21 @@ class _RecordTitleCardState extends State<RecordTitleCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 120,
+      height: 150,
       width: double.infinity,
-      padding: EdgeInsets.only(top: 10, right: 20, bottom: 20),
+      padding: EdgeInsets.only(top: 10, right: 20, bottom: 10),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Expanded(
             flex: 618,
-            child: Container(),
+            child: Container(
+              alignment: Alignment.center,
+              child: SvgPicture.asset(
+                'assets/images/日落.svg',
+                width: MediaQuery.of(context).size.width * 0.5,
+              ),
+            ),
           ),
           Expanded(
             flex: 382,
@@ -63,6 +70,7 @@ class _RecordTitleCardState extends State<RecordTitleCard> {
                     ),
                   ),
                 ),
+                SizedBox(height: 10),
               ],
             ),
           ),
