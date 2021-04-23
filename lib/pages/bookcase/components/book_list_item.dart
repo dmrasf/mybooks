@@ -219,7 +219,7 @@ class _BookShowListItemState extends State<BookShowListItem> {
                       left: 0,
                       bottom: 0,
                       child: Container(
-                        width: widgetSize.width * 0.5,
+                        width: widgetSize.width * 0.2,
                         alignment: Alignment.centerLeft,
                         child: FittedBox(
                           fit: BoxFit.scaleDown,
@@ -240,7 +240,7 @@ class _BookShowListItemState extends State<BookShowListItem> {
                       right: 0,
                       bottom: 0,
                       child: Container(
-                        width: widgetSize.width * 0.5,
+                        width: widgetSize.width * 0.2,
                         alignment: Alignment.centerRight,
                         child: FittedBox(
                           fit: BoxFit.scaleDown,

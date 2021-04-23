@@ -45,7 +45,7 @@ class LineShowAddHistoryState extends State<LineShowAddHistory> {
         decoration: const BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           gradient: LinearGradient(
-            colors: [Color(0x4fac2d4c), Color(0x4d96496c)],
+            colors: [Colors.teal, Colors.white30],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
@@ -56,11 +56,11 @@ class LineShowAddHistoryState extends State<LineShowAddHistory> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
-                  'HISTORY',
+                  '收藏历史',
                   style: GoogleFonts.jua(
                     textStyle: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
+                      color: Colors.black54,
+                      fontSize: 14,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -68,6 +68,7 @@ class LineShowAddHistoryState extends State<LineShowAddHistory> {
                 ),
                 SizedBox(height: 20),
                 Expanded(
+                  key: UniqueKey(),
                   child: LineChart(
                     lineData(),
                     swapAnimationDuration: const Duration(milliseconds: 100),
@@ -157,9 +158,9 @@ class LineShowAddHistoryState extends State<LineShowAddHistory> {
           );
         },
       ),
-      isCurved: true,
+      isCurved: false,
       colors: [Colors.black],
-      barWidth: 2,
+      barWidth: 1,
       isStrokeCapRound: true,
       dotData: FlDotData(show: false),
       belowBarData: BarAreaData(show: false),

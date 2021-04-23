@@ -22,7 +22,7 @@ class _RecordTitleCardState extends State<RecordTitleCard> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 150,
+      height: 120,
       width: double.infinity,
       padding: EdgeInsets.only(top: 10, right: 20, bottom: 20),
       child: Row(
@@ -79,7 +79,7 @@ class _RecordTitleCardState extends State<RecordTitleCard> {
       textStyle: TextStyle(
         fontSize: 15,
         fontWeight: FontWeight.bold,
-        color: Theme.of(context).buttonColor.withOpacity(0.7),
+        color: Theme.of(context).buttonColor.withOpacity(0.8),
       ),
     );
   }
