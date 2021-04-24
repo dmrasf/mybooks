@@ -10,7 +10,7 @@ class HttpClientUtil {
   static final String _directQueryUrl =
       'http://feedback.api.juhe.cn/ISBN?key=$_key&sub=';
   static final String _directQueryUrl2 = 'https://api.zuk.pw/situ/book/isbn/';
-  static final String _mybooksServer = 'https://dmrasf.com:7778';
+  static final String _mybooksServer = 'https://dmrasf.com:7778/';
   static final _httpClient = HttpClient();
 
   static Future<Book?> getBookFromServer(final String isbn) async {
