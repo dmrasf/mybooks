@@ -45,6 +45,7 @@ dependencies:
   qr_code_scanner: ^0.4.0
   lpinyin: ^2.0.1
   fl_chart: ^0.35.0
+  http: ^0.13.1
 
 dev_dependencies:
   flutter_test:

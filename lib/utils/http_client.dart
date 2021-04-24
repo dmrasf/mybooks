@@ -3,12 +3,14 @@ import 'package:mybooks/utils/database.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 
 class HttpClientUtil {
   static final String _key = '300568b3d56094309b477ffbf70db29d';
   static final String _directQueryUrl =
       'http://feedback.api.juhe.cn/ISBN?key=$_key&sub=';
   static final String _directQueryUrl2 = 'https://api.zuk.pw/situ/book/isbn/';
+  static final String _mybooksServer = 'https://dmrasf.com:7778';
   static final _httpClient = HttpClient();
 
   static Future<Book?> getBookFromServer(final String isbn) async {
@@ -105,5 +107,104 @@ class HttpClientUtil {
       print(e);
       return null;
     }
+  }
+
+  static Future<Map<String, dynamic>?> logup(
+    final String email,
+    final String token,
+  ) async {
+    String requestUrl = _mybooksServer + 'users/logup/';
+    print(requestUrl);
+    try {
+      var uriResponse = await http.post(
+        Uri.parse(requestUrl),
+        headers: <String, String>{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{'email': email, 'token': token}),
+      );
+      print(uriResponse.statusCode);
+      if (uriResponse.statusCode == 200) {
+        var result = jsonDecode(uriResponse.body);
+        return result;
+      }
+      return null;
+    } catch (e) {
+      print(e);
+    }
+
+    return null;
+  }
+
+  static Future<Map<String, dynamic>?> login(
+    final String email,
+    final String token,
+  ) async {
+    String requestUrl = _mybooksServer + 'users/login/';
+    try {
+      var uriResponse = await http.post(
+        Uri.parse(requestUrl),
+        headers: <String, String>{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{'email': email, 'token': token}),
+      );
+      if (uriResponse.statusCode == 200) {
+        var result = jsonDecode(uriResponse.body);
+        return result;
+      }
+      return null;
+    } catch (e) {
+      print(e);
+    }
+
+    return null;
+  }
+
+  static Future<Map<String, dynamic>?> update(Map<String, dynamic> body) async {
+    String requestUrl = _mybooksServer + 'users/update/';
+    try {
+      var uriResponse = await http.put(
+        Uri.parse(requestUrl),
+        headers: <String, String>{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(body),
+      );
+      if (uriResponse.statusCode == 200) {
+        var result = jsonDecode(uriResponse.body);
+        return result;
+      }
+      return null;
+    } catch (e) {
+      print(e);
+    }
+    return null;
+  }
+
+  static Future<Map<String, dynamic>?> delete(Map<String, dynamic> body) async {
+    String requestUrl = _mybooksServer + 'users/delete/';
+    try {
+      var uriResponse = await http.post(
+        Uri.parse(requestUrl),
+        headers: <String, String>{
+          'Accept': 'application/json',
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(body),
+      );
+      if (uriResponse.statusCode == 200) {
+        var result = jsonDecode(uriResponse.body);
+        return result;
+      }
+      return null;
+    } catch (e) {
+      print(e);
+    }
+
+    return null;
   }
 }

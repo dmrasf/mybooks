@@ -15,7 +15,7 @@ class DateSelectDialog extends StatefulWidget {
 
 class _DateSelectDialogState extends State<DateSelectDialog> {
   final int _allYear = 30;
-  late int _year;
+  int _year = 1990;
   int _month = 1;
   int _day = 1;
   int days = 31;
@@ -87,9 +87,11 @@ class _DateSelectDialogState extends State<DateSelectDialog> {
                       TextButton(
                         child: Text("确认"),
                         onPressed: () {
+                          print(_year);
                           String result = '$_year-';
                           result += _month >= 10 ? '$_month-' : '0$_month-';
                           result += _day >= 10 ? '$_day' : '0$_day';
+                          print(result);
                           Navigator.of(context).pop(result);
                         },
                         style: _getButtonStyle(),

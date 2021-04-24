@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mybooks/models/secret.dart';
+import 'package:mybooks/utils/http_client.dart';
 import 'package:mybooks/utils/init.dart';
 import 'package:mybooks/utils/global.dart';
 import 'package:mybooks/models/user.dart';
@@ -61,45 +62,101 @@ class MyUserModel extends ChangeNotifier {
   }
 
   int get booksSecret => Init.profile.secret.books;
-  set booksSecret(int secret) {
+  Future<bool> serBooksSecret(int secret) async {
+    bool? value = await _updateToServer(<String, dynamic>{
+      'email': Init.profile.user.email!,
+      'token': Init.profile.user.token!,
+      'books_secret': secret,
+    });
+    if (value == null) return false;
+    if (value == false) return false;
     Init.profile.secret.books = secret;
     Init.saveProfile();
+    return true;
   }
 
   int get emailSecret => Init.profile.secret.email;
-  set emailSecret(int secret) {
+  Future<bool> setEmailSecret(int secret) async {
+    bool? value = await _updateToServer(<String, dynamic>{
+      'email': Init.profile.user.email!,
+      'token': Init.profile.user.token!,
+      'email_secret': secret,
+    });
+    if (value == null) return false;
+    if (value == false) return false;
     Init.profile.secret.email = secret;
     Init.saveProfile();
+    return true;
   }
 
   int get locationSecret => Init.profile.secret.location;
-  set locationSecret(int secret) {
+  Future<bool> setLocationSecret(int secret) async {
+    bool? value = await _updateToServer(<String, dynamic>{
+      'email': Init.profile.user.email!,
+      'token': Init.profile.user.token!,
+      'location_secret': secret,
+    });
+    if (value == null) return false;
+    if (value == false) return false;
     Init.profile.secret.location = secret;
     Init.saveProfile();
+    return true;
   }
 
   int get followingSecret => Init.profile.secret.following;
-  set followingSecret(int secret) {
+  Future<bool> setFollowingSecret(int secret) async {
+    bool? value = await _updateToServer(<String, dynamic>{
+      'email': Init.profile.user.email!,
+      'token': Init.profile.user.token!,
+      'following_secret': secret,
+    });
+    if (value == null) return false;
+    if (value == false) return false;
     Init.profile.secret.following = secret;
     Init.saveProfile();
+    return true;
   }
 
   int get followersSecret => Init.profile.secret.followers;
-  set followersSecret(int secret) {
+  Future<bool> setFollowersSecret(int secret) async {
+    bool? value = await _updateToServer(<String, dynamic>{
+      'email': Init.profile.user.email!,
+      'token': Init.profile.user.token!,
+      'followers_secret': secret,
+    });
+    if (value == null) return false;
+    if (value == false) return false;
     Init.profile.secret.followers = secret;
     Init.saveProfile();
+    return true;
   }
 
   int get birthdaySecret => Init.profile.secret.birthday;
-  set birthdaySecret(int secret) {
+  Future<bool> setBirthdaySecret(int secret) async {
+    bool? value = await _updateToServer(<String, dynamic>{
+      'email': Init.profile.user.email!,
+      'token': Init.profile.user.token!,
+      'birthday_secret': secret,
+    });
+    if (value == null) return false;
+    if (value == false) return false;
     Init.profile.secret.birthday = secret;
     Init.saveProfile();
+    return true;
   }
 
   int get genderSecret => Init.profile.secret.gender;
-  set genderSecret(int secret) {
+  Future<bool> setGenderSecret(int secret) async {
+    bool? value = await _updateToServer(<String, dynamic>{
+      'email': Init.profile.user.email!,
+      'token': Init.profile.user.token!,
+      'gender_secret': secret,
+    });
+    if (value == null) return false;
+    if (value == false) return false;
     Init.profile.secret.gender = secret;
     Init.saveProfile();
+    return true;
   }
 
   User get user => Init.profile.user;
@@ -127,21 +184,45 @@ class MyUserModel extends ChangeNotifier {
   }
 
   String? get location => Init.profile.user.location;
-  set location(String? location) {
+  Future<bool> setLocation(String? location) async {
+    bool? value = await _updateToServer(<String, dynamic>{
+      'email': Init.profile.user.email!,
+      'token': Init.profile.user.token!,
+      'location': location,
+    });
+    if (value == null) return false;
+    if (value == false) return false;
     Init.profile.user.location = location;
     Init.saveProfile();
+    return true;
   }
 
   String? get name => Init.profile.user.name;
-  set name(String? name) {
+  Future<bool> setName(String? name) async {
+    bool? value = await _updateToServer(<String, dynamic>{
+      'email': Init.profile.user.email!,
+      'token': Init.profile.user.token!,
+      'nick_name': name,
+    });
+    if (value == null) return false;
+    if (value == false) return false;
     Init.profile.user.name = name;
     Init.saveProfile();
+    return true;
   }
 
   String? get avatarUrl => Init.profile.user.avatarUrl;
   set avatarUrl(String? avatarUrl) {
-    Init.profile.user.avatarUrl = avatarUrl;
-    Init.saveProfile();
+    _updateToServer(<String, dynamic>{
+      'email': Init.profile.user.email!,
+      'token': Init.profile.user.token!,
+      'avatar_url': avatarUrl,
+    }).then((value) {
+      if (value == null) return;
+      if (value == false) return;
+      Init.profile.user.avatarUrl = avatarUrl;
+      Init.saveProfile();
+    });
   }
 
   int get following => Init.profile.user.following;
@@ -157,20 +238,56 @@ class MyUserModel extends ChangeNotifier {
   }
 
   String? get description => Init.profile.user.description;
-  set description(String? description) {
+  Future<bool> setDescription(String? description) async {
+    bool? value = await _updateToServer(<String, dynamic>{
+      'email': Init.profile.user.email!,
+      'token': Init.profile.user.token!,
+      'description': description,
+    });
+    if (value == null) return false;
+    if (value == false) return false;
     Init.profile.user.description = description;
     Init.saveProfile();
+    return true;
   }
 
   String? get birthday => Init.profile.user.birthday;
-  set birthday(String? birthday) {
+  Future<bool> setBirthday(String? birthday) async {
+    bool? value = await _updateToServer(<String, dynamic>{
+      'email': Init.profile.user.email!,
+      'token': Init.profile.user.token!,
+      'birthday': birthday,
+    });
+    if (value == null) return false;
+    if (value == false) return false;
     Init.profile.user.birthday = birthday;
     Init.saveProfile();
+    return true;
   }
 
   bool? get gender => Init.profile.user.gender;
-  set gender(bool? gender) {
+  Future<bool> setGender(bool? gender) async {
+    bool? value = await _updateToServer(<String, dynamic>{
+      'email': Init.profile.user.email!,
+      'token': Init.profile.user.token!,
+      'gender': gender,
+    });
+    if (value == null) return false;
+    if (value == false) return false;
     Init.profile.user.gender = gender;
     Init.saveProfile();
+    return true;
+  }
+
+  Future<bool?> _updateToServer(Map<String, dynamic> body) async {
+    var updateInfo = await HttpClientUtil.update(body);
+    print(updateInfo);
+    if (updateInfo == null) {
+      return false;
+    }
+    if (updateInfo.containsKey('detail')) {
+      return false;
+    }
+    return true;
   }
 }

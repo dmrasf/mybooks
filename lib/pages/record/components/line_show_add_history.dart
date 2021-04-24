@@ -141,15 +141,15 @@ class LineShowAddHistoryState extends State<LineShowAddHistory> {
           }
           if (i == _historyDate.length + 1)
             return FlSpot(
-              (_historyDate[0]
-                          .difference(_historyDate[_historyDate.length - 1])
+              (_historyDate[_historyDate.length - 1]
+                          .difference(_historyDate[0])
                           .inDays +
                       1)
                   .toDouble(),
               0,
             );
           return FlSpot(
-            (_historyDate[0].difference(_historyDate[i - 1]).inDays).toDouble(),
+            (_historyDate[i - 1].difference(_historyDate[0]).inDays).toDouble(),
             _historyBooks[_historyDate[i - 1]]!.length.toDouble(),
           );
         },

@@ -4,6 +4,7 @@ import 'package:mybooks/pages/aboutme/components/setting.dart';
 import 'package:mybooks/pages/components/select_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:mybooks/models/user_provider.dart';
+import 'package:mybooks/pages/components/toast.dart';
 
 const SecretsType = {0: '所有人禁止', 1: '我关注的', 2: '关注我的', 3: '互相关注', 4: '所有人'};
 const _TypeString = {
@@ -33,12 +34,54 @@ class _SecretsSettingPageState extends State<SecretsSettingPage> {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<MyUserModel>(context);
     final setValue = {
-      0: (value) => userProvider.booksSecret = value,
-      1: (value) => userProvider.emailSecret = value,
-      2: (value) => userProvider.followingSecret = value,
-      3: (value) => userProvider.followersSecret = value,
-      4: (value) => userProvider.locationSecret = value,
-      5: (value) => userProvider.genderSecret = value,
+      0: (value) {
+        userProvider.serBooksSecret(value).then((success) {
+          if (success)
+            setState(() {});
+          else
+            showToast(context, '更新失败', type: ToastType.ERROR);
+        });
+      },
+      1: (value) {
+        userProvider.setEmailSecret(value).then((success) {
+          if (success)
+            setState(() {});
+          else
+            showToast(context, '更新失败', type: ToastType.ERROR);
+        });
+      },
+      2: (value) {
+        userProvider.setFollowingSecret(value).then((success) {
+          if (success)
+            setState(() {});
+          else
+            showToast(context, '更新失败', type: ToastType.ERROR);
+        });
+      },
+      3: (value) {
+        userProvider.setFollowersSecret(value).then((success) {
+          if (success)
+            setState(() {});
+          else
+            showToast(context, '更新失败', type: ToastType.ERROR);
+        });
+      },
+      4: (value) {
+        userProvider.setLocationSecret(value).then((success) {
+          if (success)
+            setState(() {});
+          else
+            showToast(context, '更新失败', type: ToastType.ERROR);
+        });
+      },
+      5: (value) {
+        userProvider.setGenderSecret(value).then((success) {
+          if (success)
+            setState(() {});
+          else
+            showToast(context, '更新失败', type: ToastType.ERROR);
+        });
+      },
     };
     final getValue = {
       0: userProvider.booksSecret,

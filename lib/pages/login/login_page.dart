@@ -4,6 +4,7 @@ import 'package:mybooks/pages/login/components/login_text_button.dart';
 import 'package:mybooks/pages/login/components/textfield.dart';
 import 'package:mybooks/pages/login/components/login.dart';
 import 'package:mybooks/utils/change_page.dart';
+import 'package:mybooks/utils/http_client.dart';
 import 'package:provider/provider.dart';
 import 'package:mybooks/models/user_provider.dart';
 import 'package:mybooks/models/user.dart';
@@ -12,6 +13,7 @@ import 'dart:convert';
 import 'package:crypto/crypto.dart';
 import 'package:mybooks/utils/database.dart';
 import 'package:mybooks/pages/components/check_connect.dart';
+import 'package:mybooks/pages/components/toast.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -85,24 +87,27 @@ class _LoginPageState extends State<LoginPage> {
                       if (_formKey.currentState!.validate()) {
                         final String email = _controllerEmail.text;
                         final String password = _controllerPassword.text;
-                        _clearText();
-                        _formKey.currentState!.reset();
+                        final String token = md5
+                            .convert(Utf8Encoder().convert(password))
+                            .toString();
+                        //_clearText();
+                        //_formKey.currentState!.reset();
 
-                        ///////////////////////////////
-                        await Future.delayed(Duration(seconds: 2));
-                        // 服务器 .then
-                        if (!successed) return true;
-                        ///////////////////////////////
+                        var logupInfo =
+                            await HttpClientUtil.logup(email, token);
+                        if (logupInfo == null) {
+                          showToast(context, '服务器失效', type: ToastType.ERROR);
+                          return true;
+                        }
+                        if (logupInfo.containsKey('detail')) {
+                          showToast(context, '请直接登录');
+                          return true;
+                        }
 
                         DataBaseUtil.initUserTable(email).then((value) {
                           userProvider.isLogin = true;
                           userProvider.secret = Secret();
-                          userProvider.user = User(
-                            email: email,
-                            token: md5
-                                .convert(Utf8Encoder().convert(password))
-                                .toString(),
-                          );
+                          userProvider.user = User(email: email, token: token);
                         });
                       }
                       return true;

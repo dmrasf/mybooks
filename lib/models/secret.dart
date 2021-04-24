@@ -11,13 +11,13 @@ class Secret {
   int birthday;
   int gender;
   Secret({
-    this.books = 4,
-    this.email = 4,
-    this.following = 4,
-    this.followers = 4,
-    this.location = 4,
-    this.birthday = 4,
-    this.gender = 4,
+    this.books = 0,
+    this.email = 0,
+    this.following = 0,
+    this.followers = 0,
+    this.location = 0,
+    this.birthday = 0,
+    this.gender = 0,
   });
 
   factory Secret.fromJson(Map<String, dynamic> json) => _$SecretFromJson(json);

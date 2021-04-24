@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:mybooks/models/user_provider.dart';
 import 'package:mybooks/pages/components/icon_button.dart';
 import 'package:mybooks/pages/aboutme/components/setting_textfield.dart';
+import 'package:mybooks/pages/components/toast.dart';
 
 class DescriptionSettingPage extends StatelessWidget {
   final TextEditingController _controller = TextEditingController();
@@ -41,10 +42,18 @@ class DescriptionSettingPage extends StatelessWidget {
               onPressed: () {
                 _focusNode.unfocus();
                 if (userProvider.description != _controller.text) {
-                  userProvider.description = _controller.text;
-                  if (_controller.text.isEmpty) userProvider.description = null;
-                }
-                Navigator.of(context).pop(true);
+                  String? text = _controller.text;
+                  if (text.isEmpty) text = null;
+                  userProvider.setDescription(text).then((success) {
+                    if (success)
+                      Navigator.of(context).pop(true);
+                    else {
+                      showToast(context, '更新失败，联系我', type: ToastType.ERROR);
+                      if (success) Navigator.of(context).pop(false);
+                    }
+                  });
+                } else
+                  showToast(context, '没有变化', type: ToastType.HINT);
               },
               icon: Icon(Icons.check, size: 17),
             ),

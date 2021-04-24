@@ -14,6 +14,8 @@ import 'package:mybooks/pages/aboutme/components/secrets_setting_page.dart';
 import 'package:mybooks/pages/aboutme/components/avatar_setting_page.dart';
 import 'package:mybooks/pages/components/toast.dart';
 import 'package:mybooks/utils/database.dart';
+import 'package:mybooks/utils/http_client.dart';
+import 'package:mybooks/models/userbooks_provider.dart';
 
 class ProfileSettingPage extends StatefulWidget {
   @override
@@ -51,6 +53,7 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                   context,
                   NameSettingPage(),
                 ).then((value) {
+                  if (value == null) return;
                   if (value) setState(() {});
                 }),
               ),
@@ -79,11 +82,21 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                     barrierColor: Colors.transparent,
                   ).then((location) {
                     if (location == null) return;
+                    if (location == userProvider.location) return;
+                    String? text;
                     if (location == 'clear')
-                      userProvider.location = null;
+                      text = null;
                     else
-                      userProvider.location = location;
-                    setState(() {});
+                      text = location;
+                    userProvider.setLocation(text).then(
+                      (success) {
+                        if (success)
+                          setState(() {});
+                        else {
+                          showToast(context, '更新失败，联系我', type: ToastType.ERROR);
+                        }
+                      },
+                    );
                   });
                 },
               ),
@@ -99,11 +112,21 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                     barrierColor: Colors.transparent,
                   ).then((date) {
                     if (date == null) return;
+                    if (date == userProvider.birthday) return;
+                    print(date);
+                    String? text;
                     if (date == 'clear')
-                      userProvider.birthday = null;
+                      text = null;
                     else
-                      userProvider.birthday = date;
-                    setState(() {});
+                      text = date;
+                    userProvider.setBirthday(text).then(
+                      (success) {
+                        if (success)
+                          setState(() {});
+                        else
+                          showToast(context, '更新失败，联系我', type: ToastType.ERROR);
+                      },
+                    );
                   });
                 },
               ),
@@ -118,7 +141,15 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                 onPressed: () => ChangePage.slideChangePage(
                   context,
                   GenderSettingPage(),
-                ).then((_) => setState(() {})),
+                ).then((gender) {
+                  if (userProvider.gender == gender) return;
+                  userProvider.setGender(gender).then((success) {
+                    if (success)
+                      setState(() {});
+                    else
+                      showToast(context, '更新失败，联系我', type: ToastType.ERROR);
+                  });
+                }),
               ),
               SizedBox(height: 15),
               AboutmeSettingItem(
@@ -172,11 +203,20 @@ class _ProfileSettingPageState extends State<ProfileSettingPage> {
                     content: '确认注销？将丢失所有信息',
                   ),
                   barrierColor: Colors.transparent,
-                ).then((isConfirm) {
+                ).then((isConfirm) async {
                   if (isConfirm != null) if (isConfirm) {
-                    // 服务器 .then
-                    //userProvider.isLogin = false;
-                    //Navigator.of(context).pushReplacementNamed('/login');
+                    var deleteInfo =
+                        await HttpClientUtil.delete(<String, dynamic>{
+                      'email': userProvider.email,
+                      'token': userProvider.token,
+                    });
+                    if (deleteInfo == null || deleteInfo['detail'] == null)
+                      showToast(context, '注销失败，联系我', type: ToastType.ERROR);
+                    else if (deleteInfo['detail'] == 'success') {
+                      userProvider.isLogin = false;
+                      context.read<MyUserBooksModel>().quit();
+                    } else
+                      showToast(context, '注销失败，联系我', type: ToastType.ERROR);
                   }
                 }),
               ),

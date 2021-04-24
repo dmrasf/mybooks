@@ -36,18 +36,19 @@ class _GenderSettingPageState extends State<GenderSettingPage> {
                 isToggle: index == _index,
                 onPressed: () {
                   setState(() => _index = index);
+                  bool? gender;
                   switch (_index) {
                     case 0:
-                      userProvider.gender = null;
+                      gender = null;
                       break;
                     case 1:
-                      userProvider.gender = true;
+                      gender = true;
                       break;
                     default:
-                      userProvider.gender = false;
+                      gender = false;
                       break;
                   }
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(gender);
                 },
                 hintStr: GenderType[index]!,
               ),
