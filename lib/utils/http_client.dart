@@ -126,7 +126,7 @@ class HttpClientUtil {
       );
       print(uriResponse.statusCode);
       if (uriResponse.statusCode == 200) {
-        var result = jsonDecode(uriResponse.body);
+        var result = jsonDecode(utf8.decode(uriResponse.bodyBytes));
         return result;
       }
       return null;
@@ -152,7 +152,7 @@ class HttpClientUtil {
         body: jsonEncode(<String, String>{'email': email, 'token': token}),
       );
       if (uriResponse.statusCode == 200) {
-        var result = jsonDecode(uriResponse.body);
+        var result = jsonDecode(utf8.decode(uriResponse.bodyBytes));
         return result;
       }
       return null;
@@ -175,7 +175,7 @@ class HttpClientUtil {
         body: jsonEncode(body),
       );
       if (uriResponse.statusCode == 200) {
-        var result = jsonDecode(uriResponse.body);
+        var result = jsonDecode(utf8.decode(uriResponse.bodyBytes));
         return result;
       }
       return null;
@@ -197,14 +197,13 @@ class HttpClientUtil {
         body: jsonEncode(body),
       );
       if (uriResponse.statusCode == 200) {
-        var result = jsonDecode(uriResponse.body);
+        var result = jsonDecode(utf8.decode(uriResponse.bodyBytes));
         return result;
       }
       return null;
     } catch (e) {
       print(e);
     }
-
     return null;
   }
 }
