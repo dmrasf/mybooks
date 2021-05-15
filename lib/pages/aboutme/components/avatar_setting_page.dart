@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:mybooks/pages/aboutme/components/appBar_setting.dart';
+import 'package:mybooks/utils/http_client.dart';
 import 'package:provider/provider.dart';
 import 'package:mybooks/models/user_provider.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -111,14 +113,23 @@ class _AvatarSettingPageState extends State<AvatarSettingPage> {
                             showToast(context, '未选择图片');
                             return true;
                           }
-
-                          //
-                          // 服务器
-                          //
-                          await Future.delayed(Duration(seconds: 2));
-                          _isSave = true;
+                          var createAvatarInfo =
+                              await HttpClientUtil.createAvatar(
+                            userProvider.email!,
+                            userProvider.token!,
+                            _localImgByte!,
+                          );
+                          if (createAvatarInfo == null) {
+                            _isSave = false;
+                            showToast(context, '上传失败', type: ToastType.ERROR);
+                            return true;
+                          }
+                          print(createAvatarInfo);
+                          userProvider.avatarUrl =
+                              'https://dmrasf.com:7778/users/avatar/' +
+                                  userProvider.email!;
                           showToast(context, '上传成功');
-                          //showToast(context, '上传失败', type: ToastType.ERROR);
+                          _isSave = true;
                           return true;
                         },
                       ),

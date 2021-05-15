@@ -92,7 +92,6 @@ class _AddTagsTagState extends State<AddTagsTag> {
                 right: -3,
                 child: GestureDetector(
                   onTap: () {
-                    print('================');
                     widget.clear!();
                   },
                   child: Container(

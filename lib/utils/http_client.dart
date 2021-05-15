@@ -206,4 +206,25 @@ class HttpClientUtil {
     }
     return null;
   }
+
+  static Future<Map<String, dynamic>?> createAvatar(
+      String email, String token, Uint8List avatar) async {
+    String requestUrl = _mybooksServer + 'users/avatar/';
+    print(email);
+    try {
+      var request = http.MultipartRequest('POST', Uri.parse(requestUrl));
+      request.files.add(http.MultipartFile.fromBytes('file', avatar));
+      request.fields['email'] = email;
+      request.fields['token'] = token;
+      var response = await request.send();
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        return {'detail': 'success'};
+      }
+      return null;
+    } catch (e) {
+      print(e);
+    }
+    return null;
+  }
 }

@@ -87,7 +87,7 @@ class BooksShowControllerBar extends StatelessWidget {
               listener();
             },
           ),
-          BookSearch(width: MediaQuery.of(context).size.width * 0.17),
+          //BookSearch(width: MediaQuery.of(context).size.width * 0.17),
         ],
       ),
     );

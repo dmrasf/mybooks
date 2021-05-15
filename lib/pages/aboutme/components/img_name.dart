@@ -21,6 +21,7 @@ class AboutmeImgName extends StatefulWidget {
 class _AboutmeImgNameState extends State<AboutmeImgName> {
   @override
   Widget build(BuildContext context) {
+    print(widget.avatarUrl);
     return Container(
       margin: EdgeInsets.only(left: 10, right: 10, top: 10),
       padding: EdgeInsets.all(30),
